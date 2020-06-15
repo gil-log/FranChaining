@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Hello FranChaining!!!!!!  
 </h1>
 
 <P>  서버한글 is ${serverTime}. </P>
