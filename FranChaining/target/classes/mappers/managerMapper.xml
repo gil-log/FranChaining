@@ -20,6 +20,30 @@
 	                 		   )
     </insert>
     
+    <!-- 로그인 -->
+    <select id="login" resultType="com.franchaining.vo.ManagerVO">
+        SELECT id
+          FROM manager
+         WHERE id = #{id}
+           AND pwd = #{pwd}
+    </select>
+    
+    <select id="userInfo" >
+      SELECT U_ID 
+                   , NAME 
+                   , EMAIL_ADDRESS
+                   , PASSWORD
+                   , AGE
+                   , PHONE_NUMBER
+                   , GENDER
+                   , U_LEVEL
+                   , INTRO 
+      FROM USER_TB
+      WHERE U_ID = #{u_id}
+
+   </select>
+    
+    
 </mapper>
 
 
