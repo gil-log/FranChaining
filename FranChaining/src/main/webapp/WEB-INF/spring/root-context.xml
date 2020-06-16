@@ -17,7 +17,7 @@
         <!-- <property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521/xe"/> -->
         <property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521/xe"/>
         
-        <property name="username" value="c##test"/>
+        <property name="username" value="c##franchaining"/>
         <property name="password" value="1234"/>
     </bean>
    
@@ -30,5 +30,10 @@
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
     </bean>	
+    
+    <!-- scan -->
+    <context:component-scan base-package="com.franchaining.service"></context:component-scan>
+    <context:component-scan base-package="com.franchaining.dao"></context:component-scan>
+    <context:component-scan base-package="com.franchaining.vo"></context:component-scan>
     		
 </beans>
