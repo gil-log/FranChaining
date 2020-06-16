@@ -19,6 +19,23 @@
   <!-- Custom styles for this template-->
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
+
+	<script type="text/javascript">
+
+	
+		$(document).ready(function(){
+
+			$("#submit").on("click", function(){
+				if(${msg==false}){
+					alert("로그인 실패! 아이디와 비밀번호를 확인해주세요!.");
+					return false;
+				}
+			});
+		})
+		
+	</script>
+
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -40,12 +57,13 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
-                  <form class="user">
+
+                  <form class="user" action="login" method="post">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                      <input type="text" class="form-control form-control-user" id="id" name="id" placeholder="ID">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                      <input type="password" class="form-control form-control-user" id="pwd" name="pwd" placeholder="Password">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -53,10 +71,9 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="index.html" class="btn btn-primary btn-user btn-block">
-                      Login
-                    </a>
+                    <button type="submit" id="submit" name="submit"  class="btn btn-primary btn-user btn-block">Login</button>         
                   </form>
+                  
                   <hr>
                   <div class="text-center">
                     <a class="small" href="forgot-password.html">Forgot Password?</a>

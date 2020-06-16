@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
 /**
@@ -39,19 +44,34 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginpost() {
+	public void loginpost(ManagerVO managerVO, HttpServletRequest request, RedirectAttributes rttr, HttpServletResponse response) throws Exception {
 		logger.info("loginpost");
 
-		return "user/login";
+		HttpSession session = request.getSession();
+		
+		ManagerVO userchk = managerService.login(managerVO);
+		
+		String url = "../main";
+		
+		if(userchk == null) {
+			session.setAttribute("user", null);
+			
+			rttr.addFlashAttribute("msg", false);
+			
+			
+			response.sendRedirect("login");
+			
+		} else {
+			session.setAttribute("user", userchk);
+			response.sendRedirect(url);
+		}
+		
 	}
 	
 	
 	
-	
-	
-	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(RegVO regVO) throws Exception {
+	public void register(RegVO regVO, HttpServletResponse response) throws Exception {
 		logger.info("registerpost");
 
 		logger.info(regVO.getE_name());
@@ -59,8 +79,11 @@ public class UserController {
 		empService.register(regVO);
 		managerService.register(regVO);
 		
+		String url = "login";
 		
-		return "login";
+		response.sendRedirect(url);
+		
+
 	}
 	
 	
