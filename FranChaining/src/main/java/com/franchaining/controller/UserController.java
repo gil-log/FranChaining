@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
 import com.franchaining.vo.ManagerVO;
@@ -33,39 +34,56 @@ public class UserController {
 	EmpService empService;
 	@Inject
 	ManagerService managerService;
+	@Inject
+	BranchService branchService;
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginget() {
+	public String loginget(String type, RedirectAttributes rttr, HttpServletRequest request) {
 		logger.info("loginget");
+		logger.info(type);
+		
+		HttpSession session = request.getSession();
+	
+		if (!(type == null)) {
+			session.setAttribute("type", type);
+		}
 
 		return "user/login";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void loginpost(ManagerVO managerVO, HttpServletRequest request, RedirectAttributes rttr, HttpServletResponse response) throws Exception {
+	public String loginpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
 		logger.info("loginpost");
 
+		logger.info(managerVO.getId());
+		logger.info(managerVO.getPwd());
+
 		HttpSession session = request.getSession();
+
+		String url = "../franchaining/main";
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
-		String url = "../franchaining/main";
-		
-		if(userchk == null) {
+    	if(userchk == null) {
+    		//로그인 실패
 			session.setAttribute("user", null);
-			
-			rttr.addFlashAttribute("msg", false);
-			
-			
-			response.sendRedirect("login");
-			
-		} else {
+            model.addAttribute("msg","로그인 정보를 확인 해주세요!");
+            model.addAttribute("url","/user/login");
+
+    		
+    	} else {
 			session.setAttribute("user", userchk);
-			response.sendRedirect(url);
-		}
-		
+			
+            //로그인 성공
+            model.addAttribute("msg","로그인 성공!");
+            model.addAttribute("url","/franchaining/main");
+            
+			
+    	}    	
+    	return "redirect";	
 	}
 	
 	
@@ -83,38 +101,65 @@ public class UserController {
 		
 		response.sendRedirect(url);
 		
-
 	}
 	
-	
-	
-	
-	
-	@RequestMapping(value = "/regcenter", method = RequestMethod.GET)
-	public String regcenterget() {
-		logger.info("regcenterget");
 
-		return "user/regcenter";
+	@RequestMapping(value = "/regcenter", method = RequestMethod.GET)
+	public String regcenterget(HttpServletRequest request) throws Exception {
+		logger.info("regcenterget");
+		
+		HttpSession session = request.getSession();
+		logger.info((String)session.getAttribute("type"));
+		
+		return "center/regcenter";
 	}
 	
 	@RequestMapping(value = "/regcenter", method = RequestMethod.POST)
-	public String regcenterpost() {
+	public void regcenterpost(RegVO regVO, HttpServletResponse response) throws Exception {
 		logger.info("regcenterpost");
 
-		return "user/regcenter";
+		logger.info(regVO.getE_name());
+		
+		empService.register(regVO);
+		managerService.register(regVO);
+		
+		String url = "../franchaining";
+		
+		response.sendRedirect(url);
+
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.GET)
-	public String regbranchget() {
+	public String regbranchget(HttpServletRequest request) throws Exception {
 		logger.info("regbranchget");
+		HttpSession session = request.getSession();
+		logger.info((String)session.getAttribute("type"));
 
-		return "user/regbranch";
+		return "branch/regbranch";
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.POST)
-	public String regbranchpost() {
+	public String regbranchpost(RegVO regVO, Model model) throws Exception {
 		logger.info("regbranchpost");
 
-		return "user/regbranch";
+        	RegVO branchchk = branchService.b_no_check(regVO);
+        	
+        	if(branchchk == null) {
+        		//로그인 실패
+                model.addAttribute("msg","지점번호를 확인 해주세요!");
+                model.addAttribute("url","/user/regbranch");
+
+        		
+        	} else {
+        		empService.register(regVO);
+    			managerService.register(regVO);
+    			
+                //로그인 성공
+                model.addAttribute("msg","회원가입 성공!");
+                model.addAttribute("url","/franchaining");
+
+        	}
+            
+        return "redirect";	
 	}
 }

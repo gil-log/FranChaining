@@ -25,5 +25,6 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("managerMapper.login", managerVO);
 	}
 	
+	
 
 }
