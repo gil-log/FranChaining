@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<html lang="en">
+<html>
 
 <head>
 
@@ -20,23 +20,24 @@
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 
-	<script type="text/javascript">
-
-	
-		$(document).ready(function(){
-
-			$("#submit").on("click", function(){
-				if(${msg==false}){
-					alert("로그인 실패! 아이디와 비밀번호를 확인해주세요!.");
-					return false;
-				}
-			});
-		})
-		
-	</script>
-
-
 </head>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#submit").on("click", function(){
+			if($("msg").val()==false){
+				alert("회원 정보를 확인 해주세요");
+				$("#id").focus();
+				return false;
+			}
+			    
+		    window.alert("로그인에 성공 하였습니다!");
+		    
+			window.close();
+		});
+	})
+</script>
+
 
 <body class="bg-gradient-primary">
 
@@ -51,11 +52,11 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6 d-none d-lg-block bg-center-image"></div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">FranChaining!</h1>
                   </div>
 
                   <form class="user" action="login" method="post">
@@ -76,7 +77,7 @@
                   
                   <hr>
                   <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                    <a class="small" href="forgot-password.html">비밀번호 찾기</a>
                   </div>
                   <div class="text-center">
                     <a class="small">-회원가입-</a>

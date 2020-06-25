@@ -51,7 +51,7 @@ public class UserController {
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
-		String url = "../main";
+		String url = "../franchaining/main";
 		
 		if(userchk == null) {
 			session.setAttribute("user", null);
