@@ -24,4 +24,8 @@ public class ManagerServiceImpl implements ManagerService {
 		return dao.login(managerVO);
 	}
 	
+	@Override
+	public ManagerVO userinfo(ManagerVO managerVO) throws Exception {
+		return dao.userinfo(managerVO);
+	}
 }

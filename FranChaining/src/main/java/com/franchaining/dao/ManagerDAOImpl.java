@@ -25,5 +25,9 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("managerMapper.login", managerVO);
 	}
 	
+	@Override
+	public ManagerVO userinfo(ManagerVO managerVO) throws Exception {
+		return sqlSession.selectOne("managerMapper.userinfo", managerVO);
+	}
 
 }

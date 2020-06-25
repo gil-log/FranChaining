@@ -22,11 +22,21 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String home(){
+	public String main(){
 		logger.info("Welcome main!");
 
 		return "main";
 	}
+	
+	@RequestMapping(value = "/branchmain", method = RequestMethod.GET)
+	public String branchmain(){
+		logger.info("Welcome main!");
+
+		return "branchmain";
+	}
+	
+	
 	
 }

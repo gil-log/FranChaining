@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
@@ -50,8 +51,10 @@ public class UserController {
 		HttpSession session = request.getSession();
 		
 		ManagerVO userchk = managerService.login(managerVO);
+		logger.info(Integer.toString(userchk.getE_no()));
 		
-		String url = "../main";
+		String url = "../branchmain";
+		String url1 = "../main";
 		
 		if(userchk == null) {
 			session.setAttribute("user", null);
@@ -61,9 +64,19 @@ public class UserController {
 			
 			response.sendRedirect("login");
 			
-		} else {
-			session.setAttribute("user", userchk);
-			response.sendRedirect(url);
+		} 
+		else {
+			
+			EmpVO pnochk = empService.userinfo(userchk.getE_no());
+			
+			if(pnochk.getP_no() == 1) {
+				session.setAttribute("user", userchk);
+				response.sendRedirect(url);
+			}
+			else {
+				response.sendRedirect(url1);
+			}
+			
 		}
 		
 	}
