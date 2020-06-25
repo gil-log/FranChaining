@@ -60,8 +60,11 @@
 			        document.getElementById("pwdchk").value = "";
 			        return false;
 			    }
-			    
-			    window.alert("회원가입에 성공 하였습니다!");
+
+			    if (){
+
+				    return false;
+			    }
 
 			});
 	
@@ -88,8 +91,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">본사 회원가입!</h1>
               </div>
-              
-              
+           
               <form class="user" action="regcenter" method="post">
                 <div class="form-group">
                   <input type="text" class="form-control form-control-user" id="id" name="id" placeholder="ID">

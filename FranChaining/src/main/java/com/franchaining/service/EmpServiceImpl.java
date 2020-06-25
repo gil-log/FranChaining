@@ -16,6 +16,6 @@ public class EmpServiceImpl implements EmpService{
 		
 		dao.register(regVO);
 	}
-
+	
 	
 }

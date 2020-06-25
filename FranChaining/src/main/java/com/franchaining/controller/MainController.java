@@ -14,9 +14,10 @@ public class MainController {
 	@RequestMapping(value = "/franchaining", method = RequestMethod.GET)
 	public String franchainingget(){
 		logger.info("franchainingget");
-
 		return "franchain";
 	}
+	
+	
 	
 	@RequestMapping(value = "/franchaining", method = RequestMethod.POST)
 	public String franchainingpost(){

@@ -35,8 +35,7 @@ public class UserController {
 	@Inject
 	ManagerService managerService;
 	@Inject
-	BranchService branchService;
-	
+	BranchService branchService;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -74,7 +73,7 @@ public class UserController {
             model.addAttribute("url","/user/login");
 
     		
-    	} else {
+    	}else {
 			session.setAttribute("user", userchk);
 			
             //로그인 성공
@@ -89,18 +88,31 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public void register(RegVO regVO, HttpServletResponse response) throws Exception {
+	public String register(RegVO regVO, Model model, HttpServletResponse response) throws Exception {
 		logger.info("registerpost");
 
 		logger.info(regVO.getE_name());
-		
-		empService.register(regVO);
-		managerService.register(regVO);
-		
-		String url = "login";
-		
-		response.sendRedirect(url);
-		
+
+		ManagerVO managerVO = new ManagerVO();
+		managerVO.setId(regVO.getId());
+
+		ManagerVO regchkVO = managerService.regchk(managerVO);
+
+		if (regchkVO == null) {
+
+			empService.register(regVO);
+			managerService.register(regVO);
+
+			return "login";
+
+		} else {
+
+			model.addAttribute("msg", "회원가입 실패!");
+			model.addAttribute("url", "/user/regcenter");
+
+			return "redirect";
+		}
+
 	}
 	
 
@@ -115,17 +127,31 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/regcenter", method = RequestMethod.POST)
-	public void regcenterpost(RegVO regVO, HttpServletResponse response) throws Exception {
+	public String regcenterpost(RegVO regVO, Model model, HttpServletResponse response) throws Exception {
 		logger.info("regcenterpost");
-
+		
 		logger.info(regVO.getE_name());
 		
-		empService.register(regVO);
-		managerService.register(regVO);
-		
-		String url = "../franchaining";
-		
-		response.sendRedirect(url);
+
+		ManagerVO managerVO = new ManagerVO();
+		managerVO.setId(regVO.getId());
+
+		ManagerVO regchkVO = managerService.regchk(managerVO);
+
+		if (regchkVO == null) {
+
+			empService.register(regVO);
+			managerService.register(regVO);
+
+			return "user/login";
+
+		} else {
+
+			model.addAttribute("msg", "회원가입 실패!");
+			model.addAttribute("url", "/user/regcenter");
+
+			return "redirect";
+		}
 
 	}
 	
@@ -156,7 +182,7 @@ public class UserController {
     			
                 //로그인 성공
                 model.addAttribute("msg","회원가입 성공!");
-                model.addAttribute("url","/franchaining");
+                model.addAttribute("url","/user/login");
 
         	}
             
