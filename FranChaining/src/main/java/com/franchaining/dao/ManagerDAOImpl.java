@@ -16,15 +16,21 @@ public class ManagerDAOImpl implements ManagerDAO {
 	   
 	@Override
 	public void register(RegVO regVO) throws Exception {
-
+		
 		sqlSession.insert("managerMapper.register", regVO);
+		
 	}
 
 	@Override
 	public ManagerVO login(ManagerVO managerVO) throws Exception {
+		
 		return sqlSession.selectOne("managerMapper.login", managerVO);
+		
 	}
 	
-	
-
+	@Override
+	public ManagerVO regchk(ManagerVO managerVO) throws Exception {
+		
+		return sqlSession.selectOne("managerMapper.regchk", managerVO);
+	}
 }

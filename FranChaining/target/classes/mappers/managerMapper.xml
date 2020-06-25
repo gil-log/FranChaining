@@ -35,7 +35,7 @@
                    , NAME 
                    , EMAIL_ADDRESS
                    , PASSWORD
-                   , AGE
+                   , AGE승
                    , PHONE_NUMBER
                    , GENDER
                    , U_LEVEL
@@ -44,6 +44,17 @@
       WHERE U_ID = #{u_id}
 
    </select>
+   
+   
+   
+   
+   <!-- 중복 아이디 검사 -->
+   <select id ="regchk" resultType="com.franchaining.vo.ManagerVO">
+   	 SELECT id
+          FROM manager
+         WHERE id = #{id}
+   </select>
+   
     
     
 </mapper>
