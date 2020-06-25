@@ -7,6 +7,6 @@ public interface ManagerService {
 
 	public void register(RegVO regVO) throws Exception;
 
-	public ManagerVO login(ManagerVO managerVO)throws Exception;
+	public ManagerVO login(ManagerVO managerVO) throws Exception;
 	
 }

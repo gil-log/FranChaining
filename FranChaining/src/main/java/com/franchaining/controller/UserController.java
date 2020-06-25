@@ -37,8 +37,15 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginget() {
+	public String loginget(String type, RedirectAttributes rttr, HttpServletRequest request) {
 		logger.info("loginget");
+		logger.info(type);
+		
+		HttpSession session = request.getSession();
+	
+		if (!(type == null)) {
+			session.setAttribute("type", type);
+		}
 
 		return "user/login";
 	}
@@ -47,22 +54,27 @@ public class UserController {
 	public void loginpost(ManagerVO managerVO, HttpServletRequest request, RedirectAttributes rttr, HttpServletResponse response) throws Exception {
 		logger.info("loginpost");
 
+		logger.info(managerVO.getId());
+		logger.info(managerVO.getPwd());
+
 		HttpSession session = request.getSession();
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
 		String url = "../franchaining/main";
 		
+		
 		if(userchk == null) {
+			
 			session.setAttribute("user", null);
 			
 			rttr.addFlashAttribute("msg", false);
-			
 			
 			response.sendRedirect("login");
 			
 		} else {
 			session.setAttribute("user", userchk);
+			
 			response.sendRedirect(url);
 		}
 		
@@ -83,38 +95,46 @@ public class UserController {
 		
 		response.sendRedirect(url);
 		
-
 	}
 	
-	
-	
-	
-	
-	@RequestMapping(value = "/regcenter", method = RequestMethod.GET)
-	public String regcenterget() {
-		logger.info("regcenterget");
 
-		return "user/regcenter";
+	@RequestMapping(value = "/regcenter", method = RequestMethod.GET)
+	public String regcenterget(HttpServletRequest request) throws Exception {
+		logger.info("regcenterget");
+		
+		HttpSession session = request.getSession();
+		
+		logger.info((String)session.getAttribute("type"));
+		
+		return "center/regcenter";
 	}
 	
 	@RequestMapping(value = "/regcenter", method = RequestMethod.POST)
-	public String regcenterpost() {
+	public void regcenterpost(RegVO regVO, HttpServletResponse response) throws Exception {
 		logger.info("regcenterpost");
 
-		return "user/regcenter";
+		logger.info(regVO.getE_name());
+		
+		empService.register(regVO);
+		managerService.register(regVO);
+		
+		String url = "../franchaining";
+		
+		response.sendRedirect(url);
+
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.GET)
-	public String regbranchget() {
+	public String regbranchget() throws Exception {
 		logger.info("regbranchget");
 
-		return "user/regbranch";
+		return "branch/regbranch";
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.POST)
-	public String regbranchpost() {
+	public String regbranchpost() throws Exception {
 		logger.info("regbranchpost");
 
-		return "user/regbranch";
+		return "branch/regbranch";
 	}
 }

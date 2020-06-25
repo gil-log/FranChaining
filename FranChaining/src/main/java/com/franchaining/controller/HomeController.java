@@ -15,7 +15,14 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = "/franchaining", method = RequestMethod.GET)
-	public String home(){
+	public String franchainingget(){
+		logger.info("franchainingget");
+
+		return "franchain";
+	}
+	
+	@RequestMapping(value = "/franchaining", method = RequestMethod.POST)
+	public String franchainingpost(){
 		logger.info("franchaining");
 
 		return "franchain";
@@ -26,6 +33,13 @@ public class HomeController {
 		logger.info("main");
 
 		return "main";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String ttt(){
+		logger.info("franchaining");
+
+		return "user/login";
 	}
 	
 }

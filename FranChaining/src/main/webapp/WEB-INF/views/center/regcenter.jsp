@@ -22,7 +22,6 @@
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 
-
 	<script type="text/javascript">
 
 	
@@ -65,17 +64,11 @@
 			    window.alert("회원가입에 성공 하였습니다!");
 
 			});
-			
-				
-			
+	
 		})
-		
-
 
 		
 	</script>
-
-
 
 
 
@@ -89,7 +82,7 @@
       <div class="card-body p-0">
         <!-- Nested Row within Card Body -->
         <div class="row">
-          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+          <div class="col-lg-5 d-none d-lg-block bg-center-image"></div>
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
@@ -97,8 +90,7 @@
               </div>
               
               
-              
-              <form class="user" action="register" method="post">
+              <form class="user" action="regcenter" method="post">
                 <div class="form-group">
                   <input type="text" class="form-control form-control-user" id="id" name="id" placeholder="ID">
                 </div>

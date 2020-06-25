@@ -70,14 +70,13 @@
 <body class="bg-gradient-primary">
 
 
-
 <div class="container">
   <div class="box">
-    <img src="${pageContext.request.contextPath}/resources/img/center/logo.png" onclick="location.href='user/login';">
+    <img src="${pageContext.request.contextPath}/resources/img/center/logo.png" onclick="location.href='user/login?type=center';">
     <span>본사</span>
   </div>
   <div class="box">
-    <img src="${pageContext.request.contextPath}/resources/img/branch/logo.png" onclick="location.href='user/login';">
+    <img src="${pageContext.request.contextPath}/resources/img/branch/logo.png" onclick="location.href='user/login?type=branch';">
     <span>지점</span>
   </div>
 </div>
