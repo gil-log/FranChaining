@@ -17,7 +17,7 @@
 	   					       , HIRE)
 	                  VALUES(    E_NO_SEQ.NEXTVAL
 	                 		   , 0
-	                 		   , 0
+	                 		   , #{b_no}
 	                 		   , #{e_name}
 	                 		   , #{phone1}
 	                 		   , #{phone2}
@@ -26,5 +26,6 @@
 	                 		   , SYSDATE
 	                 		   )
     </insert>
+    
     
 </mapper>

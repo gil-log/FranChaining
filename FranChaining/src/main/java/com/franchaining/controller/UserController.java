@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
 import com.franchaining.vo.ManagerVO;
@@ -33,6 +34,9 @@ public class UserController {
 	EmpService empService;
 	@Inject
 	ManagerService managerService;
+	@Inject
+	BranchService branchService;
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -51,33 +55,35 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void loginpost(ManagerVO managerVO, HttpServletRequest request, RedirectAttributes rttr, HttpServletResponse response) throws Exception {
+	public String loginpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
 		logger.info("loginpost");
 
 		logger.info(managerVO.getId());
 		logger.info(managerVO.getPwd());
 
 		HttpSession session = request.getSession();
+
+		String url = "../franchaining/main";
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
-		String url = "../franchaining/main";
-		
-		
-		if(userchk == null) {
-			
+    	if(userchk == null) {
+    		//로그인 실패
 			session.setAttribute("user", null);
-			
-			rttr.addFlashAttribute("msg", false);
-			
-			response.sendRedirect("login");
-			
-		} else {
+            model.addAttribute("msg","로그인 정보를 확인 해주세요!");
+            model.addAttribute("url","/user/login");
+
+    		
+    	} else {
 			session.setAttribute("user", userchk);
 			
-			response.sendRedirect(url);
-		}
-		
+            //로그인 성공
+            model.addAttribute("msg","로그인 성공!");
+            model.addAttribute("url","/franchaining/main");
+            
+			
+    	}    	
+    	return "redirect";	
 	}
 	
 	
@@ -103,7 +109,6 @@ public class UserController {
 		logger.info("regcenterget");
 		
 		HttpSession session = request.getSession();
-		
 		logger.info((String)session.getAttribute("type"));
 		
 		return "center/regcenter";
@@ -125,16 +130,36 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.GET)
-	public String regbranchget() throws Exception {
+	public String regbranchget(HttpServletRequest request) throws Exception {
 		logger.info("regbranchget");
+		HttpSession session = request.getSession();
+		logger.info((String)session.getAttribute("type"));
 
 		return "branch/regbranch";
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.POST)
-	public String regbranchpost() throws Exception {
+	public String regbranchpost(RegVO regVO, Model model) throws Exception {
 		logger.info("regbranchpost");
 
-		return "branch/regbranch";
+        	RegVO branchchk = branchService.b_no_check(regVO);
+        	
+        	if(branchchk == null) {
+        		//로그인 실패
+                model.addAttribute("msg","지점번호를 확인 해주세요!");
+                model.addAttribute("url","/user/regbranch");
+
+        		
+        	} else {
+        		empService.register(regVO);
+    			managerService.register(regVO);
+    			
+                //로그인 성공
+                model.addAttribute("msg","회원가입 성공!");
+                model.addAttribute("url","/franchaining");
+
+        	}
+            
+        return "redirect";	
 	}
 }

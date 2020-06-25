@@ -53,7 +53,7 @@
 			        return false;
 			    }
 					
-			    // 암호와 암호확인가 같은지 체크
+			    // 암호와 암호확인이 같은지 체크
 			    if (pwd.value != document.getElementById("pwdchk").value) {
 			        window.alert("암호가 틀렸습니다.");
 			        pwd.select();
@@ -96,7 +96,7 @@
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="pwd" name="pwd"placeholder="Password">
+                    <input type="password" class="form-control form-control-user" id="pwd" name="pwd" placeholder="Password">
                   </div>
                   <div class="col-sm-6">
                     <input type="password" class="form-control form-control-user" id="pwdchk" name="pwdchk" placeholder="Repeat Password">

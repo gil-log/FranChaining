@@ -8,6 +8,7 @@ public class RegVO {
 	private int phone1;
 	private int phone2;
 	private int phone3;
+	private int b_no; 
 	
 	public String getId() {
 		return id;
@@ -45,11 +46,17 @@ public class RegVO {
 	public void setPhone3(int phone3) {
 		this.phone3 = phone3;
 	}
+	public int getB_no() {
+		return b_no;
+	}
+	public void setB_no(int b_no) {
+		this.b_no = b_no;
+	}
 	
 	@Override
 	public String toString() {
 		return "RegVO [id=" + id + ", pwd=" + pwd + ", e_name=" + e_name + ", phone1=" + phone1 + ", phone2=" + phone2
-				+ ", phone3=" + phone3 + "]";
+				+ ", phone3=" + phone3 + ", b_no=" + b_no + "]";
 	}
 	
 }
