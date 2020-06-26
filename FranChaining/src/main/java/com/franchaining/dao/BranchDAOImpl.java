@@ -17,5 +17,9 @@ public class BranchDAOImpl implements BranchDAO {
 	public RegVO b_no_check(RegVO regVO) throws Exception {
 		return sqlSession.selectOne("branchMapper.b_no_check", regVO);
 	}
+	
+	public RegVO b_id_check(RegVO regVO) throws Exception{
+		return sqlSession.selectOne("branchMapper.b_id_check", regVO);
+	}
 
 }

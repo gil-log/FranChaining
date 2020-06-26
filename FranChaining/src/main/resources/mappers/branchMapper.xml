@@ -11,4 +11,10 @@
         where b_no = #{b_no}
     </select>
     
+    <!--  branch id overlap check -->
+    <select id="b_id_check" resultType="com.franchaining.vo.RegVO">
+    	select id
+    	from manager
+    	where id = #{id}
+    </select>
 </mapper>

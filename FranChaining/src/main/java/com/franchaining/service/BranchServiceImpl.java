@@ -18,4 +18,7 @@ public class BranchServiceImpl implements BranchService {
 		return dao.b_no_check(regVO);
 	}
 	
+	public RegVO b_id_check(RegVO regVO) throws Exception {
+		return dao.b_id_check(regVO);
+	}
 }
