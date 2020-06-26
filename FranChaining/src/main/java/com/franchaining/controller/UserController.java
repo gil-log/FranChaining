@@ -117,6 +117,7 @@ public class UserController {
 
 		HttpSession session = request.getSession();
 		logger.info((String) session.getAttribute("type"));
+		
 
 		return "center/regcenter";
 	}
