@@ -27,5 +27,18 @@
 	                 		   )
     </insert>
     
+    <select id="userinfo" resultType="com.franchaining.vo.EmpVO" >
+      SELECT p_no 
+                   , b_no 
+                   , e_name
+                   , phone1
+                   , phone2
+                   , phone3
+                   , sal
+                   , hire
+      FROM emp
+      WHERE e_no = #{e_no}
+
+   </select>
     
 </mapper>

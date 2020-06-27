@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
@@ -39,9 +40,9 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginget(String type, RedirectAttributes rttr, HttpServletRequest request) {
-		logger.info("loginget");
+	@RequestMapping(value = "/logincenter", method = RequestMethod.GET)
+	public String logincenterget(String type, RedirectAttributes rttr, HttpServletRequest request) {
+		logger.info("logincenterget");
 		logger.info(type);
 		
 		HttpSession session = request.getSession();
@@ -50,19 +51,83 @@ public class UserController {
 			session.setAttribute("type", type);
 		}
 
-		return "user/login";
+		return "center/logincenter";
+	}
+	@RequestMapping(value = "/loginbranch", method = RequestMethod.GET)
+	public String loginbranchget(String type, RedirectAttributes rttr, HttpServletRequest request) {
+		logger.info("loginbranchget");
+		logger.info(type);
+		
+		HttpSession session = request.getSession();
+	
+		if (!(type == null)) {
+			session.setAttribute("type", type);
+		}
+
+		return "branch/loginbranch";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
-		logger.info("loginpost");
+	
+	@RequestMapping(value = "/logincenter", method = RequestMethod.POST)
+	public String logincenterpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
+		logger.info("logincenterpost");
 
 		logger.info(managerVO.getId());
 		logger.info(managerVO.getPwd());
 
 		HttpSession session = request.getSession();
 
-		String url = "../franchaining/main";
+		
+		
+		ManagerVO userchk = managerService.login(managerVO);
+		
+		if(userchk == null) {
+    		//로그인 실패
+			session.setAttribute("user", null);
+            model.addAttribute("msg","로그인 정보를 확인 해주세요!");
+            model.addAttribute("url","/user/logincenter");
+
+    		
+    	}else {
+    		EmpVO bnochk = empService.userinfo(userchk.getE_no());
+    		logger.info(Integer.toString(bnochk.getB_no()));
+    		
+    		if(bnochk.getB_no()==0) {
+    			if(bnochk.getP_no()==3) {
+    				session.setAttribute("user", userchk);
+    				model.addAttribute("msg","로그인 성공!");
+                    model.addAttribute("url","/hr_main");
+    			}
+    			else if(bnochk.getP_no()==4) {
+    				session.setAttribute("user", userchk);
+    				model.addAttribute("msg","로그인 성공!");
+                    model.addAttribute("url","/stock_main");
+    			}
+    			else {
+    				session.setAttribute("user", userchk);
+    				model.addAttribute("msg","부서번호 이상함");
+                    model.addAttribute("url","/franchaining");
+    			}
+    		}
+    		else {
+    			logger.info(Integer.toString(bnochk.getB_no()));
+    			model.addAttribute("msg","지점으로 로그인을 해주세요!");
+                model.addAttribute("url","/franchaining");
+    		}
+            
+			
+    	}    	
+    	return "redirect";	
+	}
+	
+	@RequestMapping(value = "/loginbranch", method = RequestMethod.POST)
+	public String loginbranchpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
+		logger.info("loginbranchpost");
+
+		logger.info(managerVO.getId());
+		logger.info(managerVO.getPwd());
+
+		HttpSession session = request.getSession();
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
@@ -70,15 +135,36 @@ public class UserController {
     		//로그인 실패
 			session.setAttribute("user", null);
             model.addAttribute("msg","로그인 정보를 확인 해주세요!");
-            model.addAttribute("url","/user/login");
+            model.addAttribute("url","/user/loginbranch");
 
     		
     	}else {
-			session.setAttribute("user", userchk);
+    		EmpVO bnochk = empService.userinfo(userchk.getE_no());
+    		logger.info(Integer.toString(bnochk.getB_no()));
+    		if(bnochk.getB_no()==0) {
+    			logger.info(Integer.toString(bnochk.getB_no()));
+    			model.addAttribute("msg","본사로 로그인을 해주세요!");
+                model.addAttribute("url","/franchaining");
 			
-            //로그인 성공
-            model.addAttribute("msg","로그인 성공!");
-            model.addAttribute("url","/franchaining/main");
+    		}
+    		
+    		else {
+    			if(bnochk.getP_no()==1) {
+    				session.setAttribute("user", userchk);
+        			
+                    //로그인 성공
+                    model.addAttribute("msg","로그인 성공!");
+                    model.addAttribute("url","/master_main");
+    			}
+    			else {
+    			
+    			session.setAttribute("user", userchk);
+    			
+                //로그인 성공
+                model.addAttribute("msg","로그인 성공!");
+                model.addAttribute("url","/manager_main");
+    			}
+    		}
             
 			
     	}    	

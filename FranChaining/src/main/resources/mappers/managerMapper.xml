@@ -22,13 +22,14 @@
 	                 		   
     </insert>
     
-    <!-- 로그인 -->
+    <!-- 본사로그인 -->
     <select id="login" resultType="com.franchaining.vo.ManagerVO">
-        SELECT id
+        SELECT id, e_no
           FROM manager
          WHERE id = #{id}
            AND pwd = #{pwd}
     </select>
+
     
     <select id="userInfo" >
       SELECT U_ID 

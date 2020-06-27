@@ -28,6 +28,8 @@ public class ManagerDAOImpl implements ManagerDAO {
 		
 	}
 	
+
+	
 	@Override
 	public ManagerVO regchk(ManagerVO managerVO) throws Exception {
 		

@@ -76,7 +76,7 @@
 										<h1 class="h4 text-gray-900 mb-4">FranChaining!</h1>
 									</div>
 
-									<form class="user" action="login" method="post">
+									<form class="user" action="loginbranch" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
 												id="id" name="id" placeholder="ID">

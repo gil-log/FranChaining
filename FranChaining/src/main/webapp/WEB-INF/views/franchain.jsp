@@ -72,11 +72,11 @@
 
 <div class="container">
   <div class="box">
-    <img src="${pageContext.request.contextPath}/resources/img/center/logo.png" onclick="location.href='user/login?type=center';">
+    <img src="${pageContext.request.contextPath}/resources/img/center/logo.png" onclick="location.href='user/logincenter?type=center';">
     <span>본사</span>
   </div>
   <div class="box">
-    <img src="${pageContext.request.contextPath}/resources/img/branch/logo.png" onclick="location.href='user/login?type=branch';">
+    <img src="${pageContext.request.contextPath}/resources/img/branch/logo.png" onclick="location.href='user/loginbranch?type=branch';">
     <span>지점</span>
   </div>
 </div>
