@@ -274,4 +274,19 @@ public class UserController {
             
         return "redirect";	
 	}
+	
+	@RequestMapping(value = "/hr/acception", method = RequestMethod.GET)
+	public String hrAcceptionget() throws Exception {
+		logger.info("hrAcceptionget");
+
+		return "center/hr/hr_acception";
+	}
+	
+	@RequestMapping(value = "/hr/acception", method = RequestMethod.POST)
+	public String hrAcceptionpost() throws Exception {
+		logger.info("hrAcceptionpost");
+
+        return "center/hr/hr_acception";	
+	}	
+	
 }

@@ -49,7 +49,7 @@ public class MainController {
 	@RequestMapping(value = "/hr_main", method = RequestMethod.GET)
 	public String hr(){
 		logger.info("/hr_main");
-1
+
 		return "/center/hr/hr_main";
 	}
 	@RequestMapping(value = "/stock_main", method = RequestMethod.GET)
