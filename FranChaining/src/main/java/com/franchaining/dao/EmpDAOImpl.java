@@ -1,11 +1,14 @@
 package com.franchaining.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.franchaining.vo.EmpVO;
+import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
 @Repository
@@ -22,6 +25,12 @@ public class EmpDAOImpl implements EmpDAO {
 	@Override
 	public EmpVO userinfo(int e_no) throws Exception {
 		return sqlSession.selectOne("empMapper.userinfo", e_no);
+	}
+
+	@Override
+	public List<EmpVO> regwait(List<ManagerVO> regwaitlist) throws Exception {
+		
+		return sqlSession.selectList("empMapper.regwait", regwaitlist);
 	}
 
 }

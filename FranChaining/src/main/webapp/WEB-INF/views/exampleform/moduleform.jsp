@@ -12,7 +12,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>인사관리-가입승인</title>
+  <title>Moudule</title>
 
 <!-- Custom fonts for this template-->
 
@@ -42,6 +42,9 @@
 
 
 
+
+
+				<!-- 여기다가 메인 컨텐츠 넣을꺼 넣으세요!! -->
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 

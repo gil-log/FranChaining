@@ -65,18 +65,23 @@
                       <th>이름</th>
                       <th>ID</th>
                       <th>부서</th>
-                      <th>Age</th>
                       <th>가입 신청 시간</th>
                       <th>관리</th>
                     </tr>
                   </thead>
                   <tbody>
+                  
+                  <c:forEach items="${list}" var="list">
+   
+<c:set var="e_name" value="${list.e_name}"/>
+<c:set var="p_no" value="${list.p_no}"/>
+<c:set var="regdate" value="${list.hire}"/>
+                 
                     <tr>
-                      <td>Tiger Nixon</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
+                      <td><c:out value="${list.e_name}"/></td>
+                      <td>ID?!</td>
+                      <td><c:out value="${list.p_no}"/>임</td>
+                      <td><c:out value="${list.hire}"/></td>
                                  
                       <td>
                    <div class="dropdown mb-4">
@@ -89,9 +94,11 @@
                     </div>
                   </div>
                   </td>
+                  </tr>
                   
-                  
-                    </tr>
+                  </c:forEach>
+                  <!-- 
+                    
                     <tr>
                       <td>Garrett Winters</td>
                       <td>Accountant</td>
@@ -540,6 +547,8 @@
                       <td>2011/01/25</td>
                       <td>관리</td>
                     </tr>
+                     -->
+                    
                   </tbody>
                 </table>
               </div>

@@ -106,12 +106,12 @@ public class UserController {
         			if(bnochk.getP_no()==3) {
         				session.setAttribute("user", userchk);
         				model.addAttribute("msg","로그인 성공!");
-                        model.addAttribute("url","/hr_main");
+                        model.addAttribute("url","/center/hr/main");
         			}
         			else if(bnochk.getP_no()==4) {
         				session.setAttribute("user", userchk);
         				model.addAttribute("msg","로그인 성공!");
-                        model.addAttribute("url","/stock_main");
+                        model.addAttribute("url","/center/stock/main");
         			}
         			else {
         				session.setAttribute("user", userchk);
@@ -249,7 +249,7 @@ public class UserController {
 			empService.register(regVO);
 			managerService.register(regVO);
 
-			return "user/login";
+			return "user/logincenter";
 
 		} else {
 
@@ -294,19 +294,5 @@ public class UserController {
             
         return "redirect";	
 	}
-	
-	@RequestMapping(value = "/hr/acception", method = RequestMethod.GET)
-	public String hrAcceptionget() throws Exception {
-		logger.info("hrAcceptionget");
-
-		return "center/hr/hr_acception";
-	}
-	
-	@RequestMapping(value = "/hr/acception", method = RequestMethod.POST)
-	public String hrAcceptionpost() throws Exception {
-		logger.info("hrAcceptionpost");
-
-        return "center/hr/hr_acception";	
-	}	
 	
 }

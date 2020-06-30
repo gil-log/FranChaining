@@ -52,18 +52,21 @@ public class MainController {
 
 		return "/center/hr/hr_main";
 	}
+	
 	@RequestMapping(value = "/stock_main", method = RequestMethod.GET)
 	public String stock(){
 		logger.info("/stock_main");
 
 		return "/center/stock/stock_main";
 	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String ttt(){
 		logger.info("franchaining");
 
 		return "user/login";
 	}
+	
 	@RequestMapping(value = "/module", method = RequestMethod.GET)
 	public String moudle(){
 		logger.info("module");

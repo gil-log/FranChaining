@@ -1,5 +1,7 @@
 package com.franchaining.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,12 +29,18 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("managerMapper.login", managerVO);
 		
 	}
-	
 
-	
 	@Override
 	public ManagerVO regchk(ManagerVO managerVO) throws Exception {
-		
+
 		return sqlSession.selectOne("managerMapper.regchk", managerVO);
 	}
+
+	@Override
+	public List<ManagerVO> regwait() throws Exception {
+	
+		return sqlSession.selectList("managerMapper.regwait");
+	}
+	
+
 }
