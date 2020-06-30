@@ -49,7 +49,7 @@ public class MainController {
 	@RequestMapping(value = "/hr_main", method = RequestMethod.GET)
 	public String hr(){
 		logger.info("/hr_main");
-1
+
 		return "/center/hr/hr_main";
 	}
 	@RequestMapping(value = "/stock_main", method = RequestMethod.GET)
@@ -63,5 +63,14 @@ public class MainController {
 		logger.info("franchaining");
 
 		return "user/login";
+	}
+	
+	
+	
+	@RequestMapping(value = "/master_hr_check", method = RequestMethod.GET)
+	public String master_hr_check(){
+		logger.info("/master_hr_check");
+
+		return "/branch/master/master_hr_check";
 	}
 }
