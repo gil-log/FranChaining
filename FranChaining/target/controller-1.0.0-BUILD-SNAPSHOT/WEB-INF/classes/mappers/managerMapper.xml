@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="managerMapper">
+
+	<!-- 회원가입 -->
+	<insert id="register">
+	    INSERT INTO MANAGER(   ID 
+	   					       , E_NO 
+	   					       , PWD
+	   					       , M_FLAG
+	   					       )
+	                  VALUES(    #{id}
+	                 		   , 
+	                 		   (select LAST_NUMBER from user_sequences
+	                 		   where SEQUENCE_NAME = 'E_NO_SEQ') - 1
+	                 		   , #{pwd}
+	                 		   , 0
+	                 		   )
+	                 		   
+	                 		   
+    </insert>
+    
+    <!-- 본사로그인 -->
+    <select id="login" resultType="com.franchaining.vo.ManagerVO">
+        SELECT id, e_no
+          FROM manager
+         WHERE id = #{id}
+           AND pwd = #{pwd}
+    </select>
+
+    
+    <select id="userInfo" >
+      SELECT U_ID 
+                   , NAME 
+                   , EMAIL_ADDRESS
+                   , PASSWORD
+                   , AGE승
+                   , PHONE_NUMBER
+                   , GENDER
+                   , U_LEVEL
+                   , INTRO 
+      FROM USER_TB
+      WHERE U_ID = #{u_id}
+
+   </select>
+   
+   
+   
+   
+   <!-- 중복 아이디 검사 -->
+   <select id ="regchk" resultType="com.franchaining.vo.ManagerVO">
+   	 SELECT id
+          FROM manager
+         WHERE id = #{id}
+   </select>
+   
+    
+    
+</mapper>
+
+
+
