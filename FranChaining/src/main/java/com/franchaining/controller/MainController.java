@@ -32,6 +32,33 @@ public class MainController {
 
 		return "main";
 	}
+	@RequestMapping(value = "/master_main", method = RequestMethod.GET)
+	public String master(){
+		logger.info("/master_main");
+
+		return "/branch/master/master_main";
+	}
+	
+	@RequestMapping(value = "/manager_main", method = RequestMethod.GET)
+	public String manager(){
+		logger.info("/manager_main");
+
+		return "/branch/manager/manager_main";
+	}
+	
+	@RequestMapping(value = "/hr_main", method = RequestMethod.GET)
+	public String hr(){
+		logger.info("/hr_main");
+
+		return "/center/hr/hr_main";
+	}
+	
+	@RequestMapping(value = "/stock_main", method = RequestMethod.GET)
+	public String stock(){
+		logger.info("/stock_main");
+
+		return "/center/stock/stock_main";
+	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String ttt(){
@@ -40,4 +67,10 @@ public class MainController {
 		return "user/login";
 	}
 	
+	@RequestMapping(value = "/module", method = RequestMethod.GET)
+	public String moudle(){
+		logger.info("module");
+
+		return "center/hr/module";
+	}
 }

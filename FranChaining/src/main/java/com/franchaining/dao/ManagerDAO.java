@@ -1,5 +1,7 @@
 package com.franchaining.dao;
 
+import java.util.List;
+
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
@@ -11,4 +13,5 @@ public interface ManagerDAO {
 	
 	public ManagerVO regchk(ManagerVO managerVO) throws Exception;
 
+	public List<ManagerVO> regwait() throws Exception;
 }

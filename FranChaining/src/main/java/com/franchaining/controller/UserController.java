@@ -1,5 +1,6 @@
 package com.franchaining.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
@@ -39,9 +41,9 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginget(String type, RedirectAttributes rttr, HttpServletRequest request) {
-		logger.info("loginget");
+	@RequestMapping(value = "/logincenter", method = RequestMethod.GET)
+	public String logincenterget(String type, RedirectAttributes rttr, HttpServletRequest request) {
+		logger.info("logincenterget");
 		logger.info(type);
 		
 		HttpSession session = request.getSession();
@@ -50,19 +52,92 @@ public class UserController {
 			session.setAttribute("type", type);
 		}
 
-		return "user/login";
+		return "center/logincenter";
+	}
+	@RequestMapping(value = "/loginbranch", method = RequestMethod.GET)
+	public String loginbranchget(String type, RedirectAttributes rttr, HttpServletRequest request) {
+		logger.info("loginbranchget");
+		logger.info(type);
+		
+		HttpSession session = request.getSession();
+	
+		if (!(type == null)) {
+			session.setAttribute("type", type);
+		}
+
+		return "branch/loginbranch";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
-		logger.info("loginpost");
+	
+	@RequestMapping(value = "/logincenter", method = RequestMethod.POST)
+	public String logincenterpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
+		logger.info("logincenterpost");
 
 		logger.info(managerVO.getId());
 		logger.info(managerVO.getPwd());
 
 		HttpSession session = request.getSession();
 
-		String url = "../franchaining/main";
+		
+		
+		ManagerVO userchk = managerService.login(managerVO);
+		
+		if(userchk == null) {
+    		//로그인 실패
+			session.setAttribute("user", null);
+            model.addAttribute("msg","로그인 정보를 확인 해주세요!");
+            model.addAttribute("url","/user/logincenter");
+
+    		
+    	}else {
+    		
+    		if(userchk.getM_flag()==0) {
+    			//로그인 실패(가입 대기 상태인 아이디라서)
+    			session.setAttribute("user", null);
+                model.addAttribute("msg","가입 승인이 나지 않은 아이디 입니다.");
+                model.addAttribute("url","/user/logincenter");
+    			
+    		} else {
+    			
+        		EmpVO bnochk = empService.userinfo(userchk.getE_no());
+        		logger.info(Integer.toString(bnochk.getB_no()));
+        		
+        		if(bnochk.getB_no()==0) {
+        			if(bnochk.getP_no()==3) {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","로그인 성공!");
+                        model.addAttribute("url","/center/hr/main");
+        			}
+        			else if(bnochk.getP_no()==4) {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","로그인 성공!");
+                        model.addAttribute("url","/center/stock/main");
+        			}
+        			else {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","올바르지 않은 부서 번호 입니다.");
+                        model.addAttribute("url","/user/logincenter");
+        			}
+        		}
+        		else {
+        			logger.info(Integer.toString(bnochk.getB_no()));
+        			model.addAttribute("msg","지점 항목에서 로그인을 해주세요!");
+                    model.addAttribute("url","/franchaining");
+        		}
+    		}
+
+    	}    	
+    	return "redirect";	
+	}
+	
+	@RequestMapping(value = "/loginbranch", method = RequestMethod.POST)
+	public String loginbranchpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
+		logger.info("loginbranchpost");
+
+		logger.info(managerVO.getId());
+		logger.info(managerVO.getPwd());
+
+		HttpSession session = request.getSession();
 		
 		ManagerVO userchk = managerService.login(managerVO);
 		
@@ -70,22 +145,53 @@ public class UserController {
     		//로그인 실패
 			session.setAttribute("user", null);
             model.addAttribute("msg","로그인 정보를 확인 해주세요!");
-            model.addAttribute("url","/user/login");
+            model.addAttribute("url","/user/loginbranch");
 
     		
     	}else {
-			session.setAttribute("user", userchk);
+    		EmpVO bnochk = empService.userinfo(userchk.getE_no());
+    		logger.info(Integer.toString(bnochk.getB_no()));
+    		if(bnochk.getB_no()==0) {
+    			logger.info(Integer.toString(bnochk.getB_no()));
+    			model.addAttribute("msg","본사로 로그인을 해주세요!");
+                model.addAttribute("url","/franchaining");
 			
-            //로그인 성공
-            model.addAttribute("msg","로그인 성공!");
-            model.addAttribute("url","/franchaining/main");
+    		}
+    		
+    		else {
+    			if(bnochk.getP_no()==1) {
+    				session.setAttribute("user", userchk);
+        			
+                    //로그인 성공
+                    model.addAttribute("msg","로그인 성공!");
+                    model.addAttribute("url","/master_main");
+    			}
+    			else {
+    			
+    			session.setAttribute("user", userchk);
+    			
+                //로그인 성공
+                model.addAttribute("msg","로그인 성공!");
+                model.addAttribute("url","/manager_main");
+    			}
+    		}
             
 			
     	}    	
     	return "redirect";	
 	}
 	
-	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void logoutget(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("logoutget");
+		
+		HttpSession session = request.getSession();
+		
+		session.invalidate();
+		
+		String url = "../franchaining";
+		response.sendRedirect(url);
+	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(RegVO regVO, Model model, HttpServletResponse response) throws Exception {
@@ -143,7 +249,7 @@ public class UserController {
 			empService.register(regVO);
 			managerService.register(regVO);
 
-			return "user/login";
+			return "user/logincenter";
 
 		} else {
 
@@ -188,4 +294,5 @@ public class UserController {
             
         return "redirect";	
 	}
+	
 }
