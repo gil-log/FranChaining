@@ -1,5 +1,6 @@
 package com.franchaining.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -89,33 +90,42 @@ public class UserController {
 
     		
     	}else {
-    		EmpVO bnochk = empService.userinfo(userchk.getE_no());
-    		logger.info(Integer.toString(bnochk.getB_no()));
     		
-    		if(bnochk.getB_no()==0) {
-    			if(bnochk.getP_no()==3) {
-    				session.setAttribute("user", userchk);
-    				model.addAttribute("msg","로그인 성공!");
-                    model.addAttribute("url","/hr_main");
-    			}
-    			else if(bnochk.getP_no()==4) {
-    				session.setAttribute("user", userchk);
-    				model.addAttribute("msg","로그인 성공!");
-                    model.addAttribute("url","/stock_main");
-    			}
-    			else {
-    				session.setAttribute("user", userchk);
-    				model.addAttribute("msg","부서번호 이상함");
+    		if(userchk.getM_flag()==0) {
+    			//로그인 실패(가입 대기 상태인 아이디라서)
+    			session.setAttribute("user", null);
+                model.addAttribute("msg","가입 승인이 나지 않은 아이디 입니다.");
+                model.addAttribute("url","/user/logincenter");
+    			
+    		} else {
+    			
+        		EmpVO bnochk = empService.userinfo(userchk.getE_no());
+        		logger.info(Integer.toString(bnochk.getB_no()));
+        		
+        		if(bnochk.getB_no()==0) {
+        			if(bnochk.getP_no()==3) {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","로그인 성공!");
+                        model.addAttribute("url","/hr_main");
+        			}
+        			else if(bnochk.getP_no()==4) {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","로그인 성공!");
+                        model.addAttribute("url","/stock_main");
+        			}
+        			else {
+        				session.setAttribute("user", userchk);
+        				model.addAttribute("msg","올바르지 않은 부서 번호 입니다.");
+                        model.addAttribute("url","/user/logincenter");
+        			}
+        		}
+        		else {
+        			logger.info(Integer.toString(bnochk.getB_no()));
+        			model.addAttribute("msg","지점 항목에서 로그인을 해주세요!");
                     model.addAttribute("url","/franchaining");
-    			}
+        		}
     		}
-    		else {
-    			logger.info(Integer.toString(bnochk.getB_no()));
-    			model.addAttribute("msg","지점으로 로그인을 해주세요!");
-                model.addAttribute("url","/franchaining");
-    		}
-            
-			
+
     	}    	
     	return "redirect";	
 	}
@@ -171,7 +181,17 @@ public class UserController {
     	return "redirect";	
 	}
 	
-	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void logoutget(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("logoutget");
+		
+		HttpSession session = request.getSession();
+		
+		session.invalidate();
+		
+		String url = "../franchaining";
+		response.sendRedirect(url);
+	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(RegVO regVO, Model model, HttpServletResponse response) throws Exception {

@@ -64,4 +64,10 @@ public class MainController {
 
 		return "user/login";
 	}
+	@RequestMapping(value = "/module", method = RequestMethod.GET)
+	public String moudle(){
+		logger.info("module");
+
+		return "center/hr/module";
+	}
 }
