@@ -54,15 +54,22 @@ public class CenterController {
 			logger.info(regwaitemplist.get(i).getE_name());
 		}
 		
-		model.addAttribute("regwait", regwaitemplist);
+		model.addAttribute("list", regwaitemplist);
 		
 		return "center/hr/hr_acception";
 	}
 	
 	@RequestMapping(value = "/hr/acception", method = RequestMethod.POST)
-	public String hrAcceptionpost() throws Exception {
+	public String hrAcceptionpost(HttpServletRequest request) throws Exception {
 		logger.info("hrAcceptionpost");
+		
+		logger.info(request.getParameter("m_flag"));
+		logger.info(request.getParameter("e_no"));
+		
+		int e_no = Integer.parseInt(request.getParameter("e_no"));
+		int m_flag = Integer.parseInt(request.getParameter("m_flag"));
 
+		
         return "center/hr/hr_acception";	
 	}
 	
