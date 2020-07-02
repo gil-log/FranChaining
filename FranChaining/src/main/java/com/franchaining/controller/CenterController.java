@@ -60,7 +60,7 @@ public class CenterController {
 	}
 	
 	@RequestMapping(value = "/hr/acception", method = RequestMethod.POST)
-	public String hrAcceptionpost(HttpServletRequest request) throws Exception {
+	public String hrAcceptionpost(HttpServletRequest request, Model model) throws Exception {
 		logger.info("hrAcceptionpost");
 		
 		logger.info(request.getParameter("m_flag"));
@@ -69,8 +69,21 @@ public class CenterController {
 		int e_no = Integer.parseInt(request.getParameter("e_no"));
 		int m_flag = Integer.parseInt(request.getParameter("m_flag"));
 
+		ManagerVO managerVO = new ManagerVO();
 		
-        return "center/hr/hr_acception";	
+		managerVO.setE_no(e_no);
+		managerVO.setM_flag(m_flag);
+		
+		managerService.regupdate(managerVO);
+		
+		if(m_flag==1) {
+			model.addAttribute("msg", "승인 처리 되었습니다.");
+			model.addAttribute("url", "/center/hr/acception");
+		} else {
+			model.addAttribute("msg", "거부 처리 되었습니다.");
+			model.addAttribute("url", "/center/hr/acception");			
+		}
+		return "redirect";
 	}
 	
 	@RequestMapping(value = "/stock/main", method = RequestMethod.GET)

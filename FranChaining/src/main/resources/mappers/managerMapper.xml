@@ -37,12 +37,17 @@
          WHERE id = #{id}
    </select>
    
-    <select id="regwait" resultType="com.franchaining.vo.ManagerVO">
+   <select id="regwait" resultType="com.franchaining.vo.ManagerVO">
       SELECT e_no 
       FROM manager
       WHERE m_flag = 0
 
    </select>
+   
+   	<update id="regupdate" parameterType="com.franchaining.vo.ManagerVO">
+		UPDATE MANAGER SET M_FLAG = #{m_flag}
+		WHERE E_NO = #{e_no}
+	</update>
        
     
 </mapper>

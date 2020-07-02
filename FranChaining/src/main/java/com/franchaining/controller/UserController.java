@@ -97,7 +97,7 @@ public class UserController {
                 model.addAttribute("msg","가입 승인이 나지 않은 아이디 입니다.");
                 model.addAttribute("url","/user/logincenter");
     			
-    		} else {
+    		} else if(userchk.getM_flag()==1){
     			
         		EmpVO bnochk = empService.userinfo(userchk.getE_no());
         		logger.info(Integer.toString(bnochk.getB_no()));
@@ -124,6 +124,9 @@ public class UserController {
         			model.addAttribute("msg","지점 항목에서 로그인을 해주세요!");
                     model.addAttribute("url","/franchaining");
         		}
+    		} else if(userchk.getM_flag()==2) {
+				model.addAttribute("msg","승인이 거부된 계정 입니다.");
+                model.addAttribute("url","/user/logincenter");
     		}
 
     	}    	

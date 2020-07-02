@@ -23,6 +23,8 @@
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 
+
+
 </head>
 
 <body id="page-top">
@@ -59,6 +61,10 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
+                    <form name="acceptionForm">
+                    <input type ="hidden" value="" id="e_no" name="e_no">
+                    <input type ="hidden" value="" id="m_flag" name="m_flag">                      
+                    </form> 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -89,22 +95,10 @@
                  		선택
                     </button>
                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                         
-                     <input type="button" id="checkBtn" class="dropdown-item" value="승인" />    
-                     <input type="button" id="checkBtn" class="dropdown-item" value="거부" />    
- 
-                    <form action="acception" method="post" id="okForm">
-                    <input type ="hidden" class="dropdown-item" value="${list.e_no}" name="e_no">
-                    <input type ="hidden" class="dropdown-item" value="1" name="m_flag">
-                    <a type="submit" class="btn btn-default input-group-addon" role="button" id="ok">승인</a>                           
-                    </form>
-               
-                    <form action="acception" method="post" id="noForm">
-                    <input type ="hidden" class="dropdown-item" value="${list.e_no}" name="e_no">
-                    <input type ="hidden" class="dropdown-item" value="2" name="m_flag">
-                    <a type="submit" class="btn btn-default input-group-addon" role="button" id="no">거부</a>                           
-                    </form>
-                      
+                                                                          
+                     <input type="button" class="dropdown-item" value="승인" />   
+                     <input type="button" class="dropdown-item" value="거부" />    
+
                     </div>
                     
                   </div>
@@ -112,10 +106,12 @@
                   </tr>
                   
                   </c:forEach>
-
-                    
+                   
                   </tbody>
                 </table>
+                		<div class="col-lg-12" id="ex2_Result1" ></div> 
+		<div class="col-lg-12" id="ex2_Result2" ></div>    
+                    
               </div>
             </div>
           </div>
@@ -159,28 +155,42 @@
 
   <!-- Page level custom scripts -->
   <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
-
-
-<script>
+  
+  <script>
+$(document).ready(function(){
 //버튼 클릭시 Row 값 가져오기
-$(".checkBtn").click(function(){ 
+$(".dropdown-item").click(function(){ 
 	
 	var str = ""
 	var tdArr = new Array();	// 배열 선언
 	var checkBtn = $(this);
+	var m_flag = $(this).val();
 	
-	// checkBtn.parent() : checkBtn의 부모는 <td>이다.
-	// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.
+	if(m_flag=="승인"){
+		$("#m_flag").val(1);
+	} else{
+		$("#m_flag").val(2);
+	}
+	
 	var tr = checkBtn.parent().parent().parent().parent();
-	var td = tr.children().children().children().children();
+	var td = tr.children();
+	
+	var e_no = td.eq(0).text();
+	$("#e_no").val(e_no);
+	
+	
+	/* // checkBtn.parent() : checkBtn의 부모는 <td>이다.
+	// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.
+	
+	
+	
 	
 	console.log("클릭한 Row의 모든 데이터 : "+tr.text());
 	
-	var no = td.eq(0).text();
+	
 	var userid = td.eq(1).text();
 	var name = td.eq(2).text();
 	var email = td.eq(3).text();
-	
 	
 	// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
 	td.each(function(i){	
@@ -189,14 +199,24 @@ $(".checkBtn").click(function(){
 	
 	console.log("배열에 담긴 값 : "+tdArr);
 	
+	
+	
+	
 	str +=	" * 클릭된 Row의 td값 = No. : <font color='red'>" + no + "</font>" +
 			", 아이디 : <font color='red'>" + userid + "</font>" +
 			", 이름 : <font color='red'>" + name + "</font>" +
-			", 이메일 : <font color='red'>" + email + "</font>";		
+			", 이메일 : <font color='red'>" + email + "</font>"+
+			", m_flag : <font color='red'>" + m_flag + "</font>";		
 	
 	$("#ex2_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());		
-	$("#ex2_Result2").html(str);	
+	$("#ex2_Result2").html(str); */
+
+	  document.acceptionForm.action = "acception";
+	  document.acceptionForm.method = "post";
+	  document.acceptionForm.submit();
+
 });
+})
 </script>
 
 </body>

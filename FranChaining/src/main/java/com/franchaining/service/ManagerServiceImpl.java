@@ -36,4 +36,9 @@ public class ManagerServiceImpl implements ManagerService {
 
 		return dao.regwait();
 	}
+
+	@Override
+	public void regupdate(ManagerVO managerVO) throws Exception {
+		dao.regupdate(managerVO);
+	}
 }

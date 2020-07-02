@@ -41,6 +41,12 @@ public class ManagerDAOImpl implements ManagerDAO {
 	
 		return sqlSession.selectList("managerMapper.regwait");
 	}
+
+	@Override
+	public void regupdate(ManagerVO managerVO) throws Exception {
+		
+		sqlSession.update("managerMapper.regupdate", managerVO);
+	}
 	
 
 }
