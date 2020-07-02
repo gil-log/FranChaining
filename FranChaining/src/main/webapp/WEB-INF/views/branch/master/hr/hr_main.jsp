@@ -12,7 +12,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>지점 인사관리</title>
+  <title>인사관리</title>
 
 <!-- Custom fonts for this template-->
 
@@ -38,7 +38,7 @@
 			<!-- Main Content -->
 			<div id="content">
 				<!-- 상단바 -->
-				<%@include file="../../nav/topbar.jsp"%>
+				<%@include file="../../../nav/topbar.jsp"%>
 
 
 
@@ -336,7 +336,7 @@
 			<!-- End of Main Content -->
 			
 			<!-- 하단바 -->
-			<%@include file="../../nav/footer.jsp"%>
+			<%@include file="../../../nav/footer.jsp"%>
 
 		</div>
 		<!-- End of Content Wrapper -->
