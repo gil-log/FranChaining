@@ -36,4 +36,14 @@ public class ManagerServiceImpl implements ManagerService {
 
 		return dao.regwait();
 	}
+
+	@Override
+	public void regupdate(ManagerVO managerVO) throws Exception {
+		dao.regupdate(managerVO);
+	}
+
+	@Override
+	public int MflagCount(int m_flag) throws Exception {
+		return dao.MflagCount(m_flag);
+	}
 }

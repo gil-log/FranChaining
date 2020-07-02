@@ -17,5 +17,10 @@ public class BranchServiceImpl implements BranchService {
 	public RegVO b_no_check(RegVO regVO) throws Exception {
 		return dao.b_no_check(regVO);
 	}
+
+	@Override
+	public int BranchCount() throws Exception {
+		return dao.BranchCount();
+	}
 	
 }

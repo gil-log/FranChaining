@@ -14,4 +14,8 @@ public interface ManagerService {
 	public ManagerVO regchk(ManagerVO managerVO) throws Exception;
 	
 	public List<ManagerVO> regwait() throws Exception;
+	
+	public void regupdate(ManagerVO managerVO) throws Exception;
+	
+	public int MflagCount(int m_flag) throws Exception;
 }

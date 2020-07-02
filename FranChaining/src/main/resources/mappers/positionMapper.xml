@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="branchMapper">
+<mapper namespace="positionMapper">
 
 	<!-- branch 체크 -->
 	<select id="b_no_check" resultType="com.franchaining.vo.RegVO">
@@ -11,9 +11,4 @@
         where b_no = #{b_no}
     </select>
     
-    <select id="BranchCount" resultType="int">
-		SELECT COUNT(*)
-		   FROM BRANCH
-		   WHERE B_NO != 0
-	</select>
 </mapper>
