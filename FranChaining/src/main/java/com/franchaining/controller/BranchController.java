@@ -2,6 +2,7 @@ package com.franchaining.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 
@@ -39,4 +41,41 @@ public class BranchController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BranchController.class);
 	
+	@RequestMapping(value = "/master/hr/main", method = RequestMethod.GET)
+	public String master_hr(){
+		logger.info("/master/hr/main");
+
+		return "/branch/master/hr/hr_main";
+	}
+	
+	@RequestMapping(value = "/manager/hr/main", method = RequestMethod.GET)
+	public String manager_hr(){
+		logger.info("/manager/hr/main");
+
+		return "/branch/manager/hr/hr_main";
+	}
+	
+	@RequestMapping(value = "/master/hr/administration", method = RequestMethod.GET)
+	public String master_hrAdministration(Model model) throws Exception {
+		logger.info("master_hraAministration");
+
+		List<ManagerVO> regwaitlist = managerService.regwait();
+		
+		List<EmpVO> regwaitemplist = empService.regwait(regwaitlist);
+
+		for(int i = 0; i < regwaitemplist.size(); i++) {
+			logger.info(regwaitemplist.get(i).getE_name());
+		}
+		
+		model.addAttribute("regwait", regwaitemplist);
+		
+		return "branch/master/hr/hr_administration";
+	}
+	
+	@RequestMapping(value = "/master/hr/administration", method = RequestMethod.POST)
+	public String master_hrAdministration() throws Exception {
+		logger.info("master_hrAdministration");
+
+        return "branch/master/hr/hr_administration";	
+	}
 }
