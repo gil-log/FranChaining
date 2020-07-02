@@ -249,7 +249,7 @@ public class UserController {
 			empService.register(regVO);
 			managerService.register(regVO);
 
-			return "user/logincenter";
+			return "center/logincenter";
 
 		} else {
 

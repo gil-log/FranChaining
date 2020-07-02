@@ -30,7 +30,7 @@
 	<div id="wrapper">
 
 		<!-- 사이드바 -->
-		<%@include file="hr_sidebar.jsp"%>
+		<%@include file="sidebarform.jsp"%>
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -38,7 +38,7 @@
 			<!-- Main Content -->
 			<div id="content">
 				<!-- 상단바 -->
-				<%@include file="../../nav/topbar.jsp"%>
+				<%@include file="../../views/nav/topbar.jsp"%>
 
 
 
@@ -62,7 +62,7 @@
 			<!-- End of Main Content -->
 			
 			<!-- 하단바 -->
-			<%@include file="../../nav/footer.jsp"%>
+			<%@include file="../../views/nav/footer.jsp"%>
 
 		</div>
 		<!-- End of Content Wrapper -->
