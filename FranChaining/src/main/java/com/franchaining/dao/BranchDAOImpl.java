@@ -18,4 +18,9 @@ public class BranchDAOImpl implements BranchDAO {
 		return sqlSession.selectOne("branchMapper.b_no_check", regVO);
 	}
 
+	@Override
+	public int BranchCount() throws Exception {
+		return sqlSession.selectOne("branchMapper.BranchCount");
+	}
+
 }

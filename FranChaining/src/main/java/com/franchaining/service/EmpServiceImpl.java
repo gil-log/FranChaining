@@ -8,6 +8,7 @@ import com.franchaining.dao.EmpDAO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.RegwaitVO;
 
 @Service
 public class EmpServiceImpl implements EmpService{
@@ -27,9 +28,13 @@ public class EmpServiceImpl implements EmpService{
 	}
 
 	@Override
-	public List<EmpVO> regwait(List<ManagerVO> regwaitlist) throws Exception {
-		
+	public List<RegwaitVO> regwait(List<ManagerVO> regwaitlist) throws Exception {		
 		return dao.regwait(regwaitlist);
+	}
+
+	@Override
+	public int EmpCount(int e_no) throws Exception {
+		return dao.EmpCount(e_no);
 	}
 
 	

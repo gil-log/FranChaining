@@ -47,6 +47,11 @@ public class ManagerDAOImpl implements ManagerDAO {
 		
 		sqlSession.update("managerMapper.regupdate", managerVO);
 	}
+
+	@Override
+	public int MflagCount(int m_flag) throws Exception {
+		return sqlSession.selectOne("managerMapper.MflagCount", m_flag);
+	}
 	
 
 }

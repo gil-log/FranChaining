@@ -11,4 +11,9 @@
         where b_no = #{b_no}
     </select>
     
+    <select id="BranchCount" resultType="int">
+		SELECT COUNT(*)
+		   FROM BRANCH
+		   WHERE B_NO != 0
+	</select>
 </mapper>

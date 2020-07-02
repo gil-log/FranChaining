@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.RegwaitVO;
 
 @Repository
 public class EmpDAOImpl implements EmpDAO {
@@ -28,9 +29,13 @@ public class EmpDAOImpl implements EmpDAO {
 	}
 
 	@Override
-	public List<EmpVO> regwait(List<ManagerVO> regwaitlist) throws Exception {
-		
+	public List<RegwaitVO> regwait(List<ManagerVO> regwaitlist) throws Exception {
 		return sqlSession.selectList("empMapper.regwait", regwaitlist);
+	}
+
+	@Override
+	public int EmpCount(int e_no) throws Exception {
+		return sqlSession.selectOne("empMapper.EmpCount", e_no);
 	}
 
 }

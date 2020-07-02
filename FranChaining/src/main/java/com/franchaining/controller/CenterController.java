@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.RegwaitVO;
 
 @Controller
 @RequestMapping(value = "/center/*")
@@ -32,13 +34,28 @@ public class CenterController {
 	EmpService empService;
 	@Inject
 	ManagerService managerService;
+	@Inject
+	BranchService branchService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CenterController.class);
 	
 	@RequestMapping(value = "/hr/main", method = RequestMethod.GET)
-	public String hr(){
+	public String hr(Model model) throws Exception{
 		logger.info("/hr/main");
 
+		//본사 사원수
+		int centerEmpCount = empService.EmpCount(0);
+		int branchCount = branchService.BranchCount();
+		int regwaitCount = managerService.MflagCount(0);
+		
+		//logger.info(Integer.toString(regwaitCount));
+		
+		
+		model.addAttribute("centerEmpCount", centerEmpCount);
+		model.addAttribute("branchCount", branchCount);
+		model.addAttribute("regwaitCount", regwaitCount);
+		
+		
 		return "/center/hr/hr_main";
 	}
 	
@@ -48,7 +65,7 @@ public class CenterController {
 
 		List<ManagerVO> regwaitlist = managerService.regwait();
 		
-		List<EmpVO> regwaitemplist = empService.regwait(regwaitlist);
+		List<RegwaitVO> regwaitemplist = empService.regwait(regwaitlist);
 
 		for(int i = 0; i < regwaitemplist.size(); i++) {
 			logger.info(regwaitemplist.get(i).getE_name());

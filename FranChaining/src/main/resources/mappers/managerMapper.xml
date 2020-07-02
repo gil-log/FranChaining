@@ -49,7 +49,12 @@
 		WHERE E_NO = #{e_no}
 	</update>
        
-    
+    <select id="MflagCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		   FROM MANAGER
+		   WHERE M_FLAG = #{m_flag}
+	</select>
+	
 </mapper>
 
 
