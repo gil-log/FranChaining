@@ -339,88 +339,128 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">온라인수발주신청서</h6>
+              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
             <div class="card-body">
-                
-                <div class="card mb-4" style="display:inline-block; float:left;">
-                <div class="card-header">
-                  수급인
-                </div>
-                <div class="card-body">
-                  발주번호: 200630-1-1<br>
-                    납기일: 2020/07/02
-                </div>
-              </div>
-                <div class="card mb-4" style="display:inline-block; float:right;">
-                <div class="card-header">
-                  발주자
-                </div>
-                <div class="card-body">
-                    발주담당: 지점장 &emsp;
-                    지점명: 고양화정점<br>
-                    지점번호: 1 &emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    전화번호: 031-999-6642<br>
-                </div>
-              </div>
-               
-                <br>
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    
                   <thead>
                     <tr>
-                      <th>품목코드</th>
-                      <th>품목명</th>
-                      <th>규격</th>
-                      <th>수량</th>
-                      <th>공급가</th>
-                      <th>금액</th>
-                      <th>비고</th>
+                      <th>발주 번호</th>
+                      <th>품목</th>
+                      <th>창고명</th>
+                      <th>납기일</th>
+                      <th>상태</th>
+                      <th>수정/삭제</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>품목코드</th>
-                      <th>품목명</th>
-                      <th>규격</th>
-                      <th>수량</th>
-                      <th>공급가</th>
-                      <th>금액</th>
-                      <th>비고</th>
+                      <th>발주 번호</th>
+                      <th>품목</th>
+                      <th>창고명</th>
+                      <th>납기일</th>
+                      <th>상태</th>
+                      <th>수정/삭제</th>
                     </tr>
                   </tfoot>
                   <tbody>
                     <tr>
-                      <td>10001</td>
-                      <td>A</td>
-                      <td>10</td>
-                      <td>60</td>
-                      <td>3,000KRW</td>
-                      <td>180,000KRW</td>
+                        <td><a href="manager_orderpage.html">200530-1</a></td>
+                      <td>A, B, C, D</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
                     </tr>
                     <tr>
-                      <td>10002</td>
-                      <td>B</td>
-                      <td>12</td>
-                      <td>30</td>
-                      <td>1,000KRW</td>
-                      <td>30,000KRW</td>
+                      <td><a href="manager_orderpage.html">200530-1</a></td>
+                      <td>B, C, D, E</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
                     </tr>
                     <tr>
-                      <td>10003</td>
-                      <td>C</td>
-                      <td>100</td>
-                      <td>70</td>
-                      <td>250KRW</td>
-                      <td>17,500KRW</td>
+                        <td><a href="manager_orderpage.html">200530-1</a></td>
+                      <td>C, D</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
                     </tr>
                     <tr>
-                      <td>10004</td>
+                      <td><a href="manager_orderpage.html">200610-1</a></td>
+                      <td>D, E, F</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
+                    </tr>
+                      <tr>
+                        <td><a href="manager_orderpage.html">200611-1</a></td>
+                      <td>A, C</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><a href="manager_orderpage.html">200615-1</a></td>
+                      <td>B, F</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="manager_orderpage.html">200622-1</a></td>
+                      <td>C, D, E, F</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: limegreen">승인</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><a href="manager_orderpage.html">200624-1</a></td>
+                      <td>D, E</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: purple">거부됨</td>
+                      <td></td>
+                    </tr>
+                      <tr>
+                      <td><a href="manager_orderpage.html">200630-1</a></td>
+                      <td>A, B</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: dimgray">대기</td>
+                      <td><a href="#">수정</a>/<a href="#">삭제</a></td>
+                    </tr>
+                    <tr>
+                      <td><a href="manager_orderpage.html">200630-1</a></td>
+                      <td>B, C, F</td>
+                      <td>본사</td>
+                      <td>2020/07/09</td>
+                      <td style="color: orangered">심사중</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="manager_orderpage.html">200701-1</a></td>
+                      <td>C, D</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: orangered">심사중</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><a href="manager_orderpage.html">200701-1</a></td>
                       <td>D</td>
-                      <td>20</td>
-                      <td>50</td>
-                      <td>50,000KRW</td>
-                      <td>1,000,000KRW</td>
+                      <td>본사</td>
+                      <td>2020/07/16</td>
+                      <td style="color: orangered">심사중</td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
@@ -484,13 +524,45 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
+    <script>
+    $(document).ready(function() {
+    $('#dataTable').DataTable( {
+         
+        initComplete: function () {
+            this.api().columns([2, 4]).every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>') 
+                .appendTo($(column.header()))
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }      
+        
+    } );
+} );
+    
+    
+    </script> 
+    
+    
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
-
+ 
 </body>
 
 </html>
