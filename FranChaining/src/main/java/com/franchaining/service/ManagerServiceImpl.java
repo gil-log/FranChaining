@@ -46,4 +46,10 @@ public class ManagerServiceImpl implements ManagerService {
 	public int MflagCount(int m_flag) throws Exception {
 		return dao.MflagCount(m_flag);
 	}
+
+	@Override
+	public void hasEnoReg(RegVO regVO) throws Exception {
+		dao.hasEnoReg(regVO);
+		
+	}
 }

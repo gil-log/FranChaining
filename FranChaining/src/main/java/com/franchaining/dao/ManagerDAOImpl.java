@@ -52,6 +52,13 @@ public class ManagerDAOImpl implements ManagerDAO {
 	public int MflagCount(int m_flag) throws Exception {
 		return sqlSession.selectOne("managerMapper.MflagCount", m_flag);
 	}
+
+	@Override
+	public void hasEnoReg(RegVO regVO) throws Exception {
+		
+		sqlSession.insert("managerMapper.hasEnoReg", regVO);
+		
+	}
 	
 
 }

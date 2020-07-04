@@ -74,6 +74,13 @@
                   </thead>
                   <tbody>
                   
+                  <c:set var="isNull" value="${isNull}"/>
+                  
+                  <c:if test="${isNull == 1}">
+</c:if>
+
+<c:if test="${inNull != 1}">
+    
                   <c:forEach items="${list}" var="list">
    
 <c:set var="e_name" value="${list.e_name}"/>
@@ -93,8 +100,8 @@
                     </button>
                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
                                                                           
-                     <input type="button" class="dropdown-item" value="승인" />   
-                     <input type="button" class="dropdown-item" value="거부" />    
+                     <input type="button" class="dropdown-item" id="ok" value="승인" />   
+                     <input type="button" class="dropdown-item" id="no" value="거부" />    
 
                     </div>
                     
@@ -104,10 +111,12 @@
                   
                   </c:forEach>
                    
+    </c:if>
+                             
+                   
+                   
                   </tbody>
                 </table>
-                		<div class="col-lg-12" id="ex2_Result1" ></div> 
-		<div class="col-lg-12" id="ex2_Result2" ></div>    
                     
               </div>
             </div>
@@ -157,6 +166,11 @@
 $(document).ready(function(){
 //버튼 클릭시 Row 값 가져오기
 $(".dropdown-item").click(function(){ 
+	
+	var isAcception = $(this).attr('id'); 
+
+	if(isAcception=="ok"||isAcception=="no"){
+	
 	
 	var str = ""
 	var tdArr = new Array();	// 배열 선언
@@ -211,7 +225,7 @@ $(".dropdown-item").click(function(){
 	  document.acceptionForm.action = "acception";
 	  document.acceptionForm.method = "post";
 	  document.acceptionForm.submit();
-
+	}
 });
 })
 </script>

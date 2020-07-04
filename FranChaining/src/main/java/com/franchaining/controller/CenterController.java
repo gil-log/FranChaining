@@ -64,6 +64,13 @@ public class CenterController {
 		logger.info("hrAcceptionget");
 
 		List<ManagerVO> regwaitlist = managerService.regwait();
+		if(regwaitlist.isEmpty()) {
+			logger.info("emptywaitlist");
+			model.addAttribute("isNull", 1);
+			
+			return "center/hr/hr_acception";
+			
+		}
 		
 		List<RegwaitVO> regwaitemplist = empService.regwait(regwaitlist);
 
@@ -104,9 +111,38 @@ public class CenterController {
 	}
 	
 	@RequestMapping(value = "/stock/main", method = RequestMethod.GET)
-	public String stock(){
-		logger.info("/stock_main");
+	public String stockmain(){
+		logger.info("stock_main");
 
 		return "/center/stock/stock_main";
 	}
+	
+	@RequestMapping(value = "/stock/order", method = RequestMethod.GET)
+	public String stockorder(){
+		logger.info("/stock_order");
+
+		return "/center/stock/stock_order";
+	}
+
+	@RequestMapping(value = "/stock/orderhistory", method = RequestMethod.GET)
+	public String stockorderhistory(){
+		logger.info("/stock_orderhistory");
+
+		return "/center/stock/stock_orderhistory";
+	}
+
+	@RequestMapping(value = "/stock/orderpage", method = RequestMethod.GET)
+	public String stockorderpage(){
+		logger.info("/stock_orderpage");
+
+		return "/center/stock/stock_orderpage";
+	}
+
+	@RequestMapping(value = "/stock/stock", method = RequestMethod.GET)
+	public String stock(){
+		logger.info("/stock_stock");
+
+		return "/center/stock/stock_stock";
+	}
+	
 }

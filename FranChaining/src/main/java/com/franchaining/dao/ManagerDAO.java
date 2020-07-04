@@ -19,4 +19,6 @@ public interface ManagerDAO {
 	
 	public int MflagCount(int m_flag) throws Exception;
 	
+	public void hasEnoReg(RegVO regVO) throws Exception;
+	
 }

@@ -9,7 +9,22 @@ public class RegVO {
 	private int phone2;
 	private int phone3;
 	private int b_no; 
+	private int e_no;
+	private int p_no;
 	
+	public int getE_no() {
+		return e_no;
+	}
+	public void setE_no(int e_no) {
+		this.e_no = e_no;
+	}
+	public int getP_no() {
+		return p_no;
+	}
+	public void setP_no(int p_no) {
+		this.p_no = p_no;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -56,7 +71,7 @@ public class RegVO {
 	@Override
 	public String toString() {
 		return "RegVO [id=" + id + ", pwd=" + pwd + ", e_name=" + e_name + ", phone1=" + phone1 + ", phone2=" + phone2
-				+ ", phone3=" + phone3 + ", b_no=" + b_no + "]";
+				+ ", phone3=" + phone3 + ", b_no=" + b_no + ", e_no=" + e_no + ", p_no=" + p_no + "]";
 	}
 	
 }

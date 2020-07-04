@@ -105,12 +105,12 @@ public class UserController {
         		if(bnochk.getB_no()==0) {
         			if(bnochk.getP_no()==3) {
         				session.setAttribute("user", userchk);
-        				model.addAttribute("msg","로그인 성공!");
+        				model.addAttribute("msg","인사 관리자 페이지로 이동합니다!");
                         model.addAttribute("url","/center/hr/main");
         			}
         			else if(bnochk.getP_no()==4) {
         				session.setAttribute("user", userchk);
-        				model.addAttribute("msg","로그인 성공!");
+        				model.addAttribute("msg","재고 관리자 페이지로 이동합니다!");
                         model.addAttribute("url","/center/stock/main");
         			}
         			else {
@@ -237,21 +237,33 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/regcenter", method = RequestMethod.POST)
-	public String regcenterpost(RegVO regVO, Model model, HttpServletResponse response) throws Exception {
+	public String regcenterpost(RegVO regVO, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("regcenterpost");
 		
 		logger.info(regVO.getE_name());
-		
 
+		logger.info(request.getParameter("p_no"));
+		logger.info(request.getParameter("e_no"));
+		
+		int p_no = Integer.parseInt(request.getParameter("p_no"));
+		int e_no = Integer.parseInt(request.getParameter("e_no"));
+		
 		ManagerVO managerVO = new ManagerVO();
 		managerVO.setId(regVO.getId());
 
 		ManagerVO regchkVO = managerService.regchk(managerVO);
-
 		if (regchkVO == null) {
+			
+			if(e_no==0) {
+				
+				empService.register(regVO);
+				managerService.register(regVO);
 
-			empService.register(regVO);
-			managerService.register(regVO);
+			} else {
+
+				managerService.hasEnoReg(regVO);
+				
+			}
 
 			return "center/logincenter";
 
@@ -262,6 +274,24 @@ public class UserController {
 
 			return "redirect";
 		}
+
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
 
 	}
 	
@@ -292,7 +322,7 @@ public class UserController {
     			
                 //로그인 성공
                 model.addAttribute("msg","회원가입 성공!");
-                model.addAttribute("url","/user/login");
+                model.addAttribute("url","/user/loginbranch");
 
         	}
             

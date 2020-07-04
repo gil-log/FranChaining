@@ -12,7 +12,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>지점 인사관리</title>
+  <title>본사 인사관리</title>
 
 <!-- Custom fonts for this template-->
 
