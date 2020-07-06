@@ -61,6 +61,7 @@ public class BranchController {
 
 		List<ManagerVO> regwaitlist = managerService.regwait();
 		
+		/*
 		List<EmpVO> regwaitemplist = empService.regwait(regwaitlist);
 
 		for(int i = 0; i < regwaitemplist.size(); i++) {
@@ -68,7 +69,7 @@ public class BranchController {
 		}
 		
 		model.addAttribute("regwait", regwaitemplist);
-		
+		*/
 		return "branch/master/hr/hr_administration";
 	}
 	
@@ -78,4 +79,33 @@ public class BranchController {
 
         return "branch/master/hr/hr_administration";	
 	}
+	
+	@RequestMapping(value = "/manager/main", method = RequestMethod.GET)
+	   public String manger(){
+	      logger.info("/manager/main");
+
+	      return "/branch/manager/manager_main";
+	   }
+	   
+	   @RequestMapping(value = "/manager/stock", method = RequestMethod.GET)
+	   public String managerStockget(Model model) throws Exception {
+	      logger.info("mgrStkget");
+
+	      return "branch/manager/manager_stock";
+	   }
+	   
+	   @RequestMapping(value = "/manager/order", method = RequestMethod.GET)
+	   public String managerOrderget(Model model) throws Exception {
+	      logger.info("mgrOdrget");
+
+	      return "branch/manager/manager_order";
+	   }
+	   
+	   @RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
+	   public String managerOrderListget(Model model) throws Exception {
+	      logger.info("mgrOLget");
+
+	      return "branch/manager/manager_orderlist";
+	   }
+	
 }

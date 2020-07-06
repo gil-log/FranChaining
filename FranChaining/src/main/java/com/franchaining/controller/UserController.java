@@ -175,7 +175,7 @@ public class UserController {
 	             
 	                //로그인 성공
 	                model.addAttribute("msg","로그인 성공!");
-	                model.addAttribute("url","/branch/manager/hr/main");
+	                model.addAttribute("url","/branch/manager/main");
 	             }
 	          }
 	            
