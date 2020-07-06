@@ -7,33 +7,29 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.franchaining.dao.ManagerDAO;
+import com.franchaining.dao.StockDAO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.StockVO;
 
 @Service
 public class StockServiceImpl implements StockService {
 	
 	@Inject
-	private ManagerDAO dao;
+	private StockDAO dao;
 
 	@Override
-	public void register(RegVO regVO) throws Exception {
-		dao.register(regVO);
+	public List<StockVO> stockList() throws Exception{
+		return dao.stockList();
 	}
 
 	@Override
-	public ManagerVO login(ManagerVO managerVO) throws Exception {
-		return dao.login(managerVO);
+	public int listCount() throws Exception {
+		return dao.listCount();
 	}
 
 	@Override
-	public ManagerVO regchk(ManagerVO managerVO) throws Exception {
-		return dao.regchk(managerVO);
-	}
-
-	@Override
-	public List<ManagerVO> regwait() throws Exception {
-
-		return dao.regwait();
+	public void stockAdd(StockVO stockVO) throws Exception {
+		dao.stockAdd(stockVO);
 	}
 }

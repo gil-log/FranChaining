@@ -16,7 +16,7 @@
 	   					       , SAL
 	   					       , HIRE)
 	                  VALUES(    E_NO_SEQ.NEXTVAL
-	                 		   , 0
+	                 		   , #{p_no}
 	                 		   , #{b_no}
 	                 		   , #{e_name}
 	                 		   , #{phone1}
@@ -26,6 +26,28 @@
 	                 		   , SYSDATE
 	                 		   )
     </insert>
+
+	<insert id="has_eno_reg">
+	    INSERT INTO EMP(   E_NO 
+	   					       , P_NO 
+	   					       , B_NO
+	   					       , E_NAME
+	   					       , PHONE1
+	   					       , PHONE2
+	   					       , PHONE3
+	   					       , SAL
+	   					       , HIRE)
+	                  VALUES(    #{e_no}
+	                 		   , #{p_no}
+	                 		   , #{b_no}
+	                 		   , #{e_name}
+	                 		   , #{phone1}
+	                 		   , #{phone2}
+	                 		   , #{phone3}
+	                 		   , 0
+	                 		   , SYSDATE
+	                 		   )
+    </insert>    
     
     <select id="userinfo" resultType="com.franchaining.vo.EmpVO" >
       SELECT p_no 
@@ -40,5 +62,28 @@
       WHERE e_no = #{e_no}
 
    </select>
+    
+    <select id="regwait" resultType="com.franchaining.vo.RegwaitVO" parameterType="java.util.List">
+      SELECT e_no 
+                   , p_no 
+                   , b_no
+                   , e_name
+                   , phone1
+                   , phone2
+                   , phone3
+                   , sal
+                   , hire
+      FROM emp
+      WHERE e_no IN (         
+      <foreach collection="list" item="item" separator=",">
+            #{item.e_no}
+      </foreach> )
+   </select>
+   
+   	<select id="EmpCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		   FROM EMP
+		   WHERE B_NO = #{b_no}
+	</select>
     
 </mapper>

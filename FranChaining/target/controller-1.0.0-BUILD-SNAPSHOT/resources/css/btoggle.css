@@ -1,0 +1,314 @@
+/* _expand-checkedbox */
+.expand-checkedbox {
+	margin-top: 1px;
+	display: block;
+	padding: 0px;
+	height: 73px;
+	text-align: center;
+	color: #fff;
+	font-size: 1.5em;
+	border-bottom: 1px solid #D3DDE8;
+	border-bottom: 1px solid rgba(255, 255, 255, .4);
+	box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, .3)
+}
+
+.checkbox-center {
+	display: table;
+	margin-left: auto;
+	margin-right: auto
+}
+
+.toggle--checkbox {
+	display: none
+}
+
+.toggle--btn {
+	display: block;
+	margin: 0 auto;
+	font-size: 1.4em
+}
+
+.toggle--btn:hover {
+	cursor: pointer
+}
+
+.toggle--btn, .toggle--btn:after, .toggle--btn:before, .toggle--checkbox,
+	.toggle--checkbox:after, .toggle--checkbox:before, .toggle--feature,
+	.toggle--feature:after, .toggle--feature:before {
+	transition: all 250ms ease-in
+}
+
+.toggle--btn:after, .toggle--btn:before, .toggle--checkbox:after,
+	.toggle--checkbox:before, .toggle--feature:after, .toggle--feature:before
+	{
+	content: '';
+	display: block
+}
+/* 버튼 공통 */
+.toggle--daynight .toggle--btn, .toggle--like .toggle--btn {
+	position: relative;
+	height: 70px;
+	width: 125px;
+	border-radius: 70px
+}
+
+.toggle--daynight .toggle--btn:before, .toggle--like .toggle--btn:before
+	{
+	position: absolute;
+	top: 2px;
+	left: 4px;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%
+}
+/* _toggle--daynight */
+.toggle--daynight {
+	float: left
+}
+
+.toggle--daynight .toggle--btn {
+	border: 5px solid #1c1c1c;
+	background-color: #3c4145
+}
+
+.toggle--daynight .toggle--btn:before {
+	background-color: #fff;
+	border: 5px solid #e3e3c7
+}
+
+.toggle--daynight .toggle--btn:after {
+	position: absolute;
+	top: 62%;
+	left: 39px;
+	z-index: 10;
+	width: 11.2px;
+	height: 11.2px;
+	opacity: 0;
+	background-color: #fff;
+	border-radius: 50%;
+	box-shadow: #fff 0 0, #fff 3px 0, #fff 6px 0, #fff 9px 0, #fff 11px 0,
+		#fff 14px 0, #fff 16px 0, #fff 21px -1px 0 1px, #fff 16px -7px 0 -2px,
+		#fff 7px -7px 0 1px, #d3d3d3 0 0 0 4px, #d3d3d3 6px 0 0 4px, #d3d3d3
+		11px 0 0 4px, #d3d3d3 16px 0 0 4px, #d3d3d3 21px -1px 0 5px, #d3d3d3
+		16px -7px 0 1px, #d3d3d3 7px -7px 0 5px;
+	transition: opacity .1s ease-in
+}
+
+@
+keyframes starry_star { 50%{
+	background-color: rgba(255, 255, 255, .1);
+	box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px,
+		rgba(255, 255, 255, .1) 38px 18px 0 1px, #fff 32px 34px 0 0,
+		rgba(255, 255, 255, .1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px
+}
+
+}
+@
+keyframes bounceIn { 0%{
+	opacity: 0;
+	transform: scale(.3)
+}
+
+50%{
+opacity
+:
+100;transform
+:scale
+(1
+.1
+)
+}
+55%{
+transform
+:scale
+(1
+.1
+)
+}
+75%{
+transform
+:scale
+(
+.9
+)
+}
+100%{
+opacity
+:
+100;transform
+:scale(1)
+}
+}
+.toggle--daynight .toggle--feature {
+	display: block;
+	position: absolute;
+	top: 9px;
+	left: 52.5%;
+	z-index: 20;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background-color: #fff;
+	box-shadow: rgba(255, 255, 255, .1) 30px -3px 0 0,
+		rgba(255, 255, 255, .1) 12px 10px 0 -1px, #fff 38px 18px 0 1px,
+		rgba(255, 255, 255, .1) 32px 34px 0 0, #fff 20px 24px 0 -1.5px,
+		rgba(255, 255, 255, .1) 5px 38px 0 1px;
+	animation: starry_star 5s ease-in-out infinite
+}
+
+.toggle--daynight .toggle--feature:before {
+	position: absolute;
+	top: -2px;
+	left: -25px;
+	width: 18px;
+	height: 18px;
+	background-color: #fff;
+	border-radius: 50%;
+	border: 5px solid #e3e3c7;
+	box-shadow: #e3e3c7 -28px 0 0 -3px, #e3e3c7 -8px 24px 0 -2px;
+	transform-origin: -6px 130%
+}
+
+.toggle--daynight .toggle--checkbox:checked+.toggle--btn {
+	background-color: #9ee3fb;
+	border: 5px solid #86c3d7
+}
+
+.toggle--daynight .toggle--checkbox:checked+.toggle--btn:before {
+	left: 55px;
+	background-color: #ffdf6d;
+	border: 5px solid #e1c348
+}
+
+.toggle--daynight .toggle--checkbox:checked+.toggle--btn:after {
+	opacity: 100;
+	animation-name: bounceIn;
+	animation-duration: .6s;
+	animation-delay: .1s;
+	animation-fill-mode: backwards;
+	animation-timing-function: ease-in-out
+}
+
+.toggle--daynight .toggle--checkbox:checked+.toggle--btn>.toggle--feature
+	{
+	opacity: 0;
+	box-shadow: rgba(255, 255, 255, .1) 30px -3px 0 -4px,
+		rgba(255, 255, 255, .1) 12px 10px 0 -5px, #fff 38px 18px 0 -3px,
+		rgba(255, 255, 255, .1) 32px 34px 0 -4px, #fff 20px 24px 0 -5.5px,
+		rgba(255, 255, 255, .1) 5px 38px 0 -3px;
+	animation: none
+}
+
+.toggle--daynight .toggle--checkbox:checked+.toggle--btn>.toggle--feature:before
+	{
+	left: 25px;
+	transform: rotate(70deg)
+}
+/* _toggle--like */
+.toggle--like {
+	float: left;
+	margin-left: 30px
+}
+
+.toggle--like .toggle--btn {
+	border: 5px solid #0865B0;
+	background-color: #3498db
+}
+
+.toggle--like .toggle--btn:before {
+	background-color: #f2dd68;
+	border: 5px solid #e5ce5e
+}
+
+.toggle--like .toggle--feature {
+	position: absolute;
+	left: 14px;
+	top: 32%;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background-color: #995710;
+	box-shadow: 28px 0 0 0 #995710
+}
+
+.toggle--like .toggle--feature:before {
+	position: absolute;
+	left: 0;
+	top: 11px;
+	width: 36px;
+	height: 17px;
+	background-color: #995710;
+	border-radius: 36px 36px 0 0
+}
+
+.toggle--like .toggle--feature:after {
+	position: absolute;
+	left: 9px;
+	top: 21px;
+	width: 17px;
+	height: 7px;
+	background-color: #d8aa2b;
+	border-radius: 17px 17px 0 0
+}
+
+.toggle--like .toggle--checkbox:checked+.toggle--btn {
+	background-color: #e25d5d;
+	border: 5px solid #AD1000
+}
+
+.toggle--like .toggle--checkbox:checked+.toggle--btn:before {
+	transform: translate(51px, 0)
+}
+
+.toggle--like .toggle--checkbox:checked+.toggle--btn .toggle--feature {
+	transform: translate(53px, 0)
+}
+
+.toggle--like .toggle--checkbox:checked+.toggle--btn .toggle--feature:before
+	{
+	border-radius: 0 0 36px 36px;
+	top: 11px
+}
+
+.toggle--like .toggle--checkbox:checked+.toggle--btn .toggle--feature:after
+	{
+	top: 21px;
+	border-radius: 50%
+}
+/* _expand-checkedbox-content */
+#expand-checkedbox-content {
+	margin-top: 1px;
+	text-align: center;
+	color: #fff;
+	font-size: 1em;
+	border-bottom: 1px solid #D3DDE8;
+	border-bottom: 1px solid rgba(255, 255, 255, .4);
+	box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, .3)
+}
+
+#expand-checkedbox-content .youtube1 {
+	position: relative;
+	width: 33.3333%;
+	margin: auto;
+	padding-bottom: 56.25%;
+	padding-bottom: 18.25%;
+	text-align: left
+}
+
+#expand-checkedbox-content .youtube1 iframe {
+	position: absolute;
+	width: 100%;
+	height: 100%
+}
+
+.youtubedisplaynone {
+	display: none
+}
+
+.displaynone {
+	display: none
+}
+
+body {
+	background: #aaa;
+}

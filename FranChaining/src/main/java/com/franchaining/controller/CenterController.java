@@ -1,9 +1,12 @@
 package com.franchaining.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +19,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.StockService;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
+import com.franchaining.vo.StockVO;
+import com.franchaining.vo.WrapperVO;
 
 @Controller
 @RequestMapping(value = "/center/*")
@@ -36,6 +43,8 @@ public class CenterController {
 	ManagerService managerService;
 	@Inject
 	BranchService branchService;
+	@Inject
+	StockService stockService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CenterController.class);
 	
@@ -145,4 +154,90 @@ public class CenterController {
 		return "/center/stock/stock_stock";
 	}
 	
+	@RequestMapping(value = "/stock/add", method = RequestMethod.GET)
+	public String stockadd(){
+		logger.info("/stock_add");
+
+		return "/center/stock/stock_add";
+	}
+	
+	@RequestMapping(value = "/stock/add", method = RequestMethod.POST)
+	@ResponseBody
+	public String stockaddpost(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockadd");
+	    int size = ajaxMsg.length;
+		logger.info(Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][5];
+	    
+	    String resultMsg = "항목이 추가 되었습니다.";
+	    
+	    if(size>2) {
+		    for(int i=0; i<size; i++) {
+
+		    	msgSplit[i] = ajaxMsg[i].split(","); 
+		    	
+		    	StockVO sVO = new StockVO();
+		    	
+		    	sVO.setS_name(msgSplit[i][0]);
+		    	sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+		    	sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+		    	sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+		    	sVO.setS_origin(msgSplit[i][4]);
+		    	
+		    	stockVO.add(sVO);
+	 	
+				logger.info("JSP에서 받은 MSG : "+msgSplit[i][0]);
+				logger.info("JSP에서 받은 MSG : "+msgSplit[i][1]);
+				logger.info("JSP에서 받은 MSG : "+msgSplit[i][2]);
+				logger.info("JSP에서 받은 MSG : "+msgSplit[i][3]);
+				logger.info("JSP에서 받은 MSG : "+msgSplit[i][4]);
+		    }	    	
+	    } else if(size == 2) {
+	    	msgSplit[0] = ajaxMsg[0].split(","); 
+	    	
+	    	StockVO sVO = new StockVO();
+	    	
+	    	sVO.setS_name(msgSplit[0][0]);
+	    	sVO.setS_size(Integer.parseInt(msgSplit[0][1]));
+	    	sVO.setS_cost(Integer.parseInt(msgSplit[0][2]));
+	    	sVO.setS_price(Integer.parseInt(msgSplit[0][3]));
+	    	sVO.setS_origin(msgSplit[0][4]);
+	    	
+	    	stockVO.add(sVO);
+	    }
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockAdd(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
+	}
+	
+	@RequestMapping(value = "/stock/stocklist", method = RequestMethod.POST)
+	@ResponseBody
+	public Object stocklist() throws Exception{
+		logger.info("/stock_list");
+		
+		List<StockVO> stockList = stockService.stockList();
+		
+		WrapperVO rtnVO = new WrapperVO();
+		rtnVO.setAaData(stockList);
+		rtnVO.setiTotalDisplayRecords(stockService.listCount());
+		rtnVO.setiTotalRecords(stockService.listCount());
+		
+		return rtnVO;
+	}
+
 }
