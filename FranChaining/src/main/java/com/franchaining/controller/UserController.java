@@ -101,6 +101,7 @@ public class UserController {
     			
         		EmpVO bnochk = empService.userinfo(userchk.getE_no());
         		logger.info(Integer.toString(bnochk.getB_no()));
+        		logger.info(Integer.toString(bnochk.getP_no()));
         		
         		if(bnochk.getB_no()==0) {
         			if(bnochk.getP_no()==3) {
@@ -171,18 +172,20 @@ public class UserController {
 	                 model.addAttribute("msg","가입 승인이 나지 않은 아이디 입니다.");
 	                 model.addAttribute("url","/user/loginbranch");
 	        	 } else if(userchk.getM_flag()==1) {
+
+	         		logger.info(Integer.toString(bnochk.getP_no()));
 		             if(bnochk.getP_no()==1) {
 			                session.setAttribute("user", userchk);
 			                 
 			                    //로그인 성공
 			                    model.addAttribute("msg","점장님 환영합니다!");
-			                    model.addAttribute("url","/branch/master/hr/main");
+			                    model.addAttribute("url","/branch/master/main");
 			             }
 			             else {
 			            	 session.setAttribute("user", userchk);
 			                //로그인 성공
 			                model.addAttribute("msg","매니저님 환영합니다!");
-			                model.addAttribute("url","/branch/manager/hr/main");
+			                model.addAttribute("url","/branch/manager/main");
 			             }
 	        		 
 	        	 } else if(userchk.getM_flag()==2) {

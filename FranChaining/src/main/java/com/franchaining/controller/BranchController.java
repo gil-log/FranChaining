@@ -1,6 +1,7 @@
 package com.franchaining.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.BranchService;
@@ -24,6 +26,7 @@ import com.franchaining.service.ManagerService;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.StockVO;
 
 /**
  * Handles requests for the application home page.
@@ -48,11 +51,11 @@ public class BranchController {
 		return "/branch/master/hr/hr_main";
 	}
 	
-	@RequestMapping(value = "/manager/hr/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/manager/main", method = RequestMethod.GET)
 	public String manager_hr(){
-		logger.info("/manager/hr/main");
+		logger.info("/manager/main");
 
-		return "/branch/manager/hr/hr_main";
+		return "/branch/manager/manager_main";
 	}
 	
 	@RequestMapping(value = "/master/hr/administration", method = RequestMethod.GET)
@@ -78,4 +81,123 @@ public class BranchController {
 
         return "branch/master/hr/hr_administration";	
 	}
+	
+	@RequestMapping(value = "/manager/order", method = RequestMethod.GET)
+	public String manager_order(){
+		logger.info("/manager_order");
+
+		return "/branch/manager/manager_order";
+	}
+	
+	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
+	public String manager_orderlist(){
+		logger.info("/manager_orderlist");
+
+		return "/branch/manager/manager_orderlist";
+	}
+	
+	@RequestMapping(value = "/manager/modulation", method = RequestMethod.PUT)
+	@ResponseBody
+	public String stockmodulationput(HttpServletRequest request) throws Exception {
+
+		String[] ajaxMsg = request.getParameterValues("stockmodul");
+		int size = ajaxMsg.length;
+		logger.info("size : " + Integer.toString(size));
+
+		List<StockVO> stockVO = new ArrayList<StockVO>();
+
+		String[][] msgSplit = new String[size][6];
+
+		String resultMsg = "항목이 변경 되었습니다.";
+
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+
+			stockVO.add(sVO);
+
+		}
+
+		if (stockVO != null || stockVO.size() != 0) {
+			for (StockVO stock : stockVO) {
+				//stockService.stockModul(stock);
+			}
+		}
+
+		// Map<String, Object> result = new HashMap<String, Object>();
+		// result.put("stockVO", stockVO);
+
+		logger.info("Controller에서 보낸 MSG : " + resultMsg);
+
+		return resultMsg;
+	}
+
+	@RequestMapping(value = "/manager/modulation", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String stockmodulationdelete(HttpServletRequest request) throws Exception {
+
+		String[] ajaxMsg = request.getParameterValues("stockmodul");
+		int size = ajaxMsg.length;
+		logger.info("size : " + Integer.toString(size));
+
+		List<StockVO> stockVO = new ArrayList<StockVO>();
+
+		String[][] msgSplit = new String[size][6];
+
+		String resultMsg = "항목이 삭제 되었습니다.";
+
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+
+			stockVO.add(sVO);
+
+		}
+
+		if (stockVO != null || stockVO.size() != 0) {
+			for (StockVO stock : stockVO) {
+				//stockService.stockDelete(stock);
+			}
+		}
+
+		// Map<String, Object> result = new HashMap<String, Object>();
+		// result.put("stockVO", stockVO);
+
+		logger.info("Controller에서 보낸 MSG : " + resultMsg);
+
+		return resultMsg;
+	}
+	
 }

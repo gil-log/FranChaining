@@ -45,7 +45,6 @@
             width: 6rem;
             color: #858796;
        }
-
         select {
             border: none;
             background-color: transparent;
@@ -188,7 +187,6 @@
     	$('.selected').toggleClass('selected');
     	
         $(this).toggleClass('selected');
-
         var lt = $('#listTable').DataTable();
         var dt = $('#dataTable').DataTable();
         
@@ -212,7 +210,6 @@
         ]).draw(false);
         
     });
-
     });
     
     
@@ -251,32 +248,47 @@
              {data: "s_cost"},
              {data: "s_price"},
              {data: "s_origin"}
-         ]
+         ],
+         initComplete: function () {
+             this.api().columns([5]).every( function () {
+                 var column = this;
+                 var select = $('<select><option value=""></option></select>') 
+                 .appendTo($(column.header()))
+                     .on( 'change', function () {
+                         var val = $.fn.dataTable.util.escapeRegex(
+                             $(this).val()
+                         );
+  
+                         column
+                             .search( val ? '^'+val+'$' : '', true, false )
+                             .draw();
+                     } );
+  
+                 column.data().unique().sort().each( function ( d, j ) {
+                     select.append( '<option value="'+d+'">'+d+'</option>' )
+                 } );
+             } );
+         }
 
+          
      });
     	
     }
         $(document).ready(function() {
-
             var t = $('#dataTable').DataTable();
             t.clear().draw(false);
         	listtable();
         	
         	
-
     var t = $('#dataTable').DataTable();
-
 } );
         
-
     function modulation() {
      
         var l = $('#dataTable tbody tr').length;
         
         l *= 1;
-
         var url = "modulation";    // Controller로 보내고자 하는 URL
-
         const sendVar = new Array(l);
         
         for(var i = 0; i < sendVar.length; i++){
@@ -295,7 +307,6 @@
         	sendVar[i][5] = $("#s_no").val();
  
         }
-
         $.ajax({
             url : url,                    // 전송 URL
             type : 'PUT',                // GET or POST 방식
@@ -316,7 +327,6 @@
                 console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
             }
         });
-
     }
     
     function remove() {
@@ -324,9 +334,7 @@
         var l = $('#dataTable tbody tr').length;
         
         l *= 1;
-
         var url = "modulation";    // Controller로 보내고자 하는 URL
-
         const sendVar = new Array(l);
         
         for(var i = 0; i < sendVar.length; i++){
@@ -345,7 +353,6 @@
         	sendVar[i][5] = $("#s_no").val();
  
         }
-
         $.ajax({
             url : url,                    // 전송 URL
             type : 'DELETE',                // GET or POST 방식
@@ -366,7 +373,6 @@
                 console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
             }
         });
-
     }
     
     </script>
