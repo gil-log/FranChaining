@@ -22,6 +22,8 @@
 
 	
 		$(document).ready(function(){
+			
+			
 
 			if(${msg==false}){
 				alert("회원가입 실패!.");
@@ -103,9 +105,28 @@
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text" class="form-control form-control-user" id="id" name="id" placeholder="ID">
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-3">
                     <input type="number" class="form-control form-control-user" id="b_no" name="b_no" placeholder="Branch">
                   </div>
+                  <div class="col-sm-3">
+                  
+                  							
+                   <div class="dropdown mb-4">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 		등급
+                    </button>
+                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                                                          
+                     <input type="button" class="dropdown-item" id="ok" value="점장" />   
+                     <input type="button" class="dropdown-item" id="no" value="매니저" />    
+
+                    </div>
+                    
+                  </div>
+                  <div style="display:none;">
+                    <input type="number" class="form-control form-control-user" id="p_no" name="p_no">
+                  </div>
+                  </div>                  
                 </div>
                 
                 <div class="form-group row">
@@ -162,6 +183,35 @@
 
   <!-- Custom scripts for all pages-->
   <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+
+  
+  <script>
+$(document).ready(function(){
+//버튼 클릭시 Row 값 가져오기
+$(".dropdown-item").click(function(){ 
+	
+	var isAcception = $(this).attr('id'); 
+
+	if(isAcception=="ok"||isAcception=="no"){
+	
+	var str = ""
+	var tdArr = new Array();	// 배열 선언
+	var checkBtn = $(this);
+	var m_flag = $(this).val();
+	
+	if(m_flag=="점장"){
+		$("#p_no").val(1);
+	} else{
+		$("#p_no").val(2);
+	}
+	}
+	$(this).parent().hide();
+	$("#dropdownMenuButton").text(m_flag);
+	console.log("가입p_no : "+$("#p_no").val());
+	
+});
+})
+</script>
 
 </body>
 

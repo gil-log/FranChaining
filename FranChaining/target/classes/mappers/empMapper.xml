@@ -86,4 +86,9 @@
 		   WHERE B_NO = #{b_no}
 	</select>
     
+    <select id="AlreadyBranch" resultType="int">
+		SELECT COUNT(*)
+		   FROM EMP
+		   WHERE B_NO = #{b_no} AND P_NO = 1
+	</select>
 </mapper>

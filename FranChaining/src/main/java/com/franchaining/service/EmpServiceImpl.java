@@ -37,6 +37,11 @@ public class EmpServiceImpl implements EmpService{
 		return dao.EmpCount(e_no);
 	}
 
+	@Override
+	public int AlreadyBranch(int b_no) throws Exception {
+		return dao.AlreadyBranch(b_no);
+	}
+
 	
 	
 }

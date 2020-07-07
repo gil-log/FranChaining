@@ -90,7 +90,28 @@
                     <tr>
                     <td><c:out value="${list.e_no}"/></td>
                       <td><c:out value="${list.e_name}"/></td>
-                      <td><c:out value="${list.p_no}"/></td>
+                      <td>
+                      <c:if test="${p_no == 0}">
+                      	정직원
+                      </c:if>
+                      <c:if test="${p_no == 1}">
+                      	점장
+                      </c:if>
+                      <c:if test="${p_no == 2}">
+                      	매니저
+                      </c:if>
+                      <c:if test="${p_no == 3}">
+                      	인사 관리
+                      </c:if>
+                      <c:if test="${p_no == 4}">
+                      	재고 관리
+                      </c:if>
+                      <c:if test="${p_no == 5}">
+                      	회계 관리
+                      </c:if>
+                      
+                      
+                      </td>
                       <td><c:out value="${list.hire}"/></td>
                                  
                       <td>

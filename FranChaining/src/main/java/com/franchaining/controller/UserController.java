@@ -152,6 +152,8 @@ public class UserController {
 
 	          
 	       }else {
+	    	   
+	    	   
 	          EmpVO bnochk = empService.userinfo(userchk.getE_no());
 	          logger.info(Integer.toString(bnochk.getB_no()));
 	          if(bnochk.getB_no()==0) {
@@ -162,29 +164,36 @@ public class UserController {
 	          }
 	          
 	          else {
-	             if(bnochk.getP_no()==1) {
-	                session.setAttribute("user", userchk);
-	                 
-	                    //로그인 성공
-	                    model.addAttribute("msg","로그인 성공!");
-	                    model.addAttribute("url","/branch/master/hr/main");
-	             }
-	             else {
-	             
-	             session.setAttribute("user", userchk);
-	             
-	                //로그인 성공
-	                model.addAttribute("msg","로그인 성공!");
-	                model.addAttribute("url","/branch/manager/hr/main");
-	             }
+	        	  
+	        	 if(userchk.getM_flag()==0) {
+	     			//로그인 실패(가입 대기 상태인 아이디라서)
+	     			session.setAttribute("user", null);
+	                 model.addAttribute("msg","가입 승인이 나지 않은 아이디 입니다.");
+	                 model.addAttribute("url","/user/loginbranch");
+	        	 } else if(userchk.getM_flag()==1) {
+		             if(bnochk.getP_no()==1) {
+			                session.setAttribute("user", userchk);
+			                 
+			                    //로그인 성공
+			                    model.addAttribute("msg","점장님 환영합니다!");
+			                    model.addAttribute("url","/branch/master/hr/main");
+			             }
+			             else {
+			            	 session.setAttribute("user", userchk);
+			                //로그인 성공
+			                model.addAttribute("msg","매니저님 환영합니다!");
+			                model.addAttribute("url","/branch/manager/hr/main");
+			             }
+	        		 
+	        	 } else if(userchk.getM_flag()==2) {
+	 				model.addAttribute("msg","승인이 거부된 계정 입니다.");
+	                model.addAttribute("url","/user/loginbranch");
+	        	 }
 	          }
-	            
-	         
 	       }       
 	       return "redirect";   
 	   }
 
-	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public void logoutget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("logoutget");
@@ -309,21 +318,30 @@ public class UserController {
 		logger.info("regbranchpost");
 
         	RegVO branchchk = branchService.b_no_check(regVO);
+        	int alreadyBranch = empService.AlreadyBranch(regVO.getB_no());
         	
         	if(branchchk == null) {
-        		//로그인 실패
+        		//브런치 없음
                 model.addAttribute("msg","지점번호를 확인 해주세요!");
                 model.addAttribute("url","/user/regbranch");
 
         		
         	} else {
-        		empService.register(regVO);
-    			managerService.register(regVO);
-    			
-                //로그인 성공
-                model.addAttribute("msg","회원가입 성공!");
-                model.addAttribute("url","/user/loginbranch");
-
+        		
+        		if(alreadyBranch == 0 || regVO.getP_no()==2) {
+            		empService.register(regVO);
+        			managerService.register(regVO);
+        			
+                    //해당 지점 코드에 가입된 계정이 없거나 매니저 계정 가입 신청 이므로
+                    model.addAttribute("msg","회원가입 성공!");
+                    model.addAttribute("url","/user/loginbranch");
+        		} else {
+        			
+                    model.addAttribute("msg","해당 지점에 가입된 점장 계정이 이미 존재합니다.");
+                    model.addAttribute("url","/user/regbranch");
+        			
+        		}
+                
         	}
             
         return "redirect";	

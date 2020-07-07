@@ -48,6 +48,7 @@
 					$("#p_no").val(5);
 				}
 				
+				
 				}
 			});
 			
@@ -95,7 +96,6 @@
 						return false;
 					}
 				
-
 					$("#e_name").val("");
 					$("#phone1").val(0);
 					$("#phone2").val(0);
@@ -176,8 +176,11 @@
                   </div>
                 </div>
                 
-                <div class="form-group row">
-                                  <div class="col-sm-8">
+                <div id = "soonHidden">
+                
+                <div class="form-group row" >
+                
+                  <div class="col-sm-8">
                   <input type="text" class="form-control form-control-user" id="e_name" name="e_name" placeholder="Name">
                   </div>
                   
@@ -214,6 +217,9 @@
                     <div class="col-sm-4">
                     <input type="number" class="form-control form-control-user" id="phone3" name="phone3" placeholder="Phone">
                   </div>
+                </div>
+                
+                
                 </div>
                 
                  <div class="form-group row">

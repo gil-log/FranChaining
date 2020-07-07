@@ -16,4 +16,6 @@ public interface EmpService {
 	public List<RegwaitVO> regwait(List<ManagerVO> regwaitlist) throws Exception;
 	
 	public int EmpCount(int e_no) throws Exception;
+	
+	public int AlreadyBranch(int b_no) throws Exception;
 }
