@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>재고관리-품목추가</title>
+  <title>재고관리-수량조정</title>
 
   <!-- Custom fonts for this template -->
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -38,7 +38,7 @@
         #dataTable_paginate {
             display: none;
         }
-                
+        
         input {
             border: none;
             background-color: transparent;
@@ -84,7 +84,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">재고 품목 추가</h6>
+              <h6 class="m-0 font-weight-bold text-primary">재고 수량 조정</h6>
             </div>
             <div class="card-body">
 
@@ -127,12 +127,12 @@
                     </span>
                     <span class="text">항목 추가</span>
                   </button>
-
+                  
                   <button class="btn btn-danger btn-icon-split" id="itemDel">
 					<span class="icon text-white-50"> <i class="fas fa-trash"></i>
 					</span> <span class="text">선택 삭제</span>
 				</button>
-				                
+                
                 <button class="btn btn-success btn-icon-split" onclick="submit();">
                     <span class="icon text-white-50">
                       <i class="fas fa-check"></i>
@@ -179,16 +179,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        //테이블 row 선택
-        $('#dataTable tbody').on('click', 'tr', function() {
-            $(this).toggleClass('selected');
-        });
-        $('#itemDel').click(function() {
-            var t = $('#dataTable').DataTable();
-            t.rows('.selected').remove().draw(false);
-            
-        });
-        });
+    //테이블 row 선택
+    $('#dataTable tbody').on('click', 'tr', function() {
+        $(this).toggleClass('selected');
+    });
+    $('#itemDel').click(function() {
+        var t = $('#dataTable').DataTable();
+        t.rows('.selected').remove().draw(false);
+        
+    });
+    });
     
     
     
@@ -232,9 +232,14 @@
     	
     }
         $(document).ready(function() {
+
         	
         	listtable();
-
+        	
+        	
+        	
+        	
+        	
     var t = $('#dataTable').DataTable(
     );
    
@@ -271,13 +276,8 @@
         
         var url = "add";    // Controller로 보내고자 하는 URL
 
-        const sendVar = new Array(l);
+        const sendVar = new Array(Array(), Array());
         
-        for(var i = 0; i < sendVar.length; i++){
-        	sendVar[i] = new Array(5);
-        }
-        
-        console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
         for(var i = 0; i < l; i++) {
         	
         	sendVar[i][0] = $("input[name=s_name]:eq(" + i + ")").val();
@@ -286,7 +286,6 @@
         	sendVar[i][3] = $("input[name=s_price]:eq(" + i + ")").val();
         	sendVar[i][4] = $("input[name=s_origin]:eq(" + i + ")").val();
  
-        	console.log("ajax 배열 : " + sendVar[i][0]+sendVar[i][1]+sendVar[i][2]+sendVar[i][3]+sendVar[i][4]);
         }
 
         var list = []; //ArrayList 값을 받을 변수를 선언

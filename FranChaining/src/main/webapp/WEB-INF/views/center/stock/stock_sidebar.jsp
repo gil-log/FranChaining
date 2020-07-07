@@ -70,7 +70,7 @@
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="stock">수량 조정</a>
+            <a class="collapse-item" href="modulation">수량 조정</a>
             <a class="collapse-item" href="add">품목 추가</a>
           </div>
         </div>

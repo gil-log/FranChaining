@@ -147,11 +147,11 @@ public class CenterController {
 		return "/center/stock/stock_orderpage";
 	}
 
-	@RequestMapping(value = "/stock/stock", method = RequestMethod.GET)
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.GET)
 	public String stock(){
-		logger.info("/stock_stock");
+		logger.info("/stock_modulation");
 
-		return "/center/stock/stock_stock";
+		return "/center/stock/stock_modulation";
 	}
 	
 	@RequestMapping(value = "/stock/add", method = RequestMethod.GET)
@@ -167,7 +167,7 @@ public class CenterController {
 	        
 	    String[] ajaxMsg = request.getParameterValues("stockadd");
 	    int size = ajaxMsg.length;
-		logger.info(Integer.toString(size));
+		logger.info("size : "+ Integer.toString(size));
 	    
 	    List<StockVO> stockVO = new ArrayList<StockVO>();
 	    
@@ -175,40 +175,29 @@ public class CenterController {
 	    
 	    String resultMsg = "항목이 추가 되었습니다.";
 	    
-	    if(size>2) {
-		    for(int i=0; i<size; i++) {
+		for (int i = 0; i < size; i++) {
 
-		    	msgSplit[i] = ajaxMsg[i].split(","); 
-		    	
-		    	StockVO sVO = new StockVO();
-		    	
-		    	sVO.setS_name(msgSplit[i][0]);
-		    	sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
-		    	sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
-		    	sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
-		    	sVO.setS_origin(msgSplit[i][4]);
-		    	
-		    	stockVO.add(sVO);
-	 	
-				logger.info("JSP에서 받은 MSG : "+msgSplit[i][0]);
-				logger.info("JSP에서 받은 MSG : "+msgSplit[i][1]);
-				logger.info("JSP에서 받은 MSG : "+msgSplit[i][2]);
-				logger.info("JSP에서 받은 MSG : "+msgSplit[i][3]);
-				logger.info("JSP에서 받은 MSG : "+msgSplit[i][4]);
-		    }	    	
-	    } else if(size == 2) {
-	    	msgSplit[0] = ajaxMsg[0].split(","); 
-	    	
-	    	StockVO sVO = new StockVO();
-	    	
-	    	sVO.setS_name(msgSplit[0][0]);
-	    	sVO.setS_size(Integer.parseInt(msgSplit[0][1]));
-	    	sVO.setS_cost(Integer.parseInt(msgSplit[0][2]));
-	    	sVO.setS_price(Integer.parseInt(msgSplit[0][3]));
-	    	sVO.setS_origin(msgSplit[0][4]);
-	    	
-	    	stockVO.add(sVO);
-	    }
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+
+			stockVO.add(sVO);
+
+
+		}
 
 	    
 	    if(stockVO !=null || stockVO.size() != 0) {
@@ -238,6 +227,13 @@ public class CenterController {
 		rtnVO.setiTotalRecords(stockService.listCount());
 		
 		return rtnVO;
+	}
+	
+	@RequestMapping(value = "/stock/test", method = RequestMethod.GET)
+	public String stest(){
+		logger.info("/stock_test");
+
+		return "/center/stock/test";
 	}
 
 }
