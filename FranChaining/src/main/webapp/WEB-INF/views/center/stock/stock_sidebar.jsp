@@ -27,7 +27,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">가입승인</sup></div>
+        <div class="sidebar-brand-text mx-3">재고관리</sup></div>
       </a>
 
       <!-- Divider -->
