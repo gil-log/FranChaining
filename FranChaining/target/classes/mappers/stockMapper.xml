@@ -35,5 +35,22 @@
 	                 		   
 	                 		   
     </insert>
-    
+
+	<!-- 항목 수정 -->
+	<update id="stockModul" parameterType="com.franchaining.vo.StockVO">
+		UPDATE STOCK SET 
+		S_NAME = #{s_name},
+		S_PRICE = #{s_price},
+		S_ORIGIN = #{s_origin},
+		S_SIZE = #{s_size},
+		S_COST = #{s_cost}
+		
+		WHERE S_NO = #{s_no}
+	</update>   
+	
+	<!-- 항목 삭제 -->
+	<delete id="stockDelete" parameterType="com.franchaining.vo.StockVO">
+		DELETE FROM STOCK
+		WHERE S_NO = #{s_no}
+	</delete> 
 </mapper>

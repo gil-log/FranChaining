@@ -30,6 +30,16 @@ public class StockDAOImpl implements StockDAO{
 		sqlSession.insert("stockMapper.stockAdd", stockVO);
 		
 	}
+
+	@Override
+	public void stockModul(StockVO stockVO) throws Exception {
+		sqlSession.update("stockMapper.stockModul", stockVO);
+	}
+
+	@Override
+	public void stockDelete(StockVO stockVO) throws Exception {
+		sqlSession.delete("stockMapper.stockDelete", stockVO);
+	}
 	
 
 	

@@ -100,10 +100,14 @@
                       <th>공급처</th>
                     </tr>
                   </thead>
+                  <tbody>
+                  </tbody>
 
                 </table>
-                 
+              
               </div>
+              
+
               
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -120,25 +124,21 @@
                 </table>
                  
               </div>
-                
-                 <button class="btn btn-primary btn-icon-split" id="itemAdd" onclick="myfunc();">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-plus"></i>
-                    </span>
-                    <span class="text">항목 추가</span>
-                  </button>
+              
+                  <div style="display:none;">
+                    <input type="number" class="form-control form-control-user" id="s_no">                                      
+                  </div>
                   
-                  <button class="btn btn-danger btn-icon-split" id="itemDel">
+                 <button class="btn btn-info btn-icon-split" id="itemModulation" onclick="modulation();">
+					<span class="icon text-white-50"> <i class="fas fa-info"></i>
+					</span> <span class="text">수정</span>
+				</button>                  
+                  
+                  <button class="btn btn-danger btn-icon-split" id="itemDel" onclick="remove();">
 					<span class="icon text-white-50"> <i class="fas fa-trash"></i>
-					</span> <span class="text">선택 삭제</span>
+					</span> <span class="text">삭제</span>
 				</button>
-                
-                <button class="btn btn-success btn-icon-split" onclick="submit();">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-check"></i>
-                    </span>
-                    <span class="text">작성 완료</span>
-                </button>
+
             </div>
           </div>
 
@@ -183,11 +183,36 @@
     $('#dataTable tbody').on('click', 'tr', function() {
         $(this).toggleClass('selected');
     });
-    $('#itemDel').click(function() {
-        var t = $('#dataTable').DataTable();
-        t.rows('.selected').remove().draw(false);
+    $('#listTable tbody').on('click', 'tr', function() {
+    	
+    	$('.selected').toggleClass('selected');
+    	
+        $(this).toggleClass('selected');
+
+        var lt = $('#listTable').DataTable();
+        var dt = $('#dataTable').DataTable();
+        
+        
+        dt.clear().draw(false);
+        
+        
+        var this_row = lt.rows(this).data();
+        $("#s_no").val(this_row[0].s_no);
+        
+        console.log("s_no : " + $("#s_no").val());
+        
+        dt.row.add([
+        	
+            "<input type='text' id='s_name' name='s_name' value="+this_row[0].s_name+" style='border:none; background-color:transparent;width:6rem'>",
+            "<input type='number' id='s_size' name='s_size' value="+this_row[0].s_size+" style='border:none; background-color:transparent;width:6rem;'>",
+            "<input type='number' id='s_cost' name='s_cost' value="+this_row[0].s_cost+" style='border:none; background-color:transparent;width:6rem;'>",
+            "<input type='number' id='s_price' name='s_price' value="+this_row[0].s_price+" style='border:none; background-color:transparent;width:6rem;'>",
+            "<input type='text' id='s_origin' name='s_origin' value="+this_row[0].s_origin+" style='border:none; background-color:transparent;width:6rem;'>"
+            
+        ]).draw(false);
         
     });
+
     });
     
     
@@ -233,50 +258,32 @@
     }
         $(document).ready(function() {
 
-        	
+            var t = $('#dataTable').DataTable();
+            t.clear().draw(false);
         	listtable();
         	
         	
-        	
-        	
-        	
-    var t = $('#dataTable').DataTable(
-    );
-   
-    $('#itemAdd').on( 'click', function () {
-        t.row.add( [
-            "<input type='text' id='s_name' name='s_name' style='border:none; background-color:transparent;width:6rem'>",
-            "<input type='number' id='s_size' name='s_size' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='number' id='s_cost' name='s_cost' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='number' id='s_price' name='s_price' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='text' id='s_origin' name='s_origin' style='border:none; background-color:transparent;width:6rem;'>"
-        ] ).draw( false );
-    } );
-    $('#itemAdd').click();
+
+    var t = $('#dataTable').DataTable();
 
 } );
         
 
-    function submit() {
+    function modulation() {
      
         var l = $('#dataTable tbody tr').length;
         
-        //alert(ids);
         l *= 1;
-        /*
-        for(var i = 0; i < l; i++) {
-            alert($("input[name=s_name]:eq(" + i + ")").val() + ", " + 
-            		$("input[name=s_size]:eq(" + i + ")").val() + ", " + 
-            		$("input[name=s_cost]:eq(" + i + ")").val() + ", " + 
-            		$("input[name=s_price]:eq(" + i + ")").val() + ", " + 
-            		$("input[name=s_origin]:eq(" + i + ")").val());
-            
-        }
-        */
-        
-        var url = "add";    // Controller로 보내고자 하는 URL
 
-        const sendVar = new Array(Array(), Array());
+        var url = "modulation";    // Controller로 보내고자 하는 URL
+
+        const sendVar = new Array(l);
+        
+        for(var i = 0; i < sendVar.length; i++){
+        	sendVar[i] = new Array(6);
+        }
+        
+        console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
         
         for(var i = 0; i < l; i++) {
         	
@@ -285,17 +292,16 @@
         	sendVar[i][2] = $("input[name=s_cost]:eq(" + i + ")").val();
         	sendVar[i][3] = $("input[name=s_price]:eq(" + i + ")").val();
         	sendVar[i][4] = $("input[name=s_origin]:eq(" + i + ")").val();
+        	sendVar[i][5] = $("#s_no").val();
  
         }
 
-        var list = []; //ArrayList 값을 받을 변수를 선언
-        
         $.ajax({
             url : url,                    // 전송 URL
-            type : 'POST',                // GET or POST 방식
+            type : 'PUT',                // GET or POST 방식
             traditional : true,
             data : {
-                stockadd : sendVar        // 보내고자 하는 data 변수 설정
+                stockmodul : sendVar        // 보내고자 하는 data 변수 설정
             },
             
             //Ajax 성공시 호출 
@@ -313,6 +319,55 @@
 
     }
     
+    function remove() {
+        
+        var l = $('#dataTable tbody tr').length;
+        
+        l *= 1;
+
+        var url = "modulation";    // Controller로 보내고자 하는 URL
+
+        const sendVar = new Array(l);
+        
+        for(var i = 0; i < sendVar.length; i++){
+        	sendVar[i] = new Array(6);
+        }
+        
+        console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
+        
+        for(var i = 0; i < l; i++) {
+        	
+        	sendVar[i][0] = $("input[name=s_name]:eq(" + i + ")").val();
+        	sendVar[i][1] = $("input[name=s_size]:eq(" + i + ")").val();
+        	sendVar[i][2] = $("input[name=s_cost]:eq(" + i + ")").val();
+        	sendVar[i][3] = $("input[name=s_price]:eq(" + i + ")").val();
+        	sendVar[i][4] = $("input[name=s_origin]:eq(" + i + ")").val();
+        	sendVar[i][5] = $("#s_no").val();
+ 
+        }
+
+        $.ajax({
+            url : url,                    // 전송 URL
+            type : 'DELETE',                // GET or POST 방식
+            traditional : true,
+            data : {
+                stockmodul : sendVar        // 보내고자 하는 data 변수 설정
+            },
+            
+            //Ajax 성공시 호출 
+            success : function(msg){
+            	var t = $('#dataTable').DataTable();
+            	t.rows().remove().draw(false);
+                listtable();
+            },
+         
+            //Ajax 실패시 호출
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+            }
+        });
+
+    }
     
     </script>
 </body>

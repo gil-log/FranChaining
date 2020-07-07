@@ -148,10 +148,118 @@ public class CenterController {
 	}
 
 	@RequestMapping(value = "/stock/modulation", method = RequestMethod.GET)
-	public String stock(){
+	public String stockmodulationget(){
 		logger.info("/stock_modulation");
 
 		return "/center/stock/stock_modulation";
+	}
+		
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.PUT)
+	@ResponseBody
+	public String stockmodulationput(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockmodul");
+	    int size = ajaxMsg.length;
+		logger.info("size : "+ Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][6];
+	    
+	    String resultMsg = "항목이 변경 되었습니다.";
+	    
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+			
+			stockVO.add(sVO);
+
+		}
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockModul(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
+	}
+	
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String stockmodulationdelete(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockmodul");
+	    int size = ajaxMsg.length;
+		logger.info("size : "+ Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][6];
+	    
+	    String resultMsg = "항목이 삭제 되었습니다.";
+	    
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+			
+			stockVO.add(sVO);
+
+		}
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockDelete(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
 	}
 	
 	@RequestMapping(value = "/stock/add", method = RequestMethod.GET)

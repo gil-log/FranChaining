@@ -32,4 +32,14 @@ public class StockServiceImpl implements StockService {
 	public void stockAdd(StockVO stockVO) throws Exception {
 		dao.stockAdd(stockVO);
 	}
+
+	@Override
+	public void stockModul(StockVO stockVO) throws Exception {
+		dao.stockModul(stockVO);
+	}
+
+	@Override
+	public void stockDelete(StockVO stockVO) throws Exception {
+		dao.stockDelete(stockVO);
+	}
 }

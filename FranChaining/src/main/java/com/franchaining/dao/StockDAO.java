@@ -11,4 +11,8 @@ public interface StockDAO {
 	public int listCount() throws Exception;
 	
 	public void stockAdd(StockVO stockVO) throws Exception;
+	
+	public void stockModul(StockVO stockVO) throws Exception;
+	
+	public void stockDelete(StockVO stockVO) throws Exception;
 }
