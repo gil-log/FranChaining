@@ -4,11 +4,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="stockMapper">
 
-	<!-- branch 체크 -->
-	<select id="b_no_check" resultType="com.franchaining.vo.RegVO">
-        select b_no 
-        from branch
-        where b_no = #{b_no}
-    </select>
-    
+	<!-- stock 정보 -->
+	<select id="stockinfo" resultType="com.franchaining.vo.StockVO">
+	select s_no,
+	       s_name,
+	       s_price,
+	       s_origin
+	from stock
+	where s_name='패티'
+	</select>
+	
+	<!-- stock 정보 가져오기 -->
+	<select id="s_name_info" resultType="com.franchaining.vo.StockVO">
+	select s_no,
+		   s_name,
+		   s_price,
+		   s_origin,
+		   s_size,
+		   s_cost
+	from stock
+	</select>
 </mapper>

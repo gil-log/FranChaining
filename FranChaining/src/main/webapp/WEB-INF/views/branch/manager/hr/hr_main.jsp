@@ -30,7 +30,7 @@
 	<div id="wrapper">
 
 		<!-- 사이드바 -->
-		<%@include file="hr_sidebar.jsp"%>
+		<%@include file="master_sidebar.jsp"%>
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">

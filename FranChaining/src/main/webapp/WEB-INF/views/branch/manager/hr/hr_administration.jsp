@@ -31,7 +31,7 @@
   <div id="wrapper">
 
 
-			<%@include file="hr_sidebar.jsp"%>
+			<%@include file="master_sidebar.jsp"%>
 
 
     <!-- Content Wrapper -->

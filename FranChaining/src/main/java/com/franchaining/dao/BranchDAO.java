@@ -1,5 +1,6 @@
 package com.franchaining.dao;
 
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.RegVO;
 
 public interface BranchDAO {
@@ -8,4 +9,5 @@ public interface BranchDAO {
 	
 	public int BranchCount() throws Exception;
 
+	public BranchVO branchinfo(BranchVO branchVO) throws Exception;
 }

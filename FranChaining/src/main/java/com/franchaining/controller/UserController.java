@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
@@ -134,7 +135,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/loginbranch", method = RequestMethod.POST)
-	   public String loginbranchpost(ManagerVO managerVO, Model model, HttpServletRequest request) throws Exception {
+	   public String loginbranchpost(ManagerVO managerVO, BranchVO branchVO, Model model, HttpServletRequest request) throws Exception {
 	      logger.info("loginbranchpost");
 
 	      logger.info(managerVO.getId());
@@ -142,6 +143,7 @@ public class UserController {
 
 	      HttpSession session = request.getSession();
 	      
+	      BranchVO branchinfo = branchService.branchinfo(branchVO);
 	      ManagerVO userchk = managerService.login(managerVO);
 	      
 	       if(userchk == null) {
@@ -156,6 +158,7 @@ public class UserController {
 	          logger.info(Integer.toString(bnochk.getB_no()));
 	          if(bnochk.getB_no()==0) {
 	             logger.info(Integer.toString(bnochk.getB_no()));
+	             session.setAttribute("userinfo", bnochk);
 	             model.addAttribute("msg","본사로 로그인을 해주세요!");
 	                model.addAttribute("url","/franchaining");
 	         
@@ -164,18 +167,22 @@ public class UserController {
 	          else {
 	             if(bnochk.getP_no()==1) {
 	                session.setAttribute("user", userchk);
+	                session.setAttribute("userinfo", bnochk);
+	                session.setAttribute("branch", branchinfo);
 	                 
 	                    //로그인 성공
 	                    model.addAttribute("msg","로그인 성공!");
-	                    model.addAttribute("url","/branch/master/hr/main");
+	                    model.addAttribute("url","/branch/master/main");
 	             }
 	             else {
 	             
 	             session.setAttribute("user", userchk);
+	             session.setAttribute("userinfo", bnochk);
+	             session.setAttribute("branch", branchinfo);
 	             
 	                //로그인 성공
 	                model.addAttribute("msg","로그인 성공!");
-	                model.addAttribute("url","/branch/manager/hr/main");
+	                model.addAttribute("url","/branch/manager/main");
 	             }
 	          }
 	            
@@ -275,11 +282,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/regbranch", method = RequestMethod.POST)
-	public String regbranchpost(RegVO regVO, Model model) throws Exception {
+	public String regbranchpost(RegVO regVO, BranchVO branchVO, Model model) throws Exception {
 		logger.info("regbranchpost");
 
         	RegVO branchchk = branchService.b_no_check(regVO);
-        	
+        	BranchVO branchinfo = branchService.branchinfo(branchVO);
         	if(branchchk == null) {
         		//로그인 실패
                 model.addAttribute("msg","지점번호를 확인 해주세요!");
@@ -292,7 +299,7 @@ public class UserController {
     			
                 //로그인 성공
                 model.addAttribute("msg","회원가입 성공!");
-                model.addAttribute("url","/user/login");
+                model.addAttribute("url","/user/loginbranch");
 
         	}
             

@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.RegVO;
 
 @Repository
@@ -21,6 +22,11 @@ public class BranchDAOImpl implements BranchDAO {
 	@Override
 	public int BranchCount() throws Exception {
 		return sqlSession.selectOne("branchMapper.BranchCount");
+	}
+
+	@Override
+	public BranchVO branchinfo(BranchVO branchVO) throws Exception {
+		return sqlSession.selectOne("branchMapper.branchinfo", branchVO);
 	}
 
 }
