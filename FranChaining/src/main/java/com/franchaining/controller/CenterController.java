@@ -341,7 +341,7 @@ public class CenterController {
 	public String stest(){
 		logger.info("/stock_test");
 
-		return "/center/stock/test";
+		return "/center/stock/stock_orderlist";
 	}
 
 }
