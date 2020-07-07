@@ -236,6 +236,16 @@ input {
         format : "yyyy-mm-dd",
     });
         $(document).ready(function() {
+        	//테이블 row 선택
+            $('#dataTable tbody').on('click', 'tr', function() {
+                $(this).toggleClass('selected');
+            });
+            $('#itemDel').click(function() {
+                var t = $('#dataTable').DataTable();
+                t.rows('.selected').remove().draw(false);
+                
+            });
+            
     var t = $('#orderTable').DataTable();
    
     $('#itemAdd').on( 'click', function () {

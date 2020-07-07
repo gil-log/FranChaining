@@ -109,7 +109,7 @@
 										</tr>
 									</tfoot>
 									<tbody>
-										<!-- 
+										
 										<tr>
 											<td><a onclick="showpage();">2006220001</a></td>
 											<td>C, D, E, F</td>
@@ -142,39 +142,8 @@
 											<td style="color: orangered">심사중</td>
 											<td></td>
 										</tr>
-										 -->
-										<c:forEach items="${list}" var="list">
-
-											<c:set var="order_date" value="${list.o_date}" />
-											<c:set var="p_no" value="${list.p_no}" />
-											<c:set var="regdate" value="${list.hire}" />
-
-											<tr>
-												<td><c:out value="${list.e_no}" /></td>
-												<td><c:out value="${list.e_name}" /></td>
-												<td><c:out value="${list.p_no}" /></td>
-												<td><c:out value="${list.hire}" /></td>
-
-												<td>
-													<div class="dropdown mb-4">
-														<button class="btn btn-primary dropdown-toggle"
-															type="button" id="dropdownMenuButton"
-															data-toggle="dropdown" aria-haspopup="true"
-															aria-expanded="false">선택</button>
-														<div class="dropdown-menu animated--fade-in"
-															aria-labelledby="dropdownMenuButton">
-
-															<input type="button" class="dropdown-item" id="ok"
-																value="승인" /> <input type="button"
-																class="dropdown-item" id="no" value="거부" />
-
-														</div>
-
-													</div>
-												</td>
-											</tr>
-
-										</c:forEach>
+										 
+										
 
 									</tbody>
 								</table>
@@ -193,7 +162,6 @@
 							<div class="modal-header"></div>
 							<div class="modal-body">
 								<%@include file="manager_orderpage.jsp"%>
-
 							</div>
 
 						</div>

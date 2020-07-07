@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderMapper">
+
+	<!-- order 목록 가져오기 -->
+	<select id="orderlist" resultType="com.franchaining.vo.OrderVO">
+        select orders.o_date, listagg(stock.s_name, ',') within group(order by stock.s_no) as list, orders.o_flag, orders.o_deadline   
+		from orders, stock 
+		where orders.s_no = stock.s_no and o_flag != 0 
+		and b_no = #{b_no} 
+		group by orders.o_date, orders.o_flag, orders.o_deadline
+		order by orders.o_date
+    </select>
+    
+	<!-- order 테이블에서 재고수량 가져오기 -->
+	<select id="viewlist" resultType="com.franchaining.vo.OrderVO">
+        select s_no, o_amount
+        from order
+        where o_flag = 0 and b_no = #{b_no}
+    </select>
+
+</mapper>

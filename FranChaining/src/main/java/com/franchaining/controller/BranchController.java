@@ -21,8 +21,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.OrderService;
+import com.franchaining.service.StockService;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
+import com.franchaining.vo.OrderVO;
 import com.franchaining.vo.RegVO;
 
 /**
@@ -38,6 +41,10 @@ public class BranchController {
 	ManagerService managerService;
 	@Inject
 	BranchService branchService;
+	@Inject
+	StockService stockService;
+	@Inject
+	OrderService orderService;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(BranchController.class);
 	
@@ -104,7 +111,8 @@ public class BranchController {
 	   @RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
 	   public String managerOrderListget(Model model) throws Exception {
 	      logger.info("mgrOLget");
-
+	      List<OrderVO> o_list = orderService.orderList();
+	      
 	      return "branch/manager/manager_orderlist";
 	   }
 	
