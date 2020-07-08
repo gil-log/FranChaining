@@ -70,9 +70,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" role="button" href="acception"  aria-expanded="true" >
+        <a class="nav-link" role="button" href="hr_branchModified"  aria-expanded="true" >
           <i class="fas fa-fw fa-wrench"></i>
-          <span>사원 관리</span>
+          <span>지점 관리</span>
         </a>
         </li>
 

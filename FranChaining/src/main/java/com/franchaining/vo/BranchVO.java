@@ -4,10 +4,18 @@ public class BranchVO {
 	
 	private int b_no;
 	private String b_name;
+	private String e_name;
 	private int b_phone1;
 	private int b_phone2;
 	private int b_phone3;
 	
+
+	public String getE_name() {
+		return e_name;
+	}
+	public void setE_name(String e_name) {
+		this.e_name = e_name;
+	}
 	public int getB_no() {
 		return b_no;
 	}
@@ -37,6 +45,20 @@ public class BranchVO {
 	}
 	public void setB_phone3(int b_phone3) {
 		this.b_phone3 = b_phone3;
+	}
+	
+	public String addPhoneNum() {
+		int ip1 = b_phone1;
+		int ip2 = b_phone2;
+		int ip3 = b_phone3;
+		
+		String p1 = '0' + String.valueOf(ip1);
+		String p2 = String.valueOf(ip2);
+		String p3 = String.valueOf(ip3);
+		
+		String phone = p1+"-"+p2+"-"+p3;
+		
+		return phone;
 	}
 	
 	@Override

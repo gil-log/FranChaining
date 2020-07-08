@@ -1,25 +1,35 @@
 package com.franchaining.dao;
 
-import org.apache.ibatis.session.SqlSession;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface StockDAOImpl implements StockDAO{
-	
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.franchaining.vo.RegVO;
+import com.franchaining.vo.StockVO;
+
+@Repository
+public class StockDAOImpl implements StockDAO{
+
 	@Inject 
 	private SqlSession sqlSession;
 	
 	@Override
-	public void register(StockVO stockVO) throws Exception{
-		
-		sqlSession.insert("stockMapper.register", StockVO);
+	public List<StockVO> stockcenterlist() throws Exception{
+		return sqlSession.selectList("stockMapper.stockcenterlist");
+	}
+
+	@Override
+	public void register(RegVO regVO) throws Exception {
+		//담에 지움.
 	}
 	
 	@Override
-	public StockVO login(StockVO stockVO) throws Exception{
-
-		return sqlSession.selectOne("managerMapper.login", managerVO);
-		
+	public List<StockVO> stocklist() throws Exception{
+		return sqlSession.selectList("stockMapper.stockList");
 	}
-	
-	
 	
 }

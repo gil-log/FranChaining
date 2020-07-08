@@ -43,13 +43,13 @@
         <div class="container-fluid">
         
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">본사 재고</h1>
+          <h1 class="h3 mb-2 text-gray-800">본사 자재 수정</h1>
           <p class="mb-4"></p>
           
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">현재 본사 재고 현황</h6>
+              <h6 class="m-0 font-weight-bold text-primary">본사 자재 목록 수정</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -58,14 +58,13 @@
                   <thead>
                     <tr>
                       <th>자재 이름</th>
-                      <th>재고 수량</th>
                       <th>원자재가</th>
+                      <th>자재 출고가</th>
                     </tr>
                   </thead>
                   <tbody>
-					
+						 <!--  items = 컨트롤러에서 가져온 변수명  var =""   -->
                   <c:forEach items="${centerstocklist}" var="centerstocklist">
-
                     <tr>
                     <td><c:out value="${centerstocklist.s_name}"/></td>
                     <td><c:out value="${centerstocklist.o_amount}"/></td>

@@ -1,6 +1,7 @@
 package com.franchaining.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -21,10 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.StockService;
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
+import com.franchaining.vo.StockVO;
 
 @Controller
 @RequestMapping(value = "/center/*")
@@ -36,13 +40,16 @@ public class CenterController {
 	ManagerService managerService;
 	@Inject
 	BranchService branchService;
+	@Inject
+	StockService StockService;
+
 	
 	private static final Logger logger = LoggerFactory.getLogger(CenterController.class);
 	
 	@RequestMapping(value = "/hr/main", method = RequestMethod.GET)
 	public String hr(Model model) throws Exception{
 		logger.info("/hr/main");
-
+		
 		//본사 사원수
 		int centerEmpCount = empService.EmpCount(0);
 		int branchCount = branchService.BranchCount();
@@ -62,11 +69,11 @@ public class CenterController {
 	@RequestMapping(value = "/hr/acception", method = RequestMethod.GET)
 	public String hrAcceptionget(Model model) throws Exception {
 		logger.info("hrAcceptionget");
-
+		
 		List<ManagerVO> regwaitlist = managerService.regwait();
 		
 		List<RegwaitVO> regwaitemplist = empService.regwait(regwaitlist);
-
+		
 		for(int i = 0; i < regwaitemplist.size(); i++) {
 			logger.info(regwaitemplist.get(i).getE_name());
 		}
@@ -85,7 +92,7 @@ public class CenterController {
 		
 		int e_no = Integer.parseInt(request.getParameter("e_no"));
 		int m_flag = Integer.parseInt(request.getParameter("m_flag"));
-
+		
 		ManagerVO managerVO = new ManagerVO();
 		
 		managerVO.setE_no(e_no);
@@ -103,10 +110,53 @@ public class CenterController {
 		return "redirect";
 	}
 	
+	@RequestMapping(value = "/hr/hr_branchModified", method = RequestMethod.GET)
+	public String branchModified(Model model) throws Exception {
+		logger.info("branchModified");
+
+		List<BranchVO> branchlist = branchService.branchlist();
+
+		for(int i = 0; i < branchlist.size(); i++) {
+			logger.info(branchlist.get(i).getB_name());
+			logger.info(branchlist.get(i).addPhoneNum());
+		}
+		
+		model.addAttribute("branchlist", branchlist);
+
+		return "/center/hr/hr_branchModified";
+	}
+	
+	
+
 	@RequestMapping(value = "/stock/main", method = RequestMethod.GET)
-	public String stock(){
-		logger.info("/stock_main");
+	public String stockMain(Model model) throws Exception {
+		logger.info("stockMain");
+
+		List<StockVO> centerstocklist = StockService.stockcenterlist();
+
+		for(int i = 0; i < centerstocklist.size(); i++) {
+			logger.info(centerstocklist.get(i).getS_name());
+		}
+		
+		model.addAttribute("centerstocklist", centerstocklist);
 
 		return "/center/stock/stock_main";
 	}
 }
+//	
+//	@RequestMapping(value ="/stock/modified", method = RequestMethod.GET)
+//	public String stockModified(Model model) throws Exception{
+//		logger.info("stockModified");
+//		
+//		List<StockVO> stocklist = StockService.stocklist();
+//		
+//		for(int i=0; i< stocklist.size(); i++) {
+//			logger.info(stocklist.get(i).getS_name());
+//		}
+//		
+//		model.addAttribute("stocklist", stocklist);
+//		
+//		return "/center/stock/stock_modified";
+//	}
+//	
+//}

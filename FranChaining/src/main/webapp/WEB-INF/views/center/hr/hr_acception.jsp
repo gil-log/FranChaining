@@ -59,7 +59,7 @@
             <div class="card-body">
               <div class="table-responsive">
                     <form name="acceptionForm">
-                    <input type ="hidden" value="" id="e_no" name="e_no">
+               <input type ="hidden" value="" id="e_no" name="e_no">
                     <input type ="hidden" value="" id="m_flag" name="m_flag">                      
                     </form> 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -73,12 +73,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                  
+                  	
                   <c:forEach items="${list}" var="list">
-   
-<c:set var="e_name" value="${list.e_name}"/>
-<c:set var="p_no" value="${list.p_no}"/>
-<c:set var="regdate" value="${list.hire}"/>
                  
                     <tr>
                     <td><c:out value="${list.e_no}"/></td>
@@ -211,6 +207,7 @@ $(".dropdown-item").click(function(){
 	  document.acceptionForm.action = "acception";
 	  document.acceptionForm.method = "post";
 	  document.acceptionForm.submit();
+	  
 
 });
 })

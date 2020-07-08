@@ -17,8 +17,6 @@ public class MainController {
 		return "franchain";
 	}
 	
-	
-	
 	@RequestMapping(value = "/franchaining", method = RequestMethod.POST)
 	public String franchainingpost(){
 		logger.info("franchaining");
@@ -26,18 +24,22 @@ public class MainController {
 		return "franchain";
 	}
 	
+	
 	@RequestMapping(value = "/franchaining/main", method = RequestMethod.GET)
 	public String main(){
 		logger.info("main");
 
 		return "main";
 	}
+	
+	
 	@RequestMapping(value = "/master_main", method = RequestMethod.GET)
 	public String master(){
 		logger.info("/master_main");
 
 		return "/branch/master/master_main";
 	}
+	
 	
 	@RequestMapping(value = "/manager_main", method = RequestMethod.GET)
 	public String manager(){
@@ -46,6 +48,7 @@ public class MainController {
 		return "/branch/manager/manager_main";
 	}
 	
+	
 	@RequestMapping(value = "/hr_main", method = RequestMethod.GET)
 	public String hr(){
 		logger.info("/hr_main");
@@ -53,12 +56,14 @@ public class MainController {
 		return "/center/hr/hr_main";
 	}
 	
+	
 	@RequestMapping(value = "/stock_main", method = RequestMethod.GET)
 	public String stock(){
 		logger.info("/stock_main");
 
 		return "/center/stock/stock_main";
 	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String ttt(){

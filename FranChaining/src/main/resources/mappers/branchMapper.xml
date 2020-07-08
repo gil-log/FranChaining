@@ -16,4 +16,11 @@
 		   FROM BRANCH
 		   WHERE B_NO != 0
 	</select>
+	
+	<select id="branchlist" resultType="com.franchaining.vo.BranchVO">
+		select branch.b_no, branch.b_name, emp.e_name, branch.b_phone1, branch.b_phone2, branch.b_phone3
+		from branch, emp
+        where (branch.b_no = emp.b_no) and not branch.b_no = 0
+
+	</select>
 </mapper>

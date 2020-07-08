@@ -1,11 +1,15 @@
 package com.franchaining.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import com.franchaining.dao.BranchDAO;
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.RegVO;
+import com.franchaining.vo.StockVO;
 
 @Service
 public class BranchServiceImpl implements BranchService {
@@ -23,4 +27,10 @@ public class BranchServiceImpl implements BranchService {
 		return dao.BranchCount();
 	}
 	
+	@Override
+	public List<BranchVO> branchlist() throws Exception{
+		return dao.branchlist();
+	}
 }
+
+

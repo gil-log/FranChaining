@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>재고관리-본사재고</title>
+  <title>지점관리</title>
 
 <!-- Custom fonts for this template-->
 
@@ -29,7 +29,7 @@
   <div id="wrapper">
 
 
-			<%@include file="stock_sidebar.jsp"%>
+			<%@include file="hr_sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -43,13 +43,13 @@
         <div class="container-fluid">
         
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">본사 재고</h1>
+          <h1 class="h3 mb-2 text-gray-800">지점 목록</h1>
           <p class="mb-4"></p>
           
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">현재 본사 재고 현황</h6>
+              <h6 class="m-0 font-weight-bold text-primary">지점 목록</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -57,19 +57,21 @@
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>자재 이름</th>
-                      <th>재고 수량</th>
-                      <th>원자재가</th>
+                      <th>지점 번호</th>
+                      <th>지점 이름</th>
+                      <th>점장 이름</th>
+                      <th>연락처</th>
                     </tr>
                   </thead>
                   <tbody>
-					
-                  <c:forEach items="${centerstocklist}" var="centerstocklist">
-
+                  
+                  <c:forEach items="${branchlist}" var="branchlist">
+                  
                     <tr>
-                    <td><c:out value="${centerstocklist.s_name}"/></td>
-                    <td><c:out value="${centerstocklist.o_amount}"/></td>
-                      <td><c:out value="${centerstocklist.s_origin}"/></td>
+                    <td><c:out value="${branchlist.b_no}"/></td>
+                    <td><c:out value="${branchlist.b_name}"/></td>
+                    <td><c:out value="${branchlist.e_name}"/></td>
+                    <td><c:out value="${branchlist.addPhoneNum()}"/></td>
                   	</tr>
                   
                   </c:forEach>

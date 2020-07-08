@@ -1,10 +1,13 @@
 package com.franchaining.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.RegVO;
 
 @Repository
@@ -23,4 +26,8 @@ public class BranchDAOImpl implements BranchDAO {
 		return sqlSession.selectOne("branchMapper.BranchCount");
 	}
 
+	@Override
+	public List<BranchVO> branchlist() throws Exception{
+		return sqlSession.selectList("branchMapper.branchlist");
+	}
 }
