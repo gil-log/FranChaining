@@ -23,10 +23,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.OrdersService;
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
+import com.franchaining.vo.OrdersVO;
+import com.franchaining.vo.OrderslistVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.WrapperVO;
 
 /**
  * Handles requests for the application home page.
@@ -41,6 +46,8 @@ public class BranchController {
 	ManagerService managerService;
 	@Inject
 	BranchService branchService;
+	@Inject
+	OrdersService ordersService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BranchController.class);
 	
@@ -94,6 +101,31 @@ public class BranchController {
 		logger.info("/manager_orderlist");
 
 		return "/branch/manager/manager_orderlist";
+	}
+	
+	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.POST)
+	@ResponseBody
+	public Object orderlistpost(HttpServletRequest request) throws Exception{
+		logger.info("/order_list");
+		
+		HttpSession session = request.getSession();
+		
+		BranchVO branchinfo = (BranchVO) session.getAttribute("branch");
+		OrdersVO ordersVO = new OrdersVO();
+		ordersVO.setB_no(branchinfo.getB_no());
+		
+		List<OrderslistVO> ordersList = ordersService.ordersList(ordersVO);
+		
+		
+		logger.info("날짜 : " + ordersList.get(0).getO_date());
+		
+		
+		WrapperVO rtnVO = new WrapperVO();
+		rtnVO.setAaData(ordersList);
+		rtnVO.setiTotalDisplayRecords(ordersService.listCount(ordersVO));
+		rtnVO.setiTotalRecords(ordersService.listCount(ordersVO));
+		
+		return rtnVO;
 	}
 	
 	@RequestMapping(value = "/manager/modulation", method = RequestMethod.PUT)

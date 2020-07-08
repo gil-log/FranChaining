@@ -42,6 +42,11 @@ public class EmpServiceImpl implements EmpService{
 		return dao.AlreadyBranch(b_no);
 	}
 
+	@Override
+	public EmpVO masterInfo(int b_no) throws Exception {
+		return dao.masterInfo(b_no);
+	}
+
 	
 	
 }

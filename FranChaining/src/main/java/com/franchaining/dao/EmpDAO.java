@@ -18,4 +18,6 @@ public interface EmpDAO {
 	public int EmpCount(int e_no) throws Exception;
 
 	public int AlreadyBranch(int b_no) throws Exception;
+	
+	public EmpVO masterInfo(int b_no) throws Exception;
 }

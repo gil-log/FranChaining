@@ -43,4 +43,9 @@ public class EmpDAOImpl implements EmpDAO {
 		return sqlSession.selectOne("empMapper.AlreadyBranch", b_no);
 	}
 
+	@Override
+	public EmpVO masterInfo(int b_no) throws Exception {
+		return sqlSession.selectOne("empMapper.masterInfo", b_no);
+	}
+
 }

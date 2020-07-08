@@ -116,14 +116,10 @@
                                  
                       <td>
                    <div class="dropdown mb-4">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 		선택
-                    </button>
-                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                                                          
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택 </button>
+                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">                                                               
                      <input type="button" class="dropdown-item" id="ok" value="승인" />   
                      <input type="button" class="dropdown-item" id="no" value="거부" />    
-
                     </div>
                     
                   </div>

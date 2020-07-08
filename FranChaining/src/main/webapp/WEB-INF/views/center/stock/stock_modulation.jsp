@@ -177,7 +177,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
+
     $(document).ready(function() {
+    	
+        var t = $('#dataTable').DataTable();
+        t.clear().draw(false);
+    	listtable();
+    	
     //테이블 row 선택
     $('#dataTable tbody').on('click', 'tr', function() {
         $(this).toggleClass('selected');
@@ -223,7 +229,7 @@
     	if ( $.fn.DataTable.isDataTable('#listTable') ) {
     		  $('#listTable').DataTable().destroy();
     		}
-    	
+
    	 $('#listTable').dataTable({
          pageLength: 10,
          bPaginate: true,
@@ -274,14 +280,7 @@
      });
     	
     }
-        $(document).ready(function() {
-            var t = $('#dataTable').DataTable();
-            t.clear().draw(false);
-        	listtable();
-        	
-        	
-    var t = $('#dataTable').DataTable();
-} );
+
         
     function modulation() {
      

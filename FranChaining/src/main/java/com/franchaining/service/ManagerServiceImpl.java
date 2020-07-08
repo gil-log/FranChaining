@@ -52,4 +52,9 @@ public class ManagerServiceImpl implements ManagerService {
 		dao.hasEnoReg(regVO);
 		
 	}
+
+	@Override
+	public int mflagChk(int e_no) throws Exception {
+		return dao.mflagChk(e_no);
+	}
 }

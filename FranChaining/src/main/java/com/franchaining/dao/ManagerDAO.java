@@ -21,4 +21,6 @@ public interface ManagerDAO {
 	
 	public void hasEnoReg(RegVO regVO) throws Exception;
 	
+	public int mflagChk(int e_no) throws Exception;
+	
 }

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
@@ -142,7 +143,7 @@ public class UserController {
 	      logger.info(managerVO.getPwd());
 
 	      HttpSession session = request.getSession();
-	      
+
 	      ManagerVO userchk = managerService.login(managerVO);
 	      
 	       if(userchk == null) {
@@ -153,9 +154,11 @@ public class UserController {
 
 	          
 	       }else {
-	    	   
-	    	   
+
 	          EmpVO bnochk = empService.userinfo(userchk.getE_no());
+	 	      BranchVO branchinfo = branchService.branchinfo(bnochk.getB_no());
+	 	      EmpVO masterinfo = empService.masterInfo(bnochk.getB_no());
+	 	      
 	          logger.info(Integer.toString(bnochk.getB_no()));
 	          if(bnochk.getB_no()==0) {
 	             logger.info(Integer.toString(bnochk.getB_no()));
@@ -176,13 +179,19 @@ public class UserController {
 	         		logger.info(Integer.toString(bnochk.getP_no()));
 		             if(bnochk.getP_no()==1) {
 			                session.setAttribute("user", userchk);
-			                 
+			                session.setAttribute("userinfo", bnochk);
+			                session.setAttribute("branch", branchinfo);
+			                session.setAttribute("master", masterinfo);
 			                    //로그인 성공
 			                    model.addAttribute("msg","점장님 환영합니다!");
 			                    model.addAttribute("url","/branch/master/main");
 			             }
 			             else {
 			            	 session.setAttribute("user", userchk);
+				             session.setAttribute("userinfo", bnochk);
+				             session.setAttribute("branch", branchinfo);	
+				             session.setAttribute("master", masterinfo);
+				             
 			                //로그인 성공
 			                model.addAttribute("msg","매니저님 환영합니다!");
 			                model.addAttribute("url","/branch/manager/main");

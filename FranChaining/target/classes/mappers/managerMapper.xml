@@ -71,6 +71,12 @@
 		   WHERE M_FLAG = #{m_flag}
 	</select>
 	
+	<select id="mflagChk" parameterType="int" resultType="int">
+		SELECT M_FLAG
+		   FROM MANAGER
+		   WHERE E_NO = #{e_no}
+	</select>
+	
 </mapper>
 
 
