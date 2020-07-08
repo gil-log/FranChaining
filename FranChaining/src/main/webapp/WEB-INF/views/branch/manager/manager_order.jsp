@@ -166,8 +166,7 @@ input {
 
 							<br>
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>품목코드</th>
@@ -187,27 +186,15 @@ input {
 											<th>수량</th>
 											<th>공급가</th>
 											<th>금액</th>
-											<th>비고</th>
-											<br>
-										</tr>
-										
+											<th>비고</th>											
+										</tr>						
 									</tfoot>
 									<tbody>
-										<%-- <td>${stockinfo.s_no}</td>
-            							<td><select id='name' name='name'> 
-            							<c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'>
-            							<option value='${s_name_info.s_name}'>${s_name_info.s_name}</option>
-            							</c:forEach></select></td>
-            							<td><input type='text' id='ea' name='ea'></td>
-            							<td><input type='text' id='qu' name='qu'></td>
-            							<td>${stockinfo.s_price}</td>
-            							<td><input type='text' id='price' name='supval'></td>
-            							<td><span id='other' name='other'></span></td> --%>
 
 									</tbody>
 									
 								</table>
-<button class="btn btn-danger btn-icon-split" id="itemDel">
+							<button class="btn btn-danger btn-icon-split" id="itemDel">
 								<span class="icon text-white-50"> <i class="fas fa-trash"></i>
 								</span> <span class="text">선택 행 삭제</span>
 							</button>
@@ -266,18 +253,16 @@ input {
 		src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
 	<!-- Add Date Picker -->
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
     $('#datePicker1, #datePicker2').datepicker({
         format : "yyyy-mm-dd",
     });
-          $(document).ready(function() {
-             
+    $(document).ready(function() {
+    	
         	//테이블 row 선택
-            $('#dataTable tbody').on('click', 'tr', function() {
+       		$('#dataTable tbody').on('click', 'tr', function() {
                 $(this).toggleClass('selected');
             });
             $('#itemDel').click(function() {
@@ -285,11 +270,11 @@ input {
                 t.rows('.selected').remove().draw(false);
                 
             });
-            var t = $('#dataTable').DataTable();
-            
-            $('#itemAdd').on( 'click', function () {
+             
+            var t = $('#dataTable').DataTable(); 
+             $('#itemAdd').on( 'click', function () {
                 t.row.add( [
-                    "<input type='text' id='no' name='no' style='border:none; background-color:transparent;width:6rem;'>",
+                    "<input type='text' id='code' name='code' style='border:none; background-color:transparent;width:6rem;'>",
                     "<select size='1' id='name' name='name' style='border:none; background-color:transparent;width:6rem;'><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
                     "<input type='text' id='ea' name='ea' style='border:none; background-color:transparent;width:6rem;'>",
                     "<input type='text' id='qu' name='qu' style='border:none; background-color:transparent;width:6rem;'>",
@@ -298,48 +283,33 @@ input {
                     "<input type='text' id='other' name='other' style='border:none; background-color:transparent;width:6rem;'>"
                 ] ).draw( false );
             } );
-            $('#itemAdd').click();
-     /* var t = $('#dataTable').DataTable(); */    
-      /* $('#itemAdd').on( 'click', function () {
-    	var s_name = $(this);
-    	var tr = checkBtn.parent();
-    	var td = tr.children();
-    	
-    	var s_name = td.eq(0).text();
-    	$("#s_name").val(s_name);
-        document.acceptionForm.action = "order";
-  	  document.acceptionForm.method = "post";
-  	  document.acceptionForm.submit();
-    } ); */
-
-            <%-- <td>${stockinfo.s_no}</td>
-			<td><select id='name' name='name'> 
-			<c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'>
-			<option value='${s_name_info.s_name}'>${s_name_info.s_name}</option>
-			</c:forEach></select></td>
-			<td><input type='text' id='ea' name='ea'></td>
-			<td><input type='text' id='qu' name='qu'></td>
-			<td>${stockinfo.s_price}</td>
-			<td><input type='text' id='price' name='supval'></td>
-			<td><span id='other' name='other'></span></td> --%>
-   
-} );  
-          $('#name').change(function(){
-       	   
-              var s_name = $('#name option:selected').attr("value");
-         	$("#s_name").val(s_name);
-            t.row.add( [
-                "$(#'no').val('111');",
-                "<select size='1' id='name' name='name' style='border:none; background-color:transparent;width:6rem;'><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
-                "<input type='text' id='ea' name='ea' style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='text' id='qu' name='qu' style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='text' id='sup' name='sup' style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='text' id='price' name='supval' style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='text' id='other' name='other' style='border:none; background-color:transparent;width:6rem;'>"
-            ] ).draw( false );
-
+            $('#itemAdd').click();  
+            
+            var s_name = $("#name option:selected").val();
+            alert(s_name);
+        	$("#s_name").val(s_name);
+       
+    } ); 
   
-    });
+	$(function(){
+		$('#name').change(function(){
+			var s_name = $("#name option:selected").val();		
+			alert(s_name);
+			
+			$("#s_name").val(s_name);
+      	  	$("name").val(s_name);		
+			$("#code").val(s_name);
+
+			});
+		//수량*공급가
+		$('#qu').change(function(){
+			var qu = $("#qu").val();
+			var sup = $("#sup").val();
+			alert(qu);
+			$("#price").val(qu*sup);
+			});
+	});
+		 
     function submit() {
         alert('작성완료 -> 매니저에게 전달될 기능');
         

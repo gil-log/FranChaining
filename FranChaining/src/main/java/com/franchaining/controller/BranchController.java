@@ -126,15 +126,15 @@ public class BranchController {
 	      logger.info("mgrOdrget");
 	      HttpSession session = request.getSession();
 	      List<StockVO> s_name_info = stockService.s_name_info();
-	      String s_name = request.getParameter("s_name");
-		    StockVO stockVO = new StockVO();
-		    stockVO.setS_name(s_name);
-	     	logger.info(s_name);
-	     	
-	     	
-	     	
-	     	StockVO stockinfo = stockService.stockinfo(stockVO);
-	     	session.setAttribute("stockinfo", stockinfo);
+			
+	      String s_name = request.getParameter("s_name"); 
+	      StockVO stockVO = new StockVO(); 
+	      stockVO.setS_name(s_name); 
+	      logger.info(s_name);
+	  
+	      StockVO stockinfo = stockService.stockinfo(stockVO);
+	      session.setAttribute("stockinfo", stockinfo);
+			 
 	      model.addAttribute("s_name_info", s_name_info);
 	      for(int i = 0; i < s_name_info.size(); i++) {
 				logger.info(s_name_info.get(i).getS_name());
