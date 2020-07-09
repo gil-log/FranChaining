@@ -25,5 +25,21 @@ public class OrdersServiceImpl implements OrdersService {
 	public int listCount(OrdersVO ordersVO) throws Exception {
 		return dao.listCount(ordersVO);
 	}
+
+	@Override
+	public List<OrderslistVO> showOrders(int o_no) throws Exception {
+		return dao.showOrders(o_no);
+	}
+
+	@Override
+	public int showlistCount(int o_no) throws Exception {
+		return dao.showlistCount(o_no);
+	}
+
+	@Override
+	public void ordersApply(OrdersVO ordersVO) throws Exception {
+		System.out.println("service");
+		dao.ordersApply(ordersVO);
+	}
 	
 }

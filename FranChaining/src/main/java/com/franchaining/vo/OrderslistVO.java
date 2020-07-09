@@ -13,6 +13,28 @@ public class OrderslistVO {
 	private int o_no;
 	private String s_name;
 	private String s_origin;
+	private int s_size;
+	private int s_price;
+	private int s_cost;
+
+	public int getS_price() {
+		return s_price;
+	}
+	public void setS_price(int s_price) {
+		this.s_price = s_price;
+	}
+	public int getS_cost() {
+		return s_cost;
+	}
+	public void setS_cost(int s_cost) {
+		this.s_cost = s_cost;
+	}
+	public int getS_size() {
+		return s_size;
+	}
+	public void setS_size(int s_size) {
+		this.s_size = s_size;
+	}
 	
 	public String getS_name() {
 		return s_name;
@@ -74,6 +96,6 @@ public class OrderslistVO {
 	public String toString() {
 		return "OrderslistVO [b_no=" + b_no + ", s_no=" + s_no + ", o_flag=" + o_flag + ", o_amount=" + o_amount
 				+ ", o_date=" + o_date + ", o_deadline=" + o_deadline + ", o_no=" + o_no + ", s_name=" + s_name
-				+ ", s_origin=" + s_origin + "]";
+				+ ", s_origin=" + s_origin + ", s_size=" + s_size + ", s_price=" + s_price + ", s_cost=" + s_cost + "]";
 	}
 }

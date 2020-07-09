@@ -80,7 +80,8 @@ input {
 										<tbody>
 											<tr>
 												<td>발주번호</td>
-												<td><span id="order_num"></span></td>
+												<td><span id="order_num"></span>
+												</td>
 												<td>창고명</td>
 												<td><span id='o_origin'></span></td>
 											</tr>
@@ -88,8 +89,7 @@ input {
 												<td>신청일</td>
 												<td><span id="o_date"></span></td>
 												<td>납기일</td>
-												<td><input type="text" id="datePicker2"
-													style="border: none; background-color: transparent; width: 6rem"></td>
+												<td><span id="o_deadline"></span></td>
 											</tr>
 										</tbody>
 									</table>
@@ -133,6 +133,7 @@ input {
                 <table class="table table-bordered" id="orderlistTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                    <th>품목코드</th>
                       <th>품목명</th>
                       <th>규격</th>
                       <th>수량</th>
@@ -153,6 +154,7 @@ input {
 									cellspacing="0">
 									<thead>
 										<tr>
+											<th>품목코드</th>
 											<th>품목명</th>
 											<th>규격</th>
 											<th>수량</th>
@@ -172,9 +174,10 @@ input {
 
 							</div>
 
+						<div id="masterControlorderpage">
 							<button class="btn btn-primary btn-icon-split" id="itemAdd">
 								<span class="icon text-white-50"> <i class="fas fa-plus"></i>
-								</span> <span class="text">추가</span>
+								</span> <span class="text">항목 추가</span>
 							</button>
 
 							                
@@ -186,13 +189,13 @@ input {
 							                  
                  <button class="btn btn-info btn-icon-split" id="itemModulation" onclick="modulation();">
 					<span class="icon text-white-50"> <i class="fas fa-info"></i>
-					</span> <span class="text">수정</span>
+					</span> <span class="text">수정 완료</span>
 				</button> 
-				
-							<button class="btn btn-success btn-icon-split"
+					</div>
+							<button class="btn btn-success btn-icon-split" style="float: right;"
 								data-dismiss="modal">
 								<span class="icon text-white-50"> <i class="fas fa-check"></i>
-								</span> <span class="text">완료</span>
+								</span> <span class="text">닫기</span>
 							</button>
 						</div>
 					</div>

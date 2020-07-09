@@ -53,4 +53,16 @@
 		DELETE FROM STOCK
 		WHERE S_NO = #{s_no}
 	</delete> 
+	
+	<!-- stock 정보 가져오기 -->
+	<select id="s_name_info" resultType="com.franchaining.vo.StockVO">
+	select s_no,
+		   s_name,
+		   s_price,
+		   s_origin,
+		   s_size,
+		   s_cost
+	from stock
+    order by s_no asc
+	</select>
 </mapper>

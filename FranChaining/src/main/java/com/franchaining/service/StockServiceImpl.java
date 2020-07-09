@@ -42,4 +42,9 @@ public class StockServiceImpl implements StockService {
 	public void stockDelete(StockVO stockVO) throws Exception {
 		dao.stockDelete(stockVO);
 	}
+
+	@Override
+	public List<StockVO> s_name_info() throws Exception {
+		return dao.s_name_info();
+	}
 }

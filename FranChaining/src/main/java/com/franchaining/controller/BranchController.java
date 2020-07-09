@@ -24,6 +24,7 @@ import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
 import com.franchaining.service.OrdersService;
+import com.franchaining.service.StockService;
 import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
@@ -32,6 +33,8 @@ import com.franchaining.vo.OrderslistVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.StockVO;
 import com.franchaining.vo.WrapperVO;
+
+import net.sf.json.JSONArray;
 
 /**
  * Handles requests for the application home page.
@@ -48,6 +51,8 @@ public class BranchController {
 	BranchService branchService;
 	@Inject
 	OrdersService ordersService;
+	@Inject
+	StockService stockService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BranchController.class);
 	
@@ -90,16 +95,20 @@ public class BranchController {
 	}
 	
 	@RequestMapping(value = "/manager/order", method = RequestMethod.GET)
-	public String manager_order(){
+	public String manager_order() throws Exception{
 		logger.info("/manager_order");
 
 		return "/branch/manager/manager_order";
 	}
 	
 	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
-	public String manager_orderlist(){
+	public String manager_orderlist(Model model) throws Exception{
 		logger.info("/manager_orderlist");
-
+		
+		List<StockVO> s_name_info = stockService.s_name_info();
+		
+		model.addAttribute("s_name_info", s_name_info);
+		
 		return "/branch/manager/manager_orderlist";
 	}
 	
@@ -126,6 +135,45 @@ public class BranchController {
 		rtnVO.setiTotalRecords(ordersService.listCount(ordersVO));
 		
 		return rtnVO;
+	}
+	
+	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.PUT, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public Object orderlistput(HttpServletRequest request) throws Exception{
+		logger.info("/order_list/put");
+		
+		String so_no = request.getParameter("o_no");
+		
+		int o_no = Integer.parseInt(so_no);
+		
+		logger.info(so_no);
+			
+		OrdersVO ordersVO = new OrdersVO();
+		ordersVO.setO_no(o_no);
+		ordersService.ordersApply(ordersVO);
+		
+		logger.info("???");
+		
+		String smsg = "승인 신청 되었습니다.";
+		
+		return smsg;
+	}
+	
+	@RequestMapping(value = "/manager/showorder", method = RequestMethod.POST)
+	@ResponseBody
+	public Object showorderpost(HttpServletRequest request) throws Exception{
+		logger.info("ajax_showorder");
+		
+	    String s_o_no = request.getParameter("o_no");
+		logger.info(s_o_no);
+		
+		int o_no = Integer.parseInt(s_o_no);
+		
+		List<OrderslistVO> showorderslist = ordersService.showOrders(o_no);
+		
+		JSONArray jsonArray = JSONArray.fromObject(showorderslist);
+		
+		return jsonArray;
 	}
 	
 	@RequestMapping(value = "/manager/modulation", method = RequestMethod.PUT)

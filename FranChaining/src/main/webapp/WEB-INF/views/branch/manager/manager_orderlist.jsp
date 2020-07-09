@@ -63,8 +63,7 @@
 	//document.getElementById("item2").classList.toggle("active");
 	
 	</script>
-
-
+	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
@@ -79,7 +78,11 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-
+					
+                  <div style="display:none;">
+                    <input type="number"id="nowO_no">
+                  </div>
+                  
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -100,7 +103,7 @@
 									</thead>
 								</table>
 							</div>
-							
+							<div id="masterControlorderlist">
 							<button class="btn btn-danger btn-icon-split" onclick="listRemove();">
 								<span class="icon text-white-50"> <i class="fas fa-trash"></i>
 								</span> <span class="text">발주 삭제</span>
@@ -110,7 +113,7 @@
 								<span class="icon text-white-50"> <i class="fas fa-check"></i>
 								</span> <span class="text">승인 신청</span>
 							</button>
-							
+							</div>
 							
 						</div>
 					</div>
@@ -154,14 +157,43 @@
 	<script type="text/javascript">
 	
 	$(document).ready(function() {
-    	
-		console.log("실행?");
+		/*//점장만 발주 삭제,승인기능, 발주 목록 눌렀을때 추가 삭제 수정 버튼 사용 가능
+		if(${userinfo.p_no} != 1){
+			$('#masterControlorderlist').hide();
+			$('#masterControlorderpage').hide();
+		}
+		*/
+		
+		
 		listtable();   
 		
-	});
-    
+	    var t = $('#orderdataTable').DataTable();
+	    
+		   
+	    $('#itemAdd').on( 'click', function () {
+	        
+	        t.row.add( [
+	        	"<input type='number' id='s_no' name='s_no' style='border:none; background-color:transparent;width:6rem;'>",
+	            "<select size='1' id='s_name' name='s_name' style='border:none; background-color:transparent;width:6rem;'><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
+	            "<input type='number' id='s_size' name='s_size' style='border:none; background-color:transparent;width:6rem;'>",
+	            "<input type='number' id='o_amount' name='o_amount' style='border:none; background-color:transparent;width:6rem;'>",
+	            "<input type='number' id='s_price' name='s_price' style='border:none; background-color:transparent;width:6rem;'>",
+	            "<input type='number' id='s_cost' name='s_cost' style='border:none; background-color:transparent;width:6rem;'>",
+	            "<input type='text' id='s_origin' name='s_origin' style='border:none; background-color:transparent;width:6rem;'>"
+	        ] ).draw( false );
 
-	
+
+
+	    } );
+
+	    $('#itemDel').click(function() {
+	        var t = $('#orderdataTable').DataTable();
+	        t.rows('.selected').remove().draw(false);
+	        
+	    }); 
+ 
+	});
+
     function listtable(){
     	
     	if ( $.fn.DataTable.isDataTable('#dataTable') ) {
@@ -189,7 +221,7 @@
              {
             	 data: "o_no",
             	 render: function(data, type, row, meta){             
-                         data = '<a href="#" onclick="javascript:showpage('+ data +');">' + data + '</a>';
+                         data = '<a href="#" onclick="javascript:showpage('+ data +');">' + setNumber(data) + '</a>';
                      return data;
             	 }
             	 
@@ -197,7 +229,25 @@
              {data: "s_name"},
              {data: "o_date"},
              {data: "o_deadline"},
-             {data: "o_flag"}
+             {
+            	 data: "o_flag",
+            	 render: function(data, type, row, meta){
+            		 if(data == 1){
+            			 data = "대기중";
+            			return data;
+            		 } else if(data == 2){
+            			 data = "심사중";
+             			return data;
+            		 } else if(data == 3){
+            			 data = "거절됨";
+             			return data;
+            		 } else if(data == 4){
+            			 data = "삭제됨";
+              			return data;
+             		 }
+                     
+        	 }
+            	 }
              
          ],
          initComplete: function () {
@@ -216,21 +266,154 @@
                      } );
   
                  column.data().unique().sort().each( function ( d, j ) {
-                     select.append( '<option value="'+d+'">'+d+'</option>' )
+                	 if(d==1){
+                     select.append( '<option value="'+'대기중'+'">'+'대기중'+'</option>' )
+                	 } else if(d==2){
+                         select.append( '<option value="'+'심사중'+'">'+'심사중'+'</option>' )
+                	 } else if(d==3){
+                         select.append( '<option value="'+'거절됨'+'">'+'거절됨'+'</option>' )
+                	 } else if(d==4){
+                         select.append( '<option value="'+'삭제됨'+'">'+'삭제됨'+'</option>' )
+                	 }
                  } );
              } );
          }
 
+     });
+   	 
+     //테이블 row 선택
+     $('#dataTable tbody').on('click', 'tr', function() {
+    	$('.selected').toggleClass('selected');
+        $(this).toggleClass('selected');
      });
     	
     }
     
 
     function showpage(data) {
+    	
+    	if ( $.fn.DataTable.isDataTable('#orderlistTable') ) {
+    		  $('#orderlistTable').DataTable().destroy();
+    		}
+    	
+    	if ( $.fn.DataTable.isDataTable('#orderdataTable') ) {
+  		  $('#orderdataTable').DataTable().destroy();
+  		}
+    	
+    	$("#nowO_no").val(data);
+
+        $.ajax({     	
+            url : 'showorder',                    // 전송 URL
+            type : 'POST',                // GET or POST 방식
+            traditional : true,
+            data : {
+                o_no : data        // 보내고자 하는 data 변수 설정
+            },
+            
+            //Ajax 성공시 호출 
+            success : function(jsonArray){
+		
+            	orderlisttable(jsonArray);
+            	
+            	$('#order_num').text(setNumber(data));
+            	$('#o_date').text(jsonArray[0].o_date);
+            	$('#o_deadline').text(jsonArray[0].o_deadline);
+
+            },
+         
+            //Ajax 실패시 호출
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+            }
+            
+        });
+  	
 		$('#myModal').modal();
     };
     
+
+    function orderlisttable(showlist){
+    	
+        var t = $('#orderdataTable').DataTable();
+        t.clear().draw(false);
+    	
+    	if ( $.fn.DataTable.isDataTable('#orderlistTable') ) {
+  		  $('#orderlistTable').DataTable().destroy();
+
+  		}
+    	
+   	 $('#orderlistTable').dataTable({
+         pageLength: 10,
+         bPaginate: true,
+         bLengthChange: true,
+         lengthMenu : [ [ 10, 25, 50, -1 ], [ 10, 25, 50, "All" ] ],
+         bAutoWidth: false,
+         processing: true,
+         ordering: true,
+         serverSide: false,
+         searching: true,
+         data: showlist,
+         columns : [
+        	 {data: "s_no"},
+             {data: "s_name"},
+             {data: "s_size"},
+             {data: "o_amount"},
+             {data: "s_price"},
+             {
+            	 data: "",
+            	 render: function(data, type, row, meta){  
+                     data = row.o_amount * row.s_price;
+                 return data;
+                 }
+             },
+             {data: "s_origin"}
+         ]
+     });   	
+    }
     
+    function listAccept(){
+        var t = $('#dataTable').DataTable();
+        var this_row = t.rows('.selected').data();
+        
+        var this_o_flag = this_row[0].o_flag;
+        var this_o_no = this_row[0].o_no;
+
+        if(this_o_flag == 1){
+        	
+        	
+        	
+            $.ajax({     	
+                url : 'orderlist',                    // 전송 URL
+                type : 'PUT',                // GET or POST 방식
+                traditional : true,
+                data : {
+                    o_no : this_o_no        // 보내고자 하는 data 변수 설정
+                },
+                //Ajax 성공시 호출 
+                success : function(msg){
+                	alert(msg);
+                	listtable();
+                },
+             
+                //Ajax 실패시 호출
+                error : function(jqXHR, textStatus, errorThrown){
+                    console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+                }
+                
+            });
+        	
+        	
+        } else if(this_o_flag == 2){
+        	alert("이미 심사 중인 발주 입니다.");
+        } else if(this_o_flag == 3){
+        	alert("이미 거절된 발주 입니다.");
+        } else if(this_o_flag == 4){
+        	alert("이미 삭제된 발주 입니다.");
+        }
+        
+        
+    }
+   
     </script>
     
     
@@ -240,15 +423,10 @@
     
 	<script type="text/javascript">
 
-    
-	function test(){
-		console.log("modal 싫앵");
-	}
-	
 	
     	
-        var t = $('#orderdataTable').DataTable();
-        t.clear().draw(false);
+        //var t = $('#orderdataTable').DataTable();
+        //t.clear().draw(false);
     	//orderlisttable();
     	
         //테이블 row 선택
@@ -273,98 +451,18 @@
             console.log("s_no : " + $("#s_no").val());
             
             dt.row.add([
-            	
-                "<input type='text' id='s_name' name='s_name' value="+this_row[0].s_name+" style='border:none; background-color:transparent;width:6rem'>",
-                "<input type='number' id='s_size' name='s_size' value="+this_row[0].s_size+" style='border:none; background-color:transparent;width:6rem;'>",
+            	"<input type='number' readonly id='s_no' name='s_no' value="+this_row[0].s_no+" style='border:none; background-color:transparent;width:6rem'>",
+                "<input type='text' id='s_name' readonly name='s_name' value="+this_row[0].s_name+" style='border:none; background-color:transparent;width:6rem'>",
+                "<input type='number' id='s_size' readonly name='s_size' value="+this_row[0].s_size+" style='border:none; background-color:transparent;width:6rem;'>",
                 "<input type='number' id='o_amount' name='o_amount' value="+this_row[0].o_amount+" style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='number' id='s_price' name='s_price' value="+this_row[0].s_price+" style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='number' id='s_cost' name='s_cost' value="+this_row[0].s_cost+" style='border:none; background-color:transparent;width:6rem;'>",
-                "<input type='text' id='s_origin' name='s_origin' value="+this_row[0].s_origin+" style='border:none; background-color:transparent;width:6rem;'>"
+                "<input type='number' id='s_price' readonly name='s_price' value="+this_row[0].s_price+" style='border:none; background-color:transparent;width:6rem;'>",
+                "<input type='number' readonly value="+this_row[0].o_amount * this_row[0].s_price+" style='border:none; background-color:transparent;width:6rem;'>",
+                "<input type='text' id='s_origin' readonly name='s_origin' value="+this_row[0].s_origin+" style='border:none; background-color:transparent;width:6rem;'>"
                 
             ]).draw(false);
             
         });
-     
-        
-        
-        
-        
-        
-        
-        
-        
     
-    function orderlisttable(){
-    	
-    	if ( $.fn.DataTable.isDataTable('#orderlistTable') ) {
-    		  $('#orderlistTable').DataTable().destroy();
-    		}
-    	
-   	 $('#orderlistTable').dataTable({
-         pageLength: 10,
-         bPaginate: true,
-         bLengthChange: true,
-         lengthMenu : [ [ 10, 25, 50, -1 ], [ 10, 25, 50, "All" ] ],
-         bAutoWidth: false,
-         processing: true,
-         ordering: true,
-         serverSide: false,
-         searching: true,
-         ajax : {
-             "url":"orderlist",
-             "type":"POST",
-             "data": function (d) {
-                 d.s_no = "0010";
-             }
-         },
-         columns : [
-             {data: "s_name"},
-             {data: "s_size"},
-             {data: "o_amount"},
-             {data: "s_price"},
-             {data: "s_cost"},
-             {data: "s_origin"}
-         ],
-         initComplete: function () {
-             this.api().columns([5]).every( function () {
-                 var column = this;
-                 var select = $('<select><option value=""></option></select>') 
-                 .appendTo($(column.header()))
-                     .on( 'change', function () {
-                         var val = $.fn.dataTable.util.escapeRegex(
-                             $(this).val()
-                         );
-  
-                         column
-                             .search( val ? '^'+val+'$' : '', true, false )
-                             .draw();
-                     } );
-  
-                 column.data().unique().sort().each( function ( d, j ) {
-                     select.append( '<option value="'+d+'">'+d+'</option>' )
-                 } );
-             } );
-         }
-
-          
-     });
-    	
-    }
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-	
 	window.onload=function() {
 		window.focus();
 	}
@@ -384,34 +482,13 @@
                 t.rows('.selected').remove().draw(false);
                 
             });
+      
             
-    var t = $('#orderdataTable').DataTable();
-   
-    $('#itemAdd').on( 'click', function () {
-        
-        t.row.add( [
-            "<select size='1' id='s_name' name='s_name'><option value='A'  selected>A</option><option value='B'>B</option><option value='C'>C</option><option value='D'>D</option></select>",
-            "<input type='number' id='s_size' name='s_size' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='number' id='o_amount' name='o_amount' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='number' id='s_price' name='s_price' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='number' id='s_cost' name='s_cost' style='border:none; background-color:transparent;width:6rem;'>",
-            "<input type='text' id='s_origin' name='s_origin' style='border:none; background-color:transparent;width:6rem;'>"
-        ] ).draw( false );
-
-
-        $('#itemDel').click(function() {
-            var t = $('#orderdataTable').DataTable();
-            t.rows('.selected').remove().draw(false);
-            
-        });
-    } );
-
-       
-        
+     
         
         function modulation() {
             
-            var l = $('#dataTable tbody tr').length;
+            var l = $('#orderdataTable tbody tr').length;
             
             l *= 1;
             var url = "modulation";    // Controller로 보내고자 하는 URL
@@ -457,7 +534,7 @@
         
         function remove() {
             
-            var l = $('#dataTable tbody tr').length;
+            var l = $('#orderdataTable tbody tr').length;
             
             l *= 1;
             var url = "modulation";    // Controller로 보내고자 하는 URL
@@ -502,9 +579,7 @@
         }
 
 
-    $('#order_num').text(setNumber);
-
-    function setNumber() {
+    function setNumber(data) {
     	var dt = new Date();
    	 
         var recentYear = dt.getFullYear() % 100;
@@ -514,11 +589,12 @@
         if(recentMonth < 10) recentMonth = "0" + recentMonth;
         if(recentDay < 10) recentDay = "0" + recentDay;
 
-		var branchNum = 11;
+		var branchNum = ${userinfo.b_no};
+		
         if (branchNum < 10) branchNum = "000" + branchNum;
         else if (branchNum < 100) branchNum = "00" + branchNum;
         else if (branchNum < 1000) branchNum = "0" + branchNum;
-        return result = recentYear + recentMonth + recentDay + branchNum;
+        return result = recentYear + recentMonth + recentDay + '-' +branchNum + '-' +data;
     }
     
     $('#today').text(getToday);

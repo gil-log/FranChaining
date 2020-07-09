@@ -86,4 +86,23 @@
 		   WHERE B_NO = #{b_no}
 	</select>
     
+    <select id="AlreadyBranch" resultType="int">
+		SELECT COUNT(*)
+		   FROM EMP
+		   WHERE B_NO = #{b_no} AND P_NO = 1
+	</select>
+	
+	<select id="masterInfo" resultType="com.franchaining.vo.EmpVO">
+      SELECT e.p_no 
+                   , e.b_no 
+                   , e.e_name
+                   , e.phone1
+                   , e.phone2
+                   , e.phone3
+                   , e.sal
+                   , e.hire
+      FROM emp e, manager m
+      WHERE e.e_no = m.e_no and e.b_no = #{b_no} and e.p_no = 1 and m.m_flag = 1
+	</select>
+	
 </mapper>

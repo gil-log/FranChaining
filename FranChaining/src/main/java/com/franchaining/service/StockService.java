@@ -17,4 +17,6 @@ public interface StockService {
 	public void stockModul(StockVO stockVO) throws Exception;
 
 	public void stockDelete(StockVO stockVO) throws Exception;
+
+	public List<StockVO> s_name_info() throws Exception;
 }

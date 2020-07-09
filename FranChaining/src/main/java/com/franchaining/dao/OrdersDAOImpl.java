@@ -26,4 +26,20 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return sqlSession.selectOne("ordersMapper.listCount", ordersVO);
 	}
 
+	@Override
+	public List<OrderslistVO> showOrders(int o_no) throws Exception {
+		return sqlSession.selectList("ordersMapper.showOrders", o_no);
+	}
+
+	@Override
+	public int showlistCount(int o_no) throws Exception {
+		return sqlSession.selectOne("ordersMapper.showlistCount", o_no);
+	}
+
+	@Override
+	public void ordersApply(OrdersVO ordersVO) throws Exception {
+		System.out.println("dao");
+		sqlSession.update("ordersMapper.ordersApply", ordersVO);
+	}
+
 }

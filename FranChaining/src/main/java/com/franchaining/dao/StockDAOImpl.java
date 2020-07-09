@@ -40,6 +40,11 @@ public class StockDAOImpl implements StockDAO{
 	public void stockDelete(StockVO stockVO) throws Exception {
 		sqlSession.delete("stockMapper.stockDelete", stockVO);
 	}
+
+	@Override
+	public List<StockVO> s_name_info() throws Exception {
+		return sqlSession.selectList("stockMapper.s_name_info");
+	}
 	
 
 	
