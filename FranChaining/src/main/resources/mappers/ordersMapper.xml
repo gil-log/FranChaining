@@ -91,4 +91,11 @@
        WHERE O_NO = #{o_no}
 	</update>   
 	
+    <!-- 승인신청 -->
+	<update id="ordersDelete" parameterType="com.franchaining.vo.OrdersVO">
+       UPDATE ORDERS SET
+       O_FLAG = 5
+       WHERE O_NO = #{o_no}
+	</update>  
+	
 </mapper>

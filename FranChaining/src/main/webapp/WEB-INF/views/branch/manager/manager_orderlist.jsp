@@ -90,7 +90,32 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<table border="0" cellspacing="5" cellpadding="5">
+									<thead>
+									<tr>
+									<td>
+									<div id="dateSerach">
+									<input type="hidden" id ="dateToggle" value="0">
+										<button id ="dateSerachbtn" onclick="dateToggle();"></button>
+									</div>
+									</td>
+									</tr>
+									</thead>
+									<tbody>
+									
+										<tr>
+											<td>날짜 검색:</td>
+											<td><input type="text" id="min" name="min"></td>
+
+											<td>~</td>
+											<td><input type="text" id="max" name="max"></td>
+										</tr>
+
+									</tbody>
+
+								</table>
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
 
 									<thead>
 										<tr>
@@ -106,7 +131,7 @@
 							<div id="masterControlorderlist">
 							<button class="btn btn-danger btn-icon-split" onclick="listRemove();">
 								<span class="icon text-white-50"> <i class="fas fa-trash"></i>
-								</span> <span class="text">발주 삭제</span>
+								</span> <span class="text">발주 취소</span>
 							</button>
 
 							<button class="btn btn-success btn-icon-split" onclick="listAccept();">
@@ -153,16 +178,36 @@
 	</div>
 	<!-- End of Page Wrapper -->
 
+	<!-- Add Date Picker -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>	
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 
+	<!-- Core plugin JavaScript-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script
+		src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+		
+	<!-- Page level plugins -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+	<!-- Page level custom scripts -->
+	<script
+		src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
+		
 	<script type="text/javascript">
 	
 	$(document).ready(function() {
-		/*//점장만 발주 삭제,승인기능, 발주 목록 눌렀을때 추가 삭제 수정 버튼 사용 가능
+		//점장만 발주 삭제,승인기능, 발주 목록 눌렀을때 추가 삭제 수정 버튼 사용 가능
 		if(${userinfo.p_no} != 1){
 			$('#masterControlorderlist').hide();
-			$('#masterControlorderpage').hide();
+			//$('#masterControlorderpage').hide();
 		}
-		*/
 		
 		
 		listtable();   
@@ -186,20 +231,37 @@
 
 	    } );
 
-	    $('#itemDel').click(function() {
-	        var t = $('#orderdataTable').DataTable();
-	        t.rows('.selected').remove().draw(false);
-	        
-	    }); 
- 
+	    
+
+
+		$(document).on('change', 'input[name=min]', function(){
+			var table = $('#dataTable').DataTable();
+			table.draw(false);
+			});
+
+		$(document).on('change', 'input[name=max]', function(){
+			var table = $('#dataTable').DataTable();
+			table.draw(false);
+			});
+
+		$(document).on('change', 'input[name=dmin]', function(){
+			var table = $('#dataTable').DataTable();
+			table.draw(false);
+			});
+
+		$(document).on('change', 'input[name=dmax]', function(){
+			var table = $('#dataTable').DataTable();
+			table.draw(false);
+			});
 	});
 
     function listtable(){
     	
     	if ( $.fn.DataTable.isDataTable('#dataTable') ) {
     		  $('#dataTable').DataTable().destroy();
+    		  $('#dataTableSelect').hide();
     		}
-    	
+		
    	 $('#dataTable').dataTable({
          pageLength: 10,
          bPaginate: true,
@@ -242,9 +304,12 @@
             			 data = "거절됨";
              			return data;
             		 } else if(data == 4){
-            			 data = "삭제됨";
+            			 data = "승인됨";
               			return data;
-             		 }
+             		 } else if(data == 5){
+            			 data = "삭제됨";
+               			return data;
+              		 }
                      
         	 }
             	 }
@@ -253,7 +318,7 @@
          initComplete: function () {
              this.api().columns([4]).every( function () {
                  var column = this;
-                 var select = $('<select><option value=""></option></select>') 
+                 var select = $('<select id="dataTableSelect"><option value=""></option></select>') 
                  .appendTo($(column.header()))
                      .on( 'change', function () {
                          var val = $.fn.dataTable.util.escapeRegex(
@@ -273,6 +338,8 @@
                 	 } else if(d==3){
                          select.append( '<option value="'+'거절됨'+'">'+'거절됨'+'</option>' )
                 	 } else if(d==4){
+                         select.append( '<option value="'+'승인됨'+'">'+'승인됨'+'</option>' )
+                	 } else if(d==5){
                          select.append( '<option value="'+'삭제됨'+'">'+'삭제됨'+'</option>' )
                 	 }
                  } );
@@ -314,10 +381,6 @@
             success : function(jsonArray){
 		
             	orderlisttable(jsonArray);
-            	
-            	$('#order_num').text(setNumber(data));
-            	$('#o_date').text(jsonArray[0].o_date);
-            	$('#o_deadline').text(jsonArray[0].o_deadline);
 
             },
          
@@ -341,6 +404,10 @@
   		  $('#orderlistTable').DataTable().destroy();
 
   		}
+
+    	$('#order_num').text(setNumber($("#nowO_no").val()));
+    	$('#o_date').text(showlist[0].o_date);
+    	$('#o_deadline').text(showlist[0].o_deadline);
     	
    	 $('#orderlistTable').dataTable({
          pageLength: 10,
@@ -379,9 +446,6 @@
         var this_o_no = this_row[0].o_no;
 
         if(this_o_flag == 1){
-        	
-        	
-        	
             $.ajax({     	
                 url : 'orderlist',                    // 전송 URL
                 type : 'PUT',                // GET or POST 방식
@@ -394,12 +458,48 @@
                 	alert(msg);
                 	listtable();
                 },
-             
                 //Ajax 실패시 호출
                 error : function(jqXHR, textStatus, errorThrown){
                     console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
                 }
-                
+            });
+        	
+        	
+        } else if(this_o_flag == 2){
+        	alert("이미 심사 중인 발주 입니다.");
+        } else if(this_o_flag == 3){
+        	alert("이미 거절된 발주 입니다.");
+        } else if(this_o_flag == 4){
+        	alert("이미 승인된 발주 입니다.");
+        } else if(this_o_flag == 5){
+        	alert("이미 삭제된 발주 입니다.");
+        }
+    }
+    
+    function listRemove(){
+        var t = $('#dataTable').DataTable();
+        var this_row = t.rows('.selected').data();
+        
+        var this_o_flag = this_row[0].o_flag;
+        var this_o_no = this_row[0].o_no;
+
+        if(this_o_flag == 1){
+            $.ajax({     	
+                url : 'orderlist',                    // 전송 URL
+                type : 'DELETE',                // GET or POST 방식
+                traditional : true,
+                data : {
+                    o_no : this_o_no        // 보내고자 하는 data 변수 설정
+                },
+                //Ajax 성공시 호출 
+                success : function(msg){
+                	alert(msg);
+                	listtable();
+                },
+                //Ajax 실패시 호출
+                error : function(jqXHR, textStatus, errorThrown){
+                    console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+                }
             });
         	
         	
@@ -410,21 +510,40 @@
         } else if(this_o_flag == 4){
         	alert("이미 삭제된 발주 입니다.");
         }
+    }
+
+    function remove(){
         
+    	var l = $('#orderdataTable tbody tr').length;
+    	l *= 1;
+
+        const sendVar = new Array(l);
+        
+        for(var i = 0; i < sendVar.length; i++){
+        	sendVar[i] = new Array(6);
+        }
+        
+        console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
+        for(var i = 0; i < l; i++) {
+            
+        	sendVar[i][0] = $("#nowO_no").val();
+        	sendVar[i][1] = $("input[name=s_no]:eq(" + i + ")").val();
+        	sendVar[i][2] = $("input[name=o_amount]:eq(" + i + ")").val();
+        	sendVar[i][3] = ${userinfo.b_no};
+            sendVar[i][4] = $('#o_date').text();
+            sendVar[i][5] = $('#o_deadline').text();
+            
+        }
+        
+        console.log("ajax 배열 : " + sendVar[i][0]+sendVar[i][1]+sendVar[i][2]+sendVar[i][3]+sendVar[i][4]);
         
     }
-   
     </script>
-    
-    
-    
     
     <!-- modal js -->
     
 	<script type="text/javascript">
 
-	
-    	
         //var t = $('#orderdataTable').DataTable();
         //t.clear().draw(false);
     	//orderlisttable();
@@ -467,10 +586,7 @@
 		window.focus();
 	}
 	
-    $('#datePicker1, #datePicker2').datepicker({
-        format : "yyyy-mm-dd",
-    });
-    
+
     
         //도큐레디
         	//테이블 row 선택
@@ -531,53 +647,6 @@
                 }
             });
         }
-        
-        function remove() {
-            
-            var l = $('#orderdataTable tbody tr').length;
-            
-            l *= 1;
-            var url = "modulation";    // Controller로 보내고자 하는 URL
-            const sendVar = new Array(l);
-            
-            for(var i = 0; i < sendVar.length; i++){
-            	sendVar[i] = new Array(6);
-            }
-            
-            console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
-            
-            for(var i = 0; i < l; i++) {
-            	
-            	sendVar[i][0] = $("input[name=s_name]:eq(" + i + ")").val();
-            	sendVar[i][1] = $("input[name=s_size]:eq(" + i + ")").val();
-            	sendVar[i][2] = $("input[name=s_cost]:eq(" + i + ")").val();
-            	sendVar[i][3] = $("input[name=s_price]:eq(" + i + ")").val();
-            	sendVar[i][4] = $("input[name=s_origin]:eq(" + i + ")").val();
-            	sendVar[i][5] = $("#s_no").val();
-     
-            }
-            $.ajax({
-                url : url,                    // 전송 URL
-                type : 'DELETE',                // GET or POST 방식
-                traditional : true,
-                data : {
-                    stockmodul : sendVar        // 보내고자 하는 data 변수 설정
-                },
-                
-                //Ajax 성공시 호출 
-                success : function(msg){
-                	var t = $('#dataTable').DataTable();
-                	t.rows().remove().draw(false);
-                    listtable();
-                },
-             
-                //Ajax 실패시 호출
-                error : function(jqXHR, textStatus, errorThrown){
-                    console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
-                }
-            });
-        }
-
 
     function setNumber(data) {
     	var dt = new Date();
@@ -613,32 +682,92 @@
     }
     </script>
     
-    
-    
-    
+    <!-- 날짜 검색 기능 부분 -->
+    <script type="text/javascript">
+        $('#min, #max').datepicker({
+            format: "yyyy/mm/dd",
+        });
+        $('#dmin, #dmax').datepicker({
+            format: "yyyy/mm/dd",
+        });
+    </script>
+
+    <script>
+        function strTodate(str) {
+            var yyyy = str.substr(0, 4);
+            var mm = str.substr(5, 2);
+            var dd = str.substr(8, 2);
+
+            var convertedDate = new Date(yyyy, mm - 1, dd);
+            return convertedDate;
+        }
+
+        function getFormatDate(date) {
+            var year = date.getFullYear(); //yyyy
+            var month = (1 + date.getMonth()); //M
+            month = month >= 10 ? month : '0' + month; //month 두자리로 저장
+            var day = date.getDate(); //d
+            day = day >= 10 ? day : '0' + day; //day 두자리로 저장
+            return year + '/' + month + '/' + day; //'-' 추가하여 yyyy/mm/dd 형태 생성 가능
+        }
+
+        function dateToggle() {
+            if($("#dateToggle").val()==0){
+                $("#dateToggle").val(1);
+                }
+            }
+
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = $('#min').datepicker("getDate");
+                var max = $('#max').datepicker("getDate");
+
+                var dmin = $('#dmin').datepicker("getDate");
+                var dmax = $('#dmax').datepicker("getDate");
+                
+                var startDate = new Date(data[2]);
+                var endDate = new Date(data[3]);
+
+                if($("#dateToggle").val()==0){
+
+                    if (min == null && max == null) {
+                        return true;
+                    }
+                    if (min == null && startDate <= max) {
+                        return true;
+                    }
+                    if (max == null && startDate >= min) {
+                        return true;
+                    }
+                    if (startDate <= max && startDate >= min) {
+                        return true;
+                    }
+
+                   }
+                  if ($("#dateToggle").val()==1){
 
 
-	<!-- Core plugin JavaScript-->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+                    
+                    if (min == null && max == null) {
+                        return true;
+                    }
+                    if (min == null && endDate <= max) {
+                        return true;
+                    }
+                    if (max == null && endDate >= min) {
+                        return true;
+                    }
+                    if (endDate <= max && endDate >= min) {
+                        return true;
+                    }
+                    
+                } 
+                
+                return false;
+            }
+        );
+    </script>
 
-	<!-- Custom scripts for all pages-->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-
-	<!-- Add Date Picker -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-		
-	<!-- Page level plugins -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-	<!-- Page level custom scripts -->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
 </body>
 

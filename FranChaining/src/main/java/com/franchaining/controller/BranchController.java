@@ -95,12 +95,34 @@ public class BranchController {
 	}
 	
 	@RequestMapping(value = "/manager/order", method = RequestMethod.GET)
-	public String manager_order() throws Exception{
-		logger.info("/manager_order");
+	public String managerOrderget(Model model, HttpServletRequest request) throws Exception {
+		logger.info("/manager/order");
 
-		return "/branch/manager/manager_order";
+		List<StockVO> s_name_info = stockService.s_name_info();
+
+		model.addAttribute("s_name_info", s_name_info);
+		for (int i = 0; i < s_name_info.size(); i++) {
+			logger.info(s_name_info.get(i).getS_name());
+		}
+		return "branch/manager/manager_order";
 	}
-	
+
+	@RequestMapping(value = "/manager/order", method = RequestMethod.PUT)
+	public @ResponseBody Object managerOrderput(HttpServletRequest request) throws Exception {
+		logger.info("/manager/order");
+
+		String s_name = request.getParameter("s_name");
+
+		logger.info(s_name);
+		// List<StockVO> s_name_info = stockService.s_name_info();
+		StockVO stockVO = new StockVO();
+		stockVO.setS_name(s_name);
+		StockVO stockinfo = stockService.stockinfo(stockVO);
+		// JSONArray jsonArray = JSONArray(s_name_info);
+
+		return stockinfo;
+	}
+
 	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
 	public String manager_orderlist(Model model) throws Exception{
 		logger.info("/manager_orderlist");
@@ -126,7 +148,7 @@ public class BranchController {
 		List<OrderslistVO> ordersList = ordersService.ordersList(ordersVO);
 		
 		
-		logger.info("날짜 : " + ordersList.get(0).getO_date());
+		logger.info("날짜 : " + ordersList.get(0).getS_name());
 		
 		
 		WrapperVO rtnVO = new WrapperVO();
@@ -151,10 +173,28 @@ public class BranchController {
 		OrdersVO ordersVO = new OrdersVO();
 		ordersVO.setO_no(o_no);
 		ordersService.ordersApply(ordersVO);
-		
-		logger.info("???");
-		
+
 		String smsg = "승인 신청 되었습니다.";
+		
+		return smsg;
+	}
+	
+	@RequestMapping(value = "/manager/orderlist", method = RequestMethod.DELETE, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public Object orderlistdelete(HttpServletRequest request) throws Exception{
+		logger.info("/order_list/delete");
+		
+		String so_no = request.getParameter("o_no");
+		
+		int o_no = Integer.parseInt(so_no);
+		
+		logger.info(so_no);
+			
+		OrdersVO ordersVO = new OrdersVO();
+		ordersVO.setO_no(o_no);
+		ordersService.ordersDelete(ordersVO);
+		
+		String smsg = "삭제 되었습니다.";
 		
 		return smsg;
 	}
@@ -278,6 +318,13 @@ public class BranchController {
 		logger.info("Controller에서 보낸 MSG : " + resultMsg);
 
 		return resultMsg;
+	}
+	
+	@RequestMapping(value = "/manager/orderlisttest", method = RequestMethod.GET)
+	public String managerorderhistoryget(){
+		logger.info("/manager/orderhistory");
+
+		return "/branch/manager/manager_orderlisttest";
 	}
 	
 }

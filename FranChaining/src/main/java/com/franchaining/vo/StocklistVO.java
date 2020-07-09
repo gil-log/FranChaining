@@ -1,13 +1,21 @@
 package com.franchaining.vo;
 
-public class StockVO {
+public class StocklistVO {
+	
 	private String s_name;
 	private	String s_origin;
 	private int s_no;
 	private int s_price;
 	private int s_size;
 	private int s_cost;
+	private int o_amount;
 	
+	public int getO_amount() {
+		return o_amount;
+	}
+	public void setO_amount(int o_amount) {
+		this.o_amount = o_amount;
+	}
 	public int getS_no() {
 		return s_no;
 	}
@@ -47,7 +55,7 @@ public class StockVO {
 	
 	@Override
 	public String toString() {
-		return "StockVO [s_name=" + s_name + ", s_origin=" + s_origin + ", s_no=" + s_no + ", s_price=" + s_price
-				+ ", s_size=" + s_size + ", s_cost=" + s_cost + "]";
+		return "StocklistVO [s_name=" + s_name + ", s_origin=" + s_origin + ", s_no=" + s_no + ", s_price=" + s_price
+				+ ", s_size=" + s_size + ", s_cost=" + s_cost + ", o_amount=" + o_amount + "]";
 	}
 }

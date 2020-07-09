@@ -36,15 +36,12 @@
 .dataTables_length {
 	display: none;
 }
-
 .dataTables_filter {
 	display: none;
 }
-
 .dataTables_info {
 	display: none;
 }
-
 #dataTable_paginate {
 	display: none;
 }
@@ -54,7 +51,6 @@ input {
             width: 6rem;
             color: #858796;
        }
-
         select {
             border: none;
             background-color: transparent;
@@ -64,7 +60,6 @@ input {
         .selected {
             background-color: gainsboro;
         }
-        
 </style>
 </head>
 
@@ -109,6 +104,9 @@ input {
 					</p>
 
 					<!-- DataTales Example -->
+					<form name="ordersForm">
+                    <input type ="hidden" value="" id="s_name" name="s_name">                      
+                    </form> 
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">온라인수발주신청서</h6>
@@ -149,13 +147,13 @@ input {
 												<td>발주담당</td>
 												<td>점주</td>
 												<td>TEL</td>
-												<td>031-969-6642</td>
+												<td>0${branch.b_phone1}-${branch.b_phone2}-${branch.b_phone3}</td>
 											</tr>
 											<tr>
 												<td>지점번호</td>
-												<td>11</td>
+												<td>${userinfo.b_no}</td>
 												<td>지점명</td>
-												<td>고양화정점</td>
+												<td>${branch.b_name}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -164,8 +162,7 @@ input {
 
 							<br>
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>품목코드</th>
@@ -185,22 +182,22 @@ input {
 											<th>수량</th>
 											<th>공급가</th>
 											<th>금액</th>
-											<th>비고</th>
-											<br>
-										</tr>
+											<th>비고</th>											
+										</tr>						
 									</tfoot>
 									<tbody>
-
 
 									</tbody>
 									
 								</table>
-<button class="btn btn-danger btn-icon-split" id="itemDel">
+
+							</div>
+							
+							<button class="btn btn-danger btn-icon-split" id="itemDel">
 								<span class="icon text-white-50"> <i class="fas fa-trash"></i>
 								</span> <span class="text">선택 행 삭제</span>
 							</button>
-							</div>
-
+							
 							<button class="btn btn-primary btn-icon-split" id="itemAdd">
 								<span class="icon text-white-50"> <i class="fas fa-plus"></i>
 								</span> <span class="text">항목 추가</span>
@@ -254,17 +251,16 @@ input {
 		src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
 	<!-- Add Date Picker -->
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
     $('#datePicker1, #datePicker2').datepicker({
         format : "yyyy-mm-dd",
     });
-        $(document).ready(function() {
+    $(document).ready(function() {
+    	
         	//테이블 row 선택
-            $('#dataTable tbody').on('click', 'tr', function() {
+       		$('#dataTable tbody').on('click', 'tr', function() {
                 $(this).toggleClass('selected');
             });
             $('#itemDel').click(function() {
@@ -272,23 +268,87 @@ input {
                 t.rows('.selected').remove().draw(false);
                 
             });
-            
-    var t = $('#dataTable').DataTable();
-   
-    $('#itemAdd').on( 'click', function () {
-        t.row.add( [
-            "<input type='text' id='code' name='code'>",
-            "<select size='1' id='name' name='name'><option value='A'  selected>A</option><option value='B'>B</option><option value='C'>C</option><option value='D'>D</option></select>",
-            "<input type='text' id='ea' name='ea'>",
-            "<input type='text' id='qu' name='qu'>",
-            "<input type='text' id='sup' name='price'>",
-            "<input type='text' id='price' name='supval'>",
-            "<span id='other' name='other'></span>"
-        ] ).draw( false );
-    } );
-    $('#itemAdd').click();
-} );
-    
+             
+            var t = $('#dataTable').DataTable(); 
+             $('#itemAdd').on('click', function () {
+                t.row.add( [
+                    "<input type='text' id='s_no' name='s_no' onfocus='this.blur()' readonly>",
+                    "<select size='1' id='s_name' name='s_name' ><option value=''></option><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
+                    "<input type='text' id='s_size' name='s_size' onfocus='this.blur()' readonly>",
+                    "<input type='text' id='o_amount' name='o_amount'>",
+                    "<input type='text' id='s_price' name='s_price' onfocus='this.blur()' readonly>",
+                    "<input type='text' onfocus='this.blur()' readonly>",
+                    "<input type='text' id='s_origin' name='s_origin' onfocus='this.blur()' readonly>"
+                ] ).draw( false );
+            } );
+
+    } ); 
+  
+	$(function(){
+		$(document).on('change', 'select[name=s_name]', function(){
+			var s_name = $(this).val();		
+			var tr = $(this).parent().parent();
+			var td = tr.children();
+			
+			 
+			//var l = $(this).children().length;
+			//alert(l);
+			//var tags = JSON.stringify("${s_name_info}");
+			//var j = JSON.parse(tags);
+			
+			/*
+			$.post("getstockinfo", {"s_name": s_name}, function(result) {
+				
+					alert(result);
+				
+			});
+			*/
+			
+	        $.ajax({
+	            url : "order",                    // 전송 URL
+	            type : 'PUT',                // GET or POST 방식
+	            traditional : true,
+	            datatype: "json",
+	            data : {
+	                s_name : s_name       // 보내고자 하는 data 변수 설정
+	            },
+	            
+	            //Ajax 성공시 호출 
+	            success : function(msg){
+	    			td.eq(0).children().val(msg.s_no);
+	    			td.eq(2).children().val(msg.s_size);
+	    			td.eq(4).children().val(msg.s_price);
+	    			td.eq(6).children().val(msg.s_origin);
+	            },
+	         
+	            //Ajax 실패시 호출
+	            error : function(jqXHR, textStatus, errorThrown){
+	                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+	            }
+	        });
+			
+			/*
+			for(var i = 0; i < l; i++) {
+				if($('select[name=name]').val() == '${s_name_info.get(i).s_name}')
+				var s_no = '${s_name_info.get(i).s_no}';
+			}
+			*/
+			//alert(s_no);
+			
+			});
+		//수량*공급가
+		$(document).on('change', 'input[name=o_amount]', function(){
+			var o_amount = $(this).val();
+			var tr = $(this).parent().parent();
+			var td = tr.children();
+			var s_price = td.eq(4).children().val();
+			s_price *= 1;
+			o_amount *= 1;
+			td.eq(5).children().val(o_amount * s_price);
+			
+	});
+	});
+		 
     function submit() {
         alert('작성완료 -> 매니저에게 전달될 기능');
         
@@ -297,31 +357,29 @@ input {
         //alert(ids);
         l *= 1;
         for(var i = 0; i < l; i++) {
-            alert($("input[name=code]:eq(" + i + ")").val() + ", " + $("select[name=name]:eq(" + i + ")").val());
-        }        
+            alert($("input[name=s_no]:eq(" + i + ")").val() + ", " + $("select[name=s_name]:eq(" + i + ")").val());
+        }       
+        
     }
-
     $('#order_num').text(setNumber);
-
     function setNumber() {
-    	var dt = new Date();
+		var dt = new Date();
    	 
         var recentYear = dt.getFullYear() % 100;
         var recentMonth = dt.getMonth() + 1;
         var recentDay = dt.getDate();
-     
+     	var branchNum = ${userinfo.b_no};
+     	
         if(recentMonth < 10) recentMonth = "0" + recentMonth;
         if(recentDay < 10) recentDay = "0" + recentDay;
-
-		var branchNum = 11;
+		
         if (branchNum < 10) branchNum = "000" + branchNum;
         else if (branchNum < 100) branchNum = "00" + branchNum;
-        else if (branchNum < 1000) branchNum = "0" + branchNum;
+        else if (branchNum < 1000) branchNum = "0" + branchNum ;
         return result = recentYear + recentMonth + recentDay + branchNum;
     }
     
     $('#today').text(getToday);
-
     function getToday() {
     	var dt = new Date();
    	 

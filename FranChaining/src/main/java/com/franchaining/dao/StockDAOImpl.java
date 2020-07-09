@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.StocklistVO;
 
 @Repository
 public class StockDAOImpl implements StockDAO{
@@ -44,6 +45,16 @@ public class StockDAOImpl implements StockDAO{
 	@Override
 	public List<StockVO> s_name_info() throws Exception {
 		return sqlSession.selectList("stockMapper.s_name_info");
+	}
+
+	@Override
+	public StockVO stockinfo(StockVO stockVO) throws Exception {
+		return sqlSession.selectOne("stockMapper.stockinfo", stockVO);
+	}
+
+	@Override
+	public List<StocklistVO> stockcenterlist() throws Exception {
+		return sqlSession.selectList("stockMapper.stockcenterlist");
 	}
 	
 

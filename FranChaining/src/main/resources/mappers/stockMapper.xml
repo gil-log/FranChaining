@@ -63,6 +63,25 @@
 		   s_size,
 		   s_cost
 	from stock
-    order by s_no asc
+	order by s_no asc
 	</select>
+	
+	<!-- stock 정보 -->
+	<select id="stockinfo" resultType="com.franchaining.vo.StockVO">
+	select s_no,
+	       s_name,
+	       s_size,
+	       s_price,
+	       s_origin
+	from stock
+	where s_name = #{s_name}
+	</select>
+	
+	<!-- 본사 stock 체크 -->
+	<select id="stockcenterlist" resultType="com.franchaining.vo.StocklistVO">
+        select s_name, o_amount, s_origin
+		from orders, stock
+		where orders.s_no = stock.s_no and b_no= 0 and o_flag =0
+		ORDER BY s_name ASC
+    </select>
 </mapper>

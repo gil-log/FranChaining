@@ -11,6 +11,7 @@ import com.franchaining.dao.StockDAO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.StocklistVO;
 
 @Service
 public class StockServiceImpl implements StockService {
@@ -46,5 +47,15 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public List<StockVO> s_name_info() throws Exception {
 		return dao.s_name_info();
+	}
+
+	@Override
+	public StockVO stockinfo(StockVO stockVO) throws Exception {
+		return dao.stockinfo(stockVO);
+	}
+
+	@Override
+	public List<StocklistVO> stockcenterlist() throws Exception {
+		return dao.stockcenterlist();
 	}
 }

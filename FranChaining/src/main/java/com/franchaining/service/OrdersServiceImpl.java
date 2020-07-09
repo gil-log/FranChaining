@@ -41,5 +41,10 @@ public class OrdersServiceImpl implements OrdersService {
 		System.out.println("service");
 		dao.ordersApply(ordersVO);
 	}
+
+	@Override
+	public void ordersDelete(OrdersVO ordersVO) throws Exception {
+		dao.ordersDelete(ordersVO);
+	}
 	
 }

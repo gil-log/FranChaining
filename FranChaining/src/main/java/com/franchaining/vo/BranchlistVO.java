@@ -1,12 +1,29 @@
 package com.franchaining.vo;
 
-public class BranchVO {
+public class BranchlistVO {
 	
 	private int b_no;
 	private String b_name;
 	private String b_phone1;
 	private String b_phone2;
 	private String b_phone3;
+	private String phone;
+	private String e_name;
+	
+	
+	public String getE_name() {
+		return e_name;
+	}
+	public void setE_name(String e_name) {
+		this.e_name = e_name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 	public int getB_no() {
 		return b_no;
@@ -41,8 +58,8 @@ public class BranchVO {
 	
 	@Override
 	public String toString() {
-		return "BranchVO [b_no=" + b_no + ", b_name=" + b_name + ", b_phone1=" + b_phone1 + ", b_phone2=" + b_phone2
-				+ ", b_phone3=" + b_phone3 + "]";
+		return "BranchlistVO [b_no=" + b_no + ", b_name=" + b_name + ", b_phone1=" + b_phone1 + ", b_phone2=" + b_phone2
+				+ ", b_phone3=" + b_phone3 + ", phone=" + phone + ", e_name=" + e_name + "]";
 	}
 
 }

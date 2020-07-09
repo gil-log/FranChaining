@@ -16,4 +16,6 @@ public interface OrdersService {
 	public int showlistCount(int o_no) throws Exception;
 
 	public void ordersApply(OrdersVO ordersVO) throws Exception;
+	
+	public void ordersDelete(OrdersVO ordersVO) throws Exception;
 }

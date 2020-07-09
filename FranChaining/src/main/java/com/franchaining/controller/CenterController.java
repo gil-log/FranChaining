@@ -27,11 +27,14 @@ import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
 import com.franchaining.service.StockService;
+import com.franchaining.vo.BranchVO;
+import com.franchaining.vo.BranchlistVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.StocklistVO;
 import com.franchaining.vo.WrapperVO;
 
 @Controller
@@ -119,6 +122,35 @@ public class CenterController {
 		}
 		return "redirect";
 	}
+	
+	@RequestMapping(value = "/hr/branchModified", method = RequestMethod.GET)
+	public String branchModifiedget(Model model) throws Exception {
+		logger.info("branchModifiedget");
+
+		List<BranchlistVO> branchlist = branchService.branchlist();
+
+		String p1 = "";
+		String p2 = "";
+		String p3 = "";
+		
+		String phone = "";
+				
+		for(int i = 0 ; i < branchlist.size(); i++) {
+			p1 = branchlist.get(i).getB_phone1();
+			p2 = branchlist.get(i).getB_phone2();
+			p3 = branchlist.get(i).getB_phone3();
+			
+			phone = p1+"-"+p2+"-"+p3;
+			
+			branchlist.get(i).setPhone(phone);
+		}
+		
+		model.addAttribute("branchlist", branchlist);
+
+		return "/center/hr/hr_branchModified";
+	}
+	
+	
 	
 	@RequestMapping(value = "/stock/main", method = RequestMethod.GET)
 	public String stockmain(){
@@ -338,11 +370,19 @@ public class CenterController {
 		return rtnVO;
 	}
 	
-	@RequestMapping(value = "/stock/test", method = RequestMethod.GET)
-	public String stest(){
-		logger.info("/stock_test");
+	@RequestMapping(value = "/stock/totalstock", method = RequestMethod.GET)
+	public String totalstockget(Model model) throws Exception{
+		logger.info("/totalstockget");
 
-		return "/center/stock/stock_orderlist";
+		List<StocklistVO> centerstocklist = stockService.stockcenterlist();
+
+		for(int i = 0; i < centerstocklist.size(); i++) {
+			logger.info(centerstocklist.get(i).getS_name());
+		}
+		
+		model.addAttribute("centerstocklist", centerstocklist);
+		
+		return "/center/stock/stock_totalstock";
 	}
 
 }

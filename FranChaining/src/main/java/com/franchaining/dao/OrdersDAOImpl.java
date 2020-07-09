@@ -42,4 +42,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 		sqlSession.update("ordersMapper.ordersApply", ordersVO);
 	}
 
+	@Override
+	public void ordersDelete(OrdersVO ordersVO) throws Exception {
+		sqlSession.update("ordersMapper.ordersDelete",ordersVO);
+	}
+
 }

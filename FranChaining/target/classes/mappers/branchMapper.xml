@@ -23,5 +23,16 @@
 		from branch
 		where b_no = #{b_no}
 	</select>
+
+	<select id="branchlist" resultType="com.franchaining.vo.BranchlistVO">
+	
+		select branch.b_no, branch.b_name, emp.e_name,
+		branch.b_phone1, branch.b_phone2, branch.b_phone3
+		from branch, emp, MANAGER
+		where (branch.b_no = emp.b_no) AND MANAGER.e_no = EMP.e_no 
+		and not branch.b_no = 0 and emp.p_no = 1
+		AND MANAGER.M_FLAG = 1
+		
+	</select>
 		
 </mapper>

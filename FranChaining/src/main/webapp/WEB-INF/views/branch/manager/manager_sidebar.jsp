@@ -60,24 +60,6 @@
                </div>
             </div></li>
 
-         <!-- Divider -->
-         <hr class="sidebar-divider" style="margin-bottom: 0px;">
-
-         <!-- Nav Item - Utilities Collapse Menu -->
-         <li class="nav-item" id="items3"><a class="nav-link collapsed"
-            href="#" data-toggle="collapse" data-target="#collapse3"
-            aria-expanded="true" aria-controls="collapseUtilities"> <i
-               class="fas fa-fw fa-users"></i> <span>알바 관리</span>
-         </a>
-            <div id="collapse3" class="collapse"
-               aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-               <div class="bg-white py-2 collapse-inner rounded">
-                  <h6 class="collapse-header">알바 관리</h6>
-                  <a class="collapse-item" href="#">알바 조회</a> <a
-                     class="collapse-item" href="#">알바 등록</a>
-               </div>
-            </div></li>
-
 
          <!-- Divider -->
          <hr class="sidebar-divider d-none d-md-block">
