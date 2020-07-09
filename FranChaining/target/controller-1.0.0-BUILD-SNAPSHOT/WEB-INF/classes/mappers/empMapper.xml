@@ -41,4 +41,27 @@
 
    </select>
     
+    <select id="regwait" resultType="com.franchaining.vo.RegwaitVO" parameterType="java.util.List">
+      SELECT e_no 
+                   , p_no 
+                   , b_no
+                   , e_name
+                   , phone1
+                   , phone2
+                   , phone3
+                   , sal
+                   , hire
+      FROM emp
+      WHERE e_no IN (         
+      <foreach collection="list" item="item" separator=",">
+            #{item.e_no}
+      </foreach> )
+   </select>
+   
+   	<select id="EmpCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		   FROM EMP
+		   WHERE B_NO = #{b_no}
+	</select>
+    
 </mapper>

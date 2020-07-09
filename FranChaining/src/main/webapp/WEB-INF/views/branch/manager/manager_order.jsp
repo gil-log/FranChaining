@@ -151,7 +151,7 @@ input {
 												<td>발주담당</td>
 												<td>점주</td>
 												<td>TEL</td>
-												<td>${branch.b_phone1}-${branch.b_phone2}-${branch.b_phone3}</td>
+												<td>0${branch.b_phone1}-${branch.b_phone2}-${branch.b_phone3}</td>
 											</tr>
 											<tr>
 												<td>지점번호</td>
@@ -272,18 +272,17 @@ input {
             });
              
             var t = $('#dataTable').DataTable(); 
-             $('#itemAdd').on( 'click', function () {
+             $('#itemAdd').on('click', function () {
                 t.row.add( [
-                    "<input type='text' id='code' name='code' style='border:none; background-color:transparent;width:6rem;'>",
-                    "<select size='1' id='name' name='name' style='border:none; background-color:transparent;width:6rem;'><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
-                    "<input type='text' id='ea' name='ea' style='border:none; background-color:transparent;width:6rem;'>",
-                    "<input type='text' id='qu' name='qu' style='border:none; background-color:transparent;width:6rem;'>",
-                    "<input type='text' id='sup' name='sup' style='border:none; background-color:transparent;width:6rem;'>",
-                    "<input type='text' id='price' name='supval' style='border:none; background-color:transparent;width:6rem;'>",
-                    "<input type='text' id='other' name='other' style='border:none; background-color:transparent;width:6rem;'>"
+                    "<input type='text' id='code' name='code' class='code' onfocus='this.blur()' readonly>",
+                    "<select size='1' id='name' name='name' class='name'><option value=''></option><c:forEach var='s_name_info' items='${s_name_info}' varStatus='i'><option value='${s_name_info.s_name}'>${s_name_info.s_name}</option></c:forEach></select>",
+                    "<input type='text' id='size' name='size' class='size' onfocus='this.blur()' readonly>",
+                    "<input type='text' id='qu' name='qu' class='qu'>",
+                    "<input type='text' id='sup' name='sup' class='sup' onfocus='this.blur()' readonly>",
+                    "<input type='text' id='price' name='supval' class='supval' onfocus='this.blur()' readonly>",
+                    "<input type='text' id='other' name='other' class='other' onfocus='this.blur()' readonly>"
                 ] ).draw( false );
             } );
-            $('#itemAdd').click();  
             
             var s_name = $("#name option:selected").val();
             alert(s_name);
@@ -292,22 +291,72 @@ input {
     } ); 
   
 	$(function(){
-		$('#name').change(function(){
-			var s_name = $("#name option:selected").val();		
-			alert(s_name);
-			
-			$("#s_name").val(s_name);
-      	  	$("name").val(s_name);		
-			$("#code").val(s_name);
+		$(document).on('change', 'select[name=name]', function(){
+			var s_name = $(this).val();		
 
+			var tr = $(this).parent().parent();
+			var td = tr.children();
+			
+			 
+			//var l = $(this).children().length;
+			//alert(l);
+			//var tags = JSON.stringify("${s_name_info}");
+			//var j = JSON.parse(tags);
+			
+			/*
+			$.post("getstockinfo", {"s_name": s_name}, function(result) {
+				
+					alert(result);
+				
+			});
+			*/
+			
+	        $.ajax({
+	            url : "getstockinfo",                    // 전송 URL
+	            type : 'POST',                // GET or POST 방식
+	            traditional : true,
+	            datatype: "json",
+	            data : {
+	                s_name : s_name       // 보내고자 하는 data 변수 설정
+	            },
+	            
+	            //Ajax 성공시 호출 
+	            success : function(msg){
+
+	            	alert(msg.s_origin);
+	    			td.eq(0).children().val(msg.s_no);
+	    			td.eq(2).children().val(msg.s_size);
+	    			td.eq(4).children().val(msg.s_price);
+
+	            },
+	         
+	            //Ajax 실패시 호출
+	            error : function(jqXHR, textStatus, errorThrown){
+	                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+	            }
+	        });
+			
+
+			/*
+			for(var i = 0; i < l; i++) {
+				if($('select[name=name]').val() == '${s_name_info.get(i).s_name}')
+				var s_no = '${s_name_info.get(i).s_no}';
+			}
+			*/
+			//alert(s_no);
+
+			
 			});
 		//수량*공급가
-		$('#qu').change(function(){
-			var qu = $("#qu").val();
-			var sup = $("#sup").val();
-			alert(qu);
-			$("#price").val(qu*sup);
-			});
+		$(document).on('change', 'input[name=qu]', function(){
+			var qu = $(this).val();
+			var tr = $(this).parent().parent();
+			var td = tr.children();
+			var sup = td.eq(4).children().val();
+			sup *= 1;
+			td.eq(5).children().val(sup * qu);
+			
+	});
 	});
 		 
     function submit() {
@@ -319,7 +368,8 @@ input {
         l *= 1;
         for(var i = 0; i < l; i++) {
             alert($("input[name=code]:eq(" + i + ")").val() + ", " + $("select[name=name]:eq(" + i + ")").val());
-        }        
+        }       
+        
     }
 
     $('#order_num').text(setNumber);

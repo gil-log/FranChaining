@@ -8,10 +8,11 @@
 	<select id="stockinfo" resultType="com.franchaining.vo.StockVO">
 	select s_no,
 	       s_name,
+	       s_size,
 	       s_price,
 	       s_origin
 	from stock
-	where s_name='패티'
+	where s_name = #{s_name}
 	</select>
 	
 	<!-- stock 정보 가져오기 -->

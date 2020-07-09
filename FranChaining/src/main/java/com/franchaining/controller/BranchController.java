@@ -10,12 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.BranchService;
@@ -29,6 +32,7 @@ import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.WrapperVO;
 
 /**
  * Handles requests for the application home page.
@@ -124,27 +128,19 @@ public class BranchController {
 	   @RequestMapping(value = "/manager/order", method = RequestMethod.GET)
 	   public String managerOrderget(Model model, HttpServletRequest request) throws Exception {
 	      logger.info("mgrOdrget");
-	      HttpSession session = request.getSession();
+	      
 	      List<StockVO> s_name_info = stockService.s_name_info();
-			
-	      String s_name = request.getParameter("s_name"); 
-	      StockVO stockVO = new StockVO(); 
-	      stockVO.setS_name(s_name); 
-	      logger.info(s_name);
-	  
-	      StockVO stockinfo = stockService.stockinfo(stockVO);
-	      session.setAttribute("stockinfo", stockinfo);
-			 
+	      
 	      model.addAttribute("s_name_info", s_name_info);
 	      for(int i = 0; i < s_name_info.size(); i++) {
 				logger.info(s_name_info.get(i).getS_name());
 			}
 	      return "branch/manager/manager_order";
 	   }
-	   
+	   /*
 	   @RequestMapping(value = "/manager/order", method = RequestMethod.POST)
 		public String managerOrderget(HttpServletRequest request, Model model) throws Exception {
-			logger.info("mgrOdrget");
+			logger.info("mgrOdrpost");
 			HttpSession session = request.getSession();
 		    List<StockVO> s_name_info = stockService.s_name_info();
 		    String s_name = request.getParameter("s_name");
@@ -159,7 +155,38 @@ public class BranchController {
 				}
 	        return "branch/manager/manager_order";	
 		}
+	   */
+	   /*
+	    * 
+	    * 
+	   @RequestMapping(value = "/manager/getstockinfo", method = RequestMethod.POST) 
+	   public StockVO getStockInfo(String s_name) throws Exception {
+		      logger.info("nnnnnnnnn");
+
+		   StockVO stockVO = new StockVO();
+		   stockVO.setS_name(s_name);
+		   StockVO stockinfo = stockService.stockinfo(stockVO);
+		   
+		   return stockinfo;
+	   }
+	   */
 	   
+	   @RequestMapping(value = "/manager/getstockinfo", method = RequestMethod.POST)
+	   
+		public @ResponseBody Object getStockInfo(HttpServletRequest request) throws Exception {
+		      logger.info("logloglog");
+
+		      String s_name = request.getParameter("s_name");
+		      
+		      logger.info(s_name);
+		      //List<StockVO> s_name_info = stockService.s_name_info();
+		      StockVO stockVO = new StockVO();
+			  stockVO.setS_name(s_name);
+			  StockVO stockinfo = stockService.stockinfo(stockVO);
+			  //JSONArray jsonArray = JSONArray(s_name_info);
+			  
+		      return stockinfo;
+		}
 	   
 	   @RequestMapping(value = "/manager/orderlist", method = RequestMethod.GET)
 	   public String managerOrderListget(Model model) throws Exception {

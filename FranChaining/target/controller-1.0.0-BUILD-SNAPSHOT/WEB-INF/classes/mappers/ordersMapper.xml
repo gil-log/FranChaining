@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ordersMapper">
+	<!-- 발주목록 -->
+	<select id="order_history" resultType="com.franchaining.vo.OrdersVO">
+		select b_no, 
+		       s_no, 
+		       o_amount, 
+		       o_date
+		from orders
+	
+	</select>
+
+
+</mapper>

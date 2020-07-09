@@ -6,9 +6,21 @@
 
 	<!-- branch 체크 -->
 	<select id="b_no_check" resultType="com.franchaining.vo.RegVO">
-        select b_no 
+        select b_no
         from branch
         where b_no = #{b_no}
     </select>
     
+    <select id="BranchCount" resultType="int">
+		SELECT COUNT(*)
+		   FROM BRANCH
+		   WHERE B_NO != 0
+	</select>
+	
+	<!-- branch 정보 -->
+	<select id="branchinfo" resultType="com.franchaining.vo.BranchVO">
+		select b_no, b_name, b_phone1, b_phone2, b_phone3
+		from branch
+		where b_no = 1
+	</select>
 </mapper>
