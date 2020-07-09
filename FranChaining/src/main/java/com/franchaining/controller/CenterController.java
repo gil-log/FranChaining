@@ -1,9 +1,12 @@
 package com.franchaining.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +17,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.StockService;
+import com.franchaining.vo.BranchVO;
+import com.franchaining.vo.BranchlistVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
+import com.franchaining.vo.StockVO;
+import com.franchaining.vo.StocklistVO;
+import com.franchaining.vo.WrapperVO;
 
 @Controller
 @RequestMapping(value = "/center/*")
@@ -36,6 +47,8 @@ public class CenterController {
 	ManagerService managerService;
 	@Inject
 	BranchService branchService;
+	@Inject
+	StockService stockService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CenterController.class);
 	
@@ -64,6 +77,13 @@ public class CenterController {
 		logger.info("hrAcceptionget");
 
 		List<ManagerVO> regwaitlist = managerService.regwait();
+		if(regwaitlist.isEmpty()) {
+			logger.info("emptywaitlist");
+			model.addAttribute("isNull", 1);
+			
+			return "center/hr/hr_acception";
+			
+		}
 		
 		List<RegwaitVO> regwaitemplist = empService.regwait(regwaitlist);
 
@@ -103,10 +123,266 @@ public class CenterController {
 		return "redirect";
 	}
 	
+	@RequestMapping(value = "/hr/branchModified", method = RequestMethod.GET)
+	public String branchModifiedget(Model model) throws Exception {
+		logger.info("branchModifiedget");
+
+		List<BranchlistVO> branchlist = branchService.branchlist();
+
+		String p1 = "";
+		String p2 = "";
+		String p3 = "";
+		
+		String phone = "";
+				
+		for(int i = 0 ; i < branchlist.size(); i++) {
+			p1 = branchlist.get(i).getB_phone1();
+			p2 = branchlist.get(i).getB_phone2();
+			p3 = branchlist.get(i).getB_phone3();
+			
+			phone = p1+"-"+p2+"-"+p3;
+			
+			branchlist.get(i).setPhone(phone);
+		}
+		
+		model.addAttribute("branchlist", branchlist);
+
+		return "/center/hr/hr_branchModified";
+	}
+	
+	
+	
 	@RequestMapping(value = "/stock/main", method = RequestMethod.GET)
-	public String stock(){
-		logger.info("/stock_main");
+	public String stockmain(){
+		logger.info("stock_main");
 
 		return "/center/stock/stock_main";
 	}
+	
+	@RequestMapping(value = "/stock/order", method = RequestMethod.GET)
+	public String stockorder(){
+		logger.info("/stock_order");
+
+		return "/center/stock/stock_order";
+	}
+
+	@RequestMapping(value = "/stock/orderhistory", method = RequestMethod.GET)
+	public String stockorderhistory(){
+		logger.info("/stock_orderhistory");
+
+		return "/center/stock/stock_orderhistory";
+	}
+
+	@RequestMapping(value = "/stock/orderpage", method = RequestMethod.GET)
+	public String stockorderpage(){
+		logger.info("/stock_orderpage");
+
+		return "/center/stock/stock_orderpage";
+	}
+
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.GET)
+	public String stockmodulationget(){
+		logger.info("/stock_modulation");
+
+		return "/center/stock/stock_modulation";
+	}
+		
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.PUT)
+	@ResponseBody
+	public String stockmodulationput(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockmodul");
+	    int size = ajaxMsg.length;
+		logger.info("size : "+ Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][6];
+	    
+	    String resultMsg = "항목이 변경 되었습니다.";
+	    
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+			
+			stockVO.add(sVO);
+
+		}
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockModul(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
+	}
+	
+	@RequestMapping(value = "/stock/modulation", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String stockmodulationdelete(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockmodul");
+	    int size = ajaxMsg.length;
+		logger.info("size : "+ Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][6];
+	    
+	    String resultMsg = "항목이 삭제 되었습니다.";
+	    
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][5]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+			sVO.setS_no(Integer.parseInt(msgSplit[i][5]));
+			
+			stockVO.add(sVO);
+
+		}
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockDelete(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
+	}
+	
+	@RequestMapping(value = "/stock/add", method = RequestMethod.GET)
+	public String stockadd(){
+		logger.info("/stock_add");
+
+		return "/center/stock/stock_add";
+	}
+	
+	@RequestMapping(value = "/stock/add", method = RequestMethod.POST)
+	@ResponseBody
+	public String stockaddpost(HttpServletRequest request) throws Exception {
+	        
+	    String[] ajaxMsg = request.getParameterValues("stockadd");
+	    int size = ajaxMsg.length;
+		logger.info("size : "+ Integer.toString(size));
+	    
+	    List<StockVO> stockVO = new ArrayList<StockVO>();
+	    
+	    String[][] msgSplit = new String[size][5];
+	    
+	    String resultMsg = "항목이 추가 되었습니다.";
+	    
+		for (int i = 0; i < size; i++) {
+
+			msgSplit[i] = ajaxMsg[i].split(",");
+
+
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][0]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][1]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][2]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][3]);
+			logger.info("JSP에서 받은 MSG : " + msgSplit[i][4]);
+			
+			StockVO sVO = new StockVO();
+
+			sVO.setS_name(msgSplit[i][0]);
+			sVO.setS_size(Integer.parseInt(msgSplit[i][1]));
+			sVO.setS_cost(Integer.parseInt(msgSplit[i][2]));
+			sVO.setS_price(Integer.parseInt(msgSplit[i][3]));
+			sVO.setS_origin(msgSplit[i][4]);
+
+			stockVO.add(sVO);
+
+
+		}
+
+	    
+	    if(stockVO !=null || stockVO.size() != 0) {
+	    	for(StockVO stock : stockVO) {
+	    		stockService.stockAdd(stock);
+	    	}
+	    }
+	    
+	    //Map<String, Object> result = new HashMap<String, Object>();
+	    //result.put("stockVO", stockVO);
+	    
+		logger.info("Controller에서 보낸 MSG : "+ resultMsg);
+	        
+	    return resultMsg;
+	}
+	
+	@RequestMapping(value = "/stock/stocklist", method = RequestMethod.POST)
+	@ResponseBody
+	public Object stocklist(HttpServletRequest request) throws Exception{
+		logger.info("/stock_list");
+				
+		List<StockVO> stockList = stockService.stockList();
+		
+		WrapperVO rtnVO = new WrapperVO();
+		rtnVO.setAaData(stockList);
+		rtnVO.setiTotalDisplayRecords(stockService.listCount());
+		rtnVO.setiTotalRecords(stockService.listCount());
+		
+		return rtnVO;
+	}
+	
+	@RequestMapping(value = "/stock/totalstock", method = RequestMethod.GET)
+	public String totalstockget(Model model) throws Exception{
+		logger.info("/totalstockget");
+
+		List<StocklistVO> centerstocklist = stockService.stockcenterlist();
+
+		for(int i = 0; i < centerstocklist.size(); i++) {
+			logger.info(centerstocklist.get(i).getS_name());
+		}
+		
+		model.addAttribute("centerstocklist", centerstocklist);
+		
+		return "/center/stock/stock_totalstock";
+	}
+
 }

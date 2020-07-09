@@ -18,4 +18,8 @@ public interface ManagerService {
 	public void regupdate(ManagerVO managerVO) throws Exception;
 	
 	public int MflagCount(int m_flag) throws Exception;
+
+	public void hasEnoReg(RegVO regVO) throws Exception;
+	
+	public int mflagChk(int e_no) throws Exception;
 }

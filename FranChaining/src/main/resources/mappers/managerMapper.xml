@@ -22,6 +22,22 @@
 	                 		   
     </insert>
     
+	<!-- 회원가입 -->
+	<insert id="hasEnoReg">
+	    INSERT INTO MANAGER(   ID 
+	   					       , E_NO 
+	   					       , PWD
+	   					       , M_FLAG
+	   					       )
+	                  VALUES(    #{id}
+	                 		   , #{e_no}
+	                 		   , #{pwd}
+	                 		   , 0
+	                 		   )
+	                 		   
+	                 		   
+    </insert>
+        
     <!-- 본사로그인 -->
     <select id="login" resultType="com.franchaining.vo.ManagerVO">
         SELECT id, e_no, m_flag
@@ -53,6 +69,12 @@
 		SELECT COUNT(*)
 		   FROM MANAGER
 		   WHERE M_FLAG = #{m_flag}
+	</select>
+	
+	<select id="mflagChk" parameterType="int" resultType="int">
+		SELECT M_FLAG
+		   FROM MANAGER
+		   WHERE E_NO = #{e_no}
 	</select>
 	
 </mapper>
