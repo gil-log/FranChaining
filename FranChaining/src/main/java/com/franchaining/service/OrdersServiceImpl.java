@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.franchaining.dao.OrdersDAO;
 import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.OrderslistVO;
+import com.franchaining.vo.StockVO;
 
 @Service
 public class OrdersServiceImpl implements OrdersService {
@@ -45,6 +46,11 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public void ordersDelete(OrdersVO ordersVO) throws Exception {
 		dao.ordersDelete(ordersVO);
+	}
+
+	@Override
+	public void stockGoneOrdersDelete(StockVO stockVO) throws Exception {
+		dao.stockGoneOrdersDelete(stockVO);
 	}
 	
 }

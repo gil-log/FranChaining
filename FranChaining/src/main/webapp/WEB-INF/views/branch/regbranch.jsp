@@ -138,11 +138,12 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group text-center">
                   <input type="text" class="form-control form-control-user" id="e_name" name="e_name" placeholder="Name">
+                  <span id="managerRegchk"></span>
                 </div>
                 
-                <div class="form-group row">
+                <div class="form-group row" id = "managerHidediv">
                   <div class="col-sm-4 mb-2 mb-sm-0">
                     <input type="number" class="form-control form-control-user" id="phone1" name="phone1" placeholder="Phone">
                   </div>
@@ -200,17 +201,63 @@ $(".dropdown-item").click(function(){
 	var m_flag = $(this).val();
 	
 	if(m_flag=="점장"){
+
+		var html = '<span id="managerRegchk"></span>';
+		
+		document.getElementById('managerRegchk').innerHTML = html;
+		
 		$("#p_no").val(1);
 	} else{
+		
+		var html = '<span class="small" style="color:blue; font-weight:bold; display:inline-block; padding-top:10px;" id="managerRegchk">눌렀습니다</span>';
+		
+		document.getElementById('managerRegchk').innerHTML = html;
 		$("#p_no").val(2);
 	}
 	}
-	$(this).parent().hide();
 	$("#dropdownMenuButton").text(m_flag);
 	console.log("가입p_no : "+$("#p_no").val());
 	
 });
 })
+
+	$(function(){
+		$(document).on('change', 'input[name=id]', function(){
+			var id = $(this).val();		
+			
+	        $.ajax({
+	            url : "regbranch",                    // 전송 URL
+	            type : 'PUT',                // GET or POST 방식
+	            traditional : true,
+	            datatype: "json",
+	            data : {
+	                id : id       // 보내고자 하는 data 변수 설정
+	            },
+	            //Ajax 성공시 호출 
+	            success : function(msg){
+	            	
+	            },
+	         
+	            //Ajax 실패시 호출
+	            error : function(jqXHR, textStatus, errorThrown){
+	                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+	            }
+	        });
+			
+			});
+		//수량*공급가
+		$(document).on('change', 'input[name=o_amount]', function(){
+			var o_amount = $(this).val();
+			var tr = $(this).parent().parent();
+			var td = tr.children();
+			var s_price = td.eq(4).children().val();
+			s_price *= 1;
+			o_amount *= 1;
+			td.eq(5).children().val(o_amount * s_price);
+			
+	});
+	});
+	
 </script>
 
 </body>
