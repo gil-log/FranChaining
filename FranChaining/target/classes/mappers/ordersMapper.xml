@@ -97,5 +97,12 @@
        O_FLAG = 5
        WHERE O_NO = #{o_no}
 	</update>  
+
+    <!-- 품목 삭제시 발주에서 내용 다지우기  -->
+	<delete id="stockGoneOrdersDelete" parameterType="com.franchaining.vo.StockVO">
+		DELETE FROM ORDERS
+		WHERE S_NO = #{s_no}
+	</delete> 
 	
+		
 </mapper>

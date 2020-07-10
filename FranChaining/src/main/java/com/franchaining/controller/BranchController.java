@@ -74,15 +74,8 @@ public class BranchController {
 	public String master_hrAdministration(Model model) throws Exception {
 		logger.info("master_hraAministration");
 
-		List<ManagerVO> regwaitlist = managerService.regwait();
-		
-		List<EmpVO> regwaitemplist = empService.regwait(regwaitlist);
+	
 
-		for(int i = 0; i < regwaitemplist.size(); i++) {
-			logger.info(regwaitemplist.get(i).getE_name());
-		}
-		
-		model.addAttribute("regwait", regwaitemplist);
 		
 		return "branch/master/hr/hr_administration";
 	}

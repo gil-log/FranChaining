@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.OrderslistVO;
+import com.franchaining.vo.StockVO;
 
 @Repository
 public class OrdersDAOImpl implements OrdersDAO {
@@ -45,6 +46,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 	@Override
 	public void ordersDelete(OrdersVO ordersVO) throws Exception {
 		sqlSession.update("ordersMapper.ordersDelete",ordersVO);
+	}
+
+	@Override
+	public void stockGoneOrdersDelete(StockVO stockVO) throws Exception {
+		sqlSession.delete("ordresMapper.stockGoneOrdersDelete", stockVO);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.OrderslistVO;
+import com.franchaining.vo.StockVO;
 
 public interface OrdersDAO {
 	
@@ -18,6 +19,8 @@ public interface OrdersDAO {
 	public void ordersApply(OrdersVO ordersVO) throws Exception;
 	
 	public void ordersDelete(OrdersVO ordersVO) throws Exception;
+	
+	public void stockGoneOrdersDelete(StockVO stockVO) throws Exception;
 }
 
 
