@@ -83,6 +83,46 @@
 		WHERE o.s_no = s.s_no and o.o_flag != 0 and o.o_no = #{o_no}
 		order by o.s_no asc)
 	</select>
+	
+	<!-- 발주 매니저에서 점장으로 등록 -->
+	<insert id="ordersadd_master">
+		INSERT INTO ORDERS( B_NO,
+						   S_NO,
+						   O_FLAG,
+						   O_AMOUNT,
+						   O_DATE,
+						   O_DEADLINE,
+						   O_NO
+						   )
+				   VALUES ( #{b_no},
+				   			#{s_no},
+				   			1,
+				   			#{o_amount},
+				   			to_date(#{o_date}, 'yyyy-mm-dd'),
+				   			to_date(#{o_deadline}, 'yyyy-mm-dd'),
+				   			o_no_seq.nextval
+				   			)
+	</insert>
+	
+	<!-- 발주 점장에서 본사로 등록 -->
+	<insert id="ordersadd_center">
+		INSERT INTO ORDERS( B_NO,
+						   S_NO,
+						   O_FLAG,
+						   O_AMOUNT,
+						   O_DATE,
+						   O_DEADLINE,
+						   O_NO
+						   )
+				   VALUES ( #{b_no},
+				   			#{s_no},
+				   			2,
+				   			#{o_amount},
+				   			to_date(#{o_date}, 'yyyy-mm-dd'),
+				   			to_date(#{o_deadline}, 'yyyy-mm-dd'),
+				   			o_no_seq.nextval
+				   			)
+	</insert>
     
     <!-- 승인신청 -->
 	<update id="ordersApply" parameterType="com.franchaining.vo.OrdersVO">

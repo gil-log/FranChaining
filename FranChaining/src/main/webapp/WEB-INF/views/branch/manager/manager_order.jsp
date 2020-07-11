@@ -123,13 +123,13 @@ input {
 												<td>발주번호</td>
 												<td><span id="order_num"></span></td>
 												<td>창고명</td>
-												<td><select id='supplier' name='supplier'><option value='0' selected>본사(창고)</option></select></td>
+												<td><select id='supplier' name='supplier'><option value='0' selected>본사</option></select></td>
 											</tr>
 											<tr>
 												<td>신청일</td>
-												<td><span id="today"></span></td>
+												<td><span id="o_date"></span></td>
 												<td>납기일</td>
-												<td><input type="text" id="datePicker2"
+												<td><input type="text" id="o_deadline"
 													style="border: none; background-color: transparent; width: 6rem"></td>
 											</tr>
 										</tbody>
@@ -151,7 +151,7 @@ input {
 											</tr>
 											<tr>
 												<td>지점번호</td>
-												<td>${userinfo.b_no}</td>
+												<td id="user_b_no">${userinfo.b_no}</td>
 												<td>지점명</td>
 												<td>${branch.b_name}</td>
 											</tr>
@@ -171,7 +171,7 @@ input {
 											<th>수량</th>
 											<th>공급가</th>
 											<th>금액</th>
-											<th>비고</th>
+											<th>공급처</th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -182,7 +182,7 @@ input {
 											<th>수량</th>
 											<th>공급가</th>
 											<th>금액</th>
-											<th>비고</th>											
+											<th>공급처</th>											
 										</tr>						
 									</tfoot>
 									<tbody>
@@ -254,7 +254,7 @@ input {
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
-    $('#datePicker1, #datePicker2').datepicker({
+    $('#o_deadline').datepicker({
         format : "yyyy-mm-dd",
     });
     $(document).ready(function() {
@@ -277,7 +277,7 @@ input {
                     "<input type='text' id='s_size' name='s_size' onfocus='this.blur()' readonly>",
                     "<input type='text' id='o_amount' name='o_amount'>",
                     "<input type='text' id='s_price' name='s_price' onfocus='this.blur()' readonly>",
-                    "<input type='text' onfocus='this.blur()' readonly>",
+                    "<input type='text' name='totalcost' onfocus='this.blur()' readonly>",
                     "<input type='text' id='s_origin' name='s_origin' onfocus='this.blur()' readonly>"
                 ] ).draw( false );
             } );
@@ -348,18 +348,62 @@ input {
 			
 	});
 	});
-		 
+
+	
     function submit() {
-        alert('작성완료 -> 매니저에게 전달될 기능');
-        
         var l = $('#dataTable tbody tr').length;
         
         //alert(ids);
         l *= 1;
-        for(var i = 0; i < l; i++) {
-            alert($("input[name=s_no]:eq(" + i + ")").val() + ", " + $("select[name=s_name]:eq(" + i + ")").val());
-        }       
+      
+
+        l *= 1;
+        var url = "order";    // Controller로 보내고자 하는 URL
+        const sendVar = new Array(l);
         
+        for(var i = 0; i < sendVar.length; i++){
+        	sendVar[i] = new Array(6);
+        }
+        
+        console.log("l 길이 : " + l + "sendVar 길이 : " + sendVar.length);
+        
+        for(var i = 0; i < l; i++) {
+
+            if($("input[name=o_amount]:eq(" + i + ")"). val()=="") {
+                alert($("select[name=s_name]:eq(" + i + ")").val() + "의 수량을 입력해주세요")
+                }
+            else if($('#o_deadline').val()=="") {
+                alert("납기일을 입력해주세요")
+                }
+            else {
+            alert($("input[name=s_no]:eq(" + i + ")").val() + ", " + $("select[name=s_name]:eq(" + i + ")").val());
+        	sendVar[i][0] = $('#user_b_no').text();
+        	sendVar[i][1] = $("input[name=s_no]:eq(" + i + ")"). val(); 
+        	sendVar[i][2] = $("input[name=o_amount]:eq(" + i + ")").val();
+        	sendVar[i][3] = $('#o_date').text();
+        	sendVar[i][4] = $('#o_deadline').val();
+            	}
+        }
+        $.ajax({
+            url : url,                    // 전송 URL
+            type : 'POST',                // GET or POST 방식
+            traditional : true,
+            data : {
+                orders : sendVar        // 보내고자 하는 data 변수 설정
+            },
+            
+            //Ajax 성공시 호출 
+            success : function(msg){
+            	var t = $('#dataTable').DataTable();
+            	t.rows().remove().draw(false);
+                listtable();
+            },
+         
+            //Ajax 실패시 호출
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+            }
+        });
     }
     $('#order_num').text(setNumber);
     function setNumber() {
@@ -376,11 +420,11 @@ input {
         if (branchNum < 10) branchNum = "000" + branchNum;
         else if (branchNum < 100) branchNum = "00" + branchNum;
         else if (branchNum < 1000) branchNum = "0" + branchNum ;
-        return result = recentYear + recentMonth + recentDay + branchNum;
+        return result = recentYear + recentMonth + recentDay + "-" + branchNum;
     }
     
-    $('#today').text(getToday);
-    function getToday() {
+    $('#o_date').text(getO_date);
+    function getO_date() {
     	var dt = new Date();
    	 
         var recentYear = dt.getFullYear();

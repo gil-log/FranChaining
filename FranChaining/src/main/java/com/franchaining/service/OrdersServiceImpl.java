@@ -52,5 +52,15 @@ public class OrdersServiceImpl implements OrdersService {
 	public void stockGoneOrdersDelete(StockVO stockVO) throws Exception {
 		dao.stockGoneOrdersDelete(stockVO);
 	}
+
+	@Override
+	public List<OrdersVO> ordersadd_master(OrdersVO ordersVO) throws Exception {
+		return dao.ordersadd_master(ordersVO);
+	}
+	
+	@Override
+	public List<OrdersVO> ordersadd_center(OrdersVO ordersVO) throws Exception {
+		return dao.ordersadd_center(ordersVO);
+	}
 	
 }

@@ -36,7 +36,7 @@
    <div id="wrapper">
 
       <!-- Sidebar -->
-      <%@include file="manager_sidebar.jsp"%>
+      <%@include file="master_sidebar.jsp"%>
       <!-- End of Sidebar -->
 
       <!-- 해당하는 page의 메뉴 highlight -->

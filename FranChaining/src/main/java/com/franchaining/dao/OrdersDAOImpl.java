@@ -53,4 +53,14 @@ public class OrdersDAOImpl implements OrdersDAO {
 		sqlSession.delete("ordresMapper.stockGoneOrdersDelete", stockVO);
 	}
 
+	@Override
+	public List<OrdersVO> ordersadd_master(OrdersVO ordersVO) throws Exception {
+		return sqlSession.selectList("ordersMapper.ordersadd_master", ordersVO);
+	}
+	
+	@Override
+	public List<OrdersVO> ordersadd_center(OrdersVO ordersVO) throws Exception {
+		return sqlSession.selectList("ordersMapper.ordersadd_center", ordersVO);
+	}
+
 }

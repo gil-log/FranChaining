@@ -21,6 +21,10 @@ public interface OrdersDAO {
 	public void ordersDelete(OrdersVO ordersVO) throws Exception;
 	
 	public void stockGoneOrdersDelete(StockVO stockVO) throws Exception;
+	
+	public List<OrdersVO> ordersadd_master (OrdersVO ordersVO) throws Exception;
+	
+	public List<OrdersVO> ordersadd_center (OrdersVO ordersVO) throws Exception;
 }
 
 

@@ -286,8 +286,8 @@ public class CenterController {
 	    
 	    if(stockVO !=null || stockVO.size() != 0) {
 	    	for(StockVO stock : stockVO) {
-	    		stockService.stockDelete(stock);
 	    		ordersService.stockGoneOrdersDelete(stock);
+	    		stockService.stockDelete(stock);
 	    	}
 	    }
 	    
