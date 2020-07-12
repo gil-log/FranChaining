@@ -289,21 +289,7 @@ input {
 			var s_name = $(this).val();		
 			var tr = $(this).parent().parent();
 			var td = tr.children();
-			
-			 
-			//var l = $(this).children().length;
-			//alert(l);
-			//var tags = JSON.stringify("${s_name_info}");
-			//var j = JSON.parse(tags);
-			
-			/*
-			$.post("getstockinfo", {"s_name": s_name}, function(result) {
-				
-					alert(result);
-				
-			});
-			*/
-			
+						
 	        $.ajax({
 	            url : "order",                    // 전송 URL
 	            type : 'PUT',                // GET or POST 방식
@@ -326,15 +312,6 @@ input {
 	                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
 	            }
 	        });
-			
-			/*
-			for(var i = 0; i < l; i++) {
-				if($('select[name=name]').val() == '${s_name_info.get(i).s_name}')
-				var s_no = '${s_name_info.get(i).s_no}';
-			}
-			*/
-			//alert(s_no);
-			
 			});
 		//수량*공급가
 		$(document).on('change', 'input[name=o_amount]', function(){

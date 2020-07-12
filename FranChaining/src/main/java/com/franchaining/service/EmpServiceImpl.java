@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.franchaining.dao.EmpDAO;
 import com.franchaining.vo.EmpVO;
+import com.franchaining.vo.EmplistVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
@@ -15,7 +16,7 @@ public class EmpServiceImpl implements EmpService{
 
 	@Inject
 	private EmpDAO dao;
-
+	
 	@Override
 	public void register(RegVO regVO) throws Exception {
 		
@@ -45,6 +46,11 @@ public class EmpServiceImpl implements EmpService{
 	@Override
 	public EmpVO masterInfo(int b_no) throws Exception {
 		return dao.masterInfo(b_no);
+	}
+
+	@Override
+	public List<EmplistVO> managerlist(int b_no) throws Exception {
+		return dao.managerlist(b_no);
 	}
 
 	

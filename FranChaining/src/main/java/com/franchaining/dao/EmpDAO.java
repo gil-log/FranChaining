@@ -3,6 +3,7 @@ package com.franchaining.dao;
 import java.util.List;
 
 import com.franchaining.vo.EmpVO;
+import com.franchaining.vo.EmplistVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
@@ -20,4 +21,6 @@ public interface EmpDAO {
 	public int AlreadyBranch(int b_no) throws Exception;
 	
 	public EmpVO masterInfo(int b_no) throws Exception;
+	
+	public List<EmplistVO> managerlist(int b_no) throws Exception;
 }

@@ -28,11 +28,13 @@ import com.franchaining.service.OrdersService;
 import com.franchaining.service.StockService;
 import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
+import com.franchaining.vo.EmplistVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.OrderslistVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.StockVO;
+import com.franchaining.vo.StocklistVO;
 import com.franchaining.vo.WrapperVO;
 
 import net.sf.json.JSONArray;
@@ -565,4 +567,33 @@ public @ResponseBody Object masterOrderpost(HttpServletRequest request) throws E
 
 		return "/branch/master/master_stock";
 	}
+
+
+@RequestMapping(value = "/master/managerlist", method = RequestMethod.GET)
+public String master_mgrlist(Model model, HttpServletRequest request)throws Exception {
+	logger.info("/master_managerlist");
+	String s_b_no = request.getParameter("b_no");
+	logger.info("000000000000" + s_b_no);
+	int b_no = Integer.parseInt(s_b_no);
+	logger.info("kkkkkkkkkkkkkkkk" + b_no);
+	List<EmplistVO> managerlist = empService.managerlist(b_no);
+	
+	for(int i = 0; i < managerlist.size(); i++) {
+		logger.info(managerlist.get(i).getE_name());
+	}
+	
+	model.addAttribute("managerlist", managerlist);
+	
+	return "/branch/master/master_managerlist";
+	}
+
+@RequestMapping(value = "/master/regmanager", method = RequestMethod.GET)
+public String master_regmgr()throws Exception {
+	logger.info("/master_regmanager");
+
+
+	return "/branch/master/master_regmanager";
+	}
+
 }
+

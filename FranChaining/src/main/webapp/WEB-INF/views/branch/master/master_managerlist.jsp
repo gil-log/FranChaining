@@ -33,6 +33,10 @@
 
     <!-- Sidebar -->
     <%@include file="master_sidebar.jsp"%>
+    	<script>
+		document.getElementById("collapse3").classList.toggle("show");
+		document.getElementById("menu4").classList.toggle("active");
+	</script>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -62,33 +66,32 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>코드</th>
-                      <th>품목명</th>
-                      <th>규격</th>
-                      <th>재고량</th>
-                      <th>원자재가</th>
-                      <th>판매가</th>
+                      <th>이름</th>
+                      <th>전화번호</th>
+                      <th>근무시작일</th>
+                      <th>상태</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>코드</th>
-                      <th>품목명</th>
-                      <th>규격</th>
-                      <th>재고량</th>
-                      <th>원자재가</th>
-                      <th>판매가</th>
+                      <th>이름</th>
+                      <th>전화번호</th>
+                      <th>근무시작일</th>
+                      <th>상태</th>
                     </tr>
                   </tfoot>
                   <tbody>
+                    <c:forEach items="${managerlist}" var="managerlist">
+
                     <tr>
-                      <td>10001</td>
-                      <td>C</td>
-                      <td>100</td>
-                      <td>61</td>
-                      <td>250</td>
-                      <td>450</td>
-                    </tr>                    
+                    <td><c:out value="${managerlist.e_name}"/></td>
+                    <td><c:out value="${managerlist.phone1}"/></td>
+                      <td><c:out value="${managerlist.hire}"/></td>
+                      <td><c:out value="${managerlist.m_flag}"/></td>
+                      
+                  	</tr>
+                  
+                  </c:forEach>                    
                   </tbody>
                 </table>
               </div>

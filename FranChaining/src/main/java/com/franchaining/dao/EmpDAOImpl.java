@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.franchaining.vo.EmpVO;
+import com.franchaining.vo.EmplistVO;
 import com.franchaining.vo.ManagerVO;
 import com.franchaining.vo.RegVO;
 import com.franchaining.vo.RegwaitVO;
@@ -46,6 +47,11 @@ public class EmpDAOImpl implements EmpDAO {
 	@Override
 	public EmpVO masterInfo(int b_no) throws Exception {
 		return sqlSession.selectOne("empMapper.masterInfo", b_no);
+	}
+
+	@Override
+	public List<EmplistVO> managerlist(int b_no) throws Exception {
+		return sqlSession.selectList("empMapper.managerlist");
 	}
 
 }
