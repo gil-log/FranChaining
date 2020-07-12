@@ -186,7 +186,7 @@
   <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
   
-  <script>
+  <script type="text/javascript">
 $(document).ready(function(){
 //버튼 클릭시 Row 값 가져오기
 $(".dropdown-item").click(function(){ 
@@ -202,6 +202,8 @@ $(".dropdown-item").click(function(){
 	
 	if(m_flag=="점장"){
 
+		$("#managerHidediv").show();
+
 		var html = '<span id="managerRegchk"></span>';
 		
 		document.getElementById('managerRegchk').innerHTML = html;
@@ -209,54 +211,66 @@ $(".dropdown-item").click(function(){
 		$("#p_no").val(1);
 	} else{
 		
-		var html = '<span class="small" style="color:blue; font-weight:bold; display:inline-block; padding-top:10px;" id="managerRegchk">눌렀습니다</span>';
+		var html = '<span class="small" style="color:blue; font-weight:bold; display:inline-block; padding-top:10px;" id="managerRegchk"></span>';
 		
 		document.getElementById('managerRegchk').innerHTML = html;
 		$("#p_no").val(2);
+
+		$("#managerHidediv").hide();
+		
 	}
 	}
 	$("#dropdownMenuButton").text(m_flag);
 	console.log("가입p_no : "+$("#p_no").val());
 	
 });
-})
 
-	$(function(){
-		$(document).on('change', 'input[name=id]', function(){
-			var id = $(this).val();		
-			
-	        $.ajax({
-	            url : "regbranch",                    // 전송 URL
-	            type : 'PUT',                // GET or POST 방식
-	            traditional : true,
-	            datatype: "json",
-	            data : {
-	                id : id       // 보내고자 하는 data 변수 설정
-	            },
-	            //Ajax 성공시 호출 
-	            success : function(msg){
-	            	
-	            },
-	         
-	            //Ajax 실패시 호출
-	            error : function(jqXHR, textStatus, errorThrown){
-	                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
-	            }
-	        });
-			
-			});
-		//수량*공급가
-		$(document).on('change', 'input[name=o_amount]', function(){
-			var o_amount = $(this).val();
-			var tr = $(this).parent().parent();
-			var td = tr.children();
-			var s_price = td.eq(4).children().val();
-			s_price *= 1;
-			o_amount *= 1;
-			td.eq(5).children().val(o_amount * s_price);
-			
-	});
-	});
+$(function(){
+	$(document).on('change', 'input[name=e_name]', function(){
+		var e_name = $(this).val();		
+		var b_no = $("#b_no").val();
+		var data = new Array(2);
+		data[0] = e_name;
+		data[1] = b_no;
+        $.ajax({
+            url : "regbranch",                    // 전송 URL
+            type : 'PUT',                // GET or POST 방식
+            traditional : true,
+            datatype: "json",
+            data : {
+                data : data
+            },
+            //Ajax 성공시 호출 
+            success : function(msg){
+
+            	if(msg[1] == "1"){
+                
+        		var html = '<span class="small" style="color:blue; font-weight:bold; display:inline-block; padding-top:10px;" id="managerRegchk">'+msg[0]+'</span>';
+        		document.getElementById('managerRegchk').innerHTML = html;
+
+            	} else if(msg[1] == "0"){
+            		var html = '<span class="small" style="color:red; font-weight:bold; display:inline-block; padding-top:10px;" id="managerRegchk">'+msg[0]+'</span>';
+            		document.getElementById('managerRegchk').innerHTML = html;
+
+                	}
+
+            	
+            },
+         
+            //Ajax 실패시 호출
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("jqXHR : " +jqXHR +"textStatus : " + textStatus + "errorThrown : " + errorThrown);
+            }
+        });
+		
+		});
+
+});
+
+
+});
+
+
 	
 </script>
 

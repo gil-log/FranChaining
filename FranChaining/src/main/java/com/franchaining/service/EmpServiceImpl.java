@@ -47,6 +47,11 @@ public class EmpServiceImpl implements EmpService{
 		return dao.masterInfo(b_no);
 	}
 
+	@Override
+	public int findManager(EmpVO empVO) throws Exception {
+		return dao.findManager(empVO);
+	}
+
 	
 	
 }

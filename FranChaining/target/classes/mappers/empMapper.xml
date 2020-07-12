@@ -105,4 +105,11 @@
       WHERE e.e_no = m.e_no and e.b_no = #{b_no} and e.p_no = 1 and m.m_flag = 1
 	</select>
 	
+	<!-- 생성된 매니저 계정 있는지 찾기 -->
+	<select id="findManager" resultType="int" parameterType="com.franchaining.vo.EmpVO">
+		SELECT COUNT(*)
+		FROM EMP
+		WHERE B_NO = #{b_no} AND E_NAME = #{e_name}
+	</select>
+	
 </mapper>

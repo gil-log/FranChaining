@@ -20,4 +20,6 @@ public interface EmpService {
 	public int AlreadyBranch(int b_no) throws Exception;
 
 	public EmpVO masterInfo(int b_no) throws Exception;
+
+	public int findManager(EmpVO empVO) throws Exception;
 }

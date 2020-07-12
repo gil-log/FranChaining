@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.franchaining.service.BranchService;
@@ -24,6 +25,7 @@ import com.franchaining.service.ManagerService;
 import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.EmpVO;
 import com.franchaining.vo.ManagerVO;
+import com.franchaining.vo.OrdersVO;
 import com.franchaining.vo.RegVO;
 
 /**
@@ -359,4 +361,41 @@ public class UserController {
         return "redirect";	
 	}
 	
+	@RequestMapping(value = "/regbranch", method = RequestMethod.PUT, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public Object regbranchput(HttpServletRequest request) throws Exception{
+		logger.info("/regbranch/put");
+		
+		//String e_name = request.getParameter("e_name");
+		//String b_no = request.getParameter("b_no");
+		
+		String[] data = request.getParameterValues("data");
+		
+		String e_name = data[0];
+		int b_no = Integer.parseInt(data[1]);
+		
+		EmpVO empVO = new EmpVO();
+		
+		empVO.setE_name(e_name);
+		empVO.setB_no(b_no);
+		
+		logger.info(e_name);
+		logger.info(Integer.toString(b_no));
+		
+		String [] msg = new String[2];
+		msg[0] = "";
+		msg[1] = "";
+		
+		int findManager = empService.findManager(empVO);
+		
+		if(findManager == 1) {
+			msg[0] = "해당 지점에 가입 가능한 상태입니다.";
+			msg[1] = "1";
+		} else {
+			msg[0] = "해당 지점에 가입 불가능한 상태입니다.";
+			msg[1] = "0";
+		}
+		
+		return msg;
+	}
 }

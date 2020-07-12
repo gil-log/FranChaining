@@ -48,4 +48,9 @@ public class EmpDAOImpl implements EmpDAO {
 		return sqlSession.selectOne("empMapper.masterInfo", b_no);
 	}
 
+	@Override
+	public int findManager(EmpVO empVO) throws Exception {
+		return sqlSession.selectOne("empMapper.findManager", empVO);
+	}
+
 }
