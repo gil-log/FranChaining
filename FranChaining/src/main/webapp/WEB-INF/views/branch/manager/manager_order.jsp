@@ -281,9 +281,8 @@ input {
                     "<input type='text' id='s_origin' name='s_origin' onfocus='this.blur()' readonly>"
                 ] ).draw( false );
             } );
-
     } ); 
-  
+    
 	$(function(){
 		$(document).on('change', 'select[name=s_name]', function(){
 			var s_name = $(this).val();		

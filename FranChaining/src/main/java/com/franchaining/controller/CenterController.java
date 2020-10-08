@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.franchaining.service.BranchService;
 import com.franchaining.service.EmpService;
 import com.franchaining.service.ManagerService;
+import com.franchaining.service.OrdersService;
 import com.franchaining.service.StockService;
 import com.franchaining.vo.BranchVO;
 import com.franchaining.vo.BranchlistVO;
@@ -49,6 +50,8 @@ public class CenterController {
 	BranchService branchService;
 	@Inject
 	StockService stockService;
+	@Inject
+	OrdersService ordersService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CenterController.class);
 	
@@ -283,6 +286,7 @@ public class CenterController {
 	    
 	    if(stockVO !=null || stockVO.size() != 0) {
 	    	for(StockVO stock : stockVO) {
+	    		ordersService.stockGoneOrdersDelete(stock);
 	    		stockService.stockDelete(stock);
 	    	}
 	    }
