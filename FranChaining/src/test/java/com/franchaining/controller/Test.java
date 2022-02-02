@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class Test {
 
     @Inject
-    private DataSource ds;
+    private DataSource dataSource;
        
     @Inject
     private SqlSessionFactory sqlFactory;
@@ -24,11 +24,12 @@ public class Test {
     @org.junit.Test
     public void test() throws Exception{
 
-        try(Connection conn = ds.getConnection()){
+        try(Connection conn = dataSource.getConnection()){
             System.out.println(conn);
         } catch(Exception e){
             e.printStackTrace();
         }
+        
     }
   
     @org.junit.Test
