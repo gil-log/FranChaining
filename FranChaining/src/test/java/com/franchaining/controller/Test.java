@@ -20,17 +20,7 @@ public class Test {
        
     @Inject
     private SqlSessionFactory sqlFactory;
- 
-    public void test() throws Exception{
 
-        try(Connection conn = dataSource.getConnection()){
-            System.out.println(conn);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        
-    }
-  
     @Test
     public void factoryTest() {
         System.out.println(sqlFactory);
