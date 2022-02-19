@@ -21,7 +21,6 @@ public class Test {
     @Inject
     private SqlSessionFactory sqlFactory;
  
-    @org.junit.Test
     public void test() throws Exception{
 
         try(Connection conn = dataSource.getConnection()){
